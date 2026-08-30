@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Manifiesto · FREEquence Club</title>
+    <link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180" />
+    <link rel="stylesheet" href="../css/closing-section.css?v=4" />
+    <style>
+:root{
+  --snow:#fbfbf8;
+  --white:#ffffff;
+  --blue:#0f62ff;
+  --ink:#000000;
+  --cream:var(--snow);
+  --soft:#f0f0ed;
+  --muted:#5c5c5c;
+  --line:rgba(0,0,0,.12);
+  --dark:#000000;
+  --max:1280px;
+  --page-x:32px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--soft);
+  color:var(--ink);
+  font-family:Inter,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(calc(100% - 2 * var(--page-x)),var(--max));margin:0 auto}
+
+/* NAV */
+.nav{
+  height:52px;
+  background:var(--ink);
+  color:var(--white);
+  display:flex;
+  align-items:center;
+  position:relative;
+  z-index:10;
+}
+.navin{height:100%;display:flex;align-items:center;justify-content:space-between}
+.wordmark{
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:-.8px;
+}
+.wordmark span{
+  margin-left:4px;
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:1.6px;
+  color:rgba(255,255,255,.55);
+}
+.navlinks{
+  display:flex;
+  align-items:center;
+  gap:24px;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.35px;
+}
+.navlinks a.is-active{color:var(--blue)}
+.loc{
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;
+  padding:6px 12px;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:1.15px;
+}
+
+/* BASE */
+section{
+  position:relative;
+  margin:0;
+  padding:118px 0;
+}
+.eyebrow,.sectionLabel{
+  color:var(--blue);
+  font-size:10px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.editorialGrid{
+  display:grid;
+  grid-template-columns:1fr .72fr;
+  gap:90px;
+  align-items:start;
+}
+.display{
+  margin:17px 0 0;
+  max-width:16ch;
+  font-size:clamp(42px,5.4vw,88px);
+  line-height:.84;
+  letter-spacing:-4.6px;
+  font-weight:900;
+}
+.displayWide{max-width:18ch}
+.stack{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+.stack p{
+  margin:0;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.55;
+}
+/* SECTIONS */
+.mHero{
+  min-height:calc(100vh - 52px);
+  display:flex;
+  align-items:center;
+  padding:12vh 0 14vh;
+  background:var(--ink);
+  color:#fff;
+  background-image:
+    linear-gradient(to right,rgba(255,255,255,.05) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:150px 150px;
+}
+.mHero .editorialGrid{align-items:center}
+.mHero .display{color:#fff}
+.mHero .displaySub{
+  margin-top:22px;
+  color:var(--blue);
+  font-size:clamp(26px,3vw,46px);
+  line-height:.92;
+  letter-spacing:-2.2px;
+  font-weight:900;
+}
+.mHero .stack p{
+  color:rgba(255,255,255,.88);
+  font-size:clamp(18px,1.5vw,22px);
+  line-height:1.45;
+}
+.armonia,
+.honestidad,
+.compartir,
+.ecosistema,
+.cierre{
+  background:var(--soft);
+  color:var(--ink);
+}
+.cierre{min-height:72vh;display:flex;align-items:center}
+
+/* FOOTER */
+footer{
+  background:var(--ink);
+  color:rgba(255,255,255,.62);
+  padding:26px 0;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+}
+.foot{display:flex;justify-content:space-between}
+
+@media(max-width:900px){
+  :root{--page-x:24px}
+  .nav{height:48px}
+  .navlinks{display:none}
+  section{padding:82px 0}
+  .mHero{padding:90px 0}
+  .cierre{padding:14vh 0 16vh;min-height:78vh}
+  .editorialGrid{grid-template-columns:1fr;gap:32px}
+  .display{letter-spacing:-3.2px}
+}
+    </style>
+  </head>
+  <body>
+
+<header class="nav">
+  <div class="wrap navin">
+    <a class="wordmark" href="../">FREEquence <span>CLUB</span></a>
+    <nav class="navlinks">
+      <a href="../#dimensions">LA EXPERIENCIA</a>
+      <a href="../#points">PUNTOS</a>
+      <a href="../#points">COMUNIDAD</a>
+      <a href="./" class="is-active">MANIFIESTO</a>
+      <a href="../animation/">WAVES</a>
+      <a href="../animation/noise/">NOISE</a>
+    </nav>
+    <div class="loc">PUNTA CHICA</div>
+  </div>
+</header>
+
+<main>
+
+<!-- 01 NUESTRA POSTURA -->
+<section class="mHero">
+  <div class="wrap editorialGrid">
+    <div>
+      <div class="sectionLabel">01 / Nuestra postura</div>
+      <h1 class="display displayWide">No hay una sola manera.</h1>
+      <div class="displaySub">Encontrá la tuya.</div>
+    </div>
+    <div class="stack">
+      <p>No creemos en caminos únicos ni en respuestas universales. Creemos que cada persona merece descubrir y elegir su propio camino, y que un buen entorno puede facilitar esa búsqueda.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 ARMONIA -->
+<section class="armonia">
+  <div class="wrap editorialGrid">
+    <div>
+      <div class="sectionLabel">02 / Armonía</div>
+      <h2 class="display">La armonía no es<br>quedarse quieto.</h2>
+    </div>
+    <div class="stack">
+      <p>Es encontrar una forma consciente de relacionarnos con nosotros mismos, con los demás y con el entorno. No es un destino: se construye en las decisiones que tomamos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 HONESTIDAD -->
+<section class="honestidad">
+  <div class="wrap editorialGrid">
+    <div>
+      <div class="sectionLabel">03 / Honestidad</div>
+      <h2 class="display">Toda búsqueda comienza<br>por uno mismo.</h2>
+    </div>
+    <div class="stack">
+      <p>Reconocer quiénes somos, qué sentimos y desde dónde elegimos vivir. Porque solo desde esa honestidad pueden surgir decisiones verdaderamente libres.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 COMPARTIR -->
+<section class="compartir">
+  <div class="wrap editorialGrid">
+    <div>
+      <div class="sectionLabel">04 / Compartir</div>
+      <h2 class="display">Compartir no significa<br>ser iguales.</h2>
+    </div>
+    <div class="stack">
+      <p>Significa encontrarnos, intercambiar, aprender y celebrar. La comunidad no se impone: aparece en los vínculos que nacen entre personas que comparten un lugar y una disposición común al respeto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 ECOSISTEMA -->
+<section class="ecosistema">
+  <div class="wrap editorialGrid">
+    <div>
+      <div class="sectionLabel">05 / Ecosistema</div>
+      <h2 class="display">Distintas formas.<br>Una misma frecuencia.</h2>
+    </div>
+    <div class="stack">
+      <p>Entrenamiento, gastronomía, tecnología, diseño, arte, bienestar y experiencias forman parte de un mismo ecosistema. Cada expresión conserva su identidad, pero encuentra más sentido cuando se conecta con las demás.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 CIERRE -->
+<section class="cierre">
+  <div class="wrap editorialGrid">
+    <div>
+      <div class="sectionLabel">FREEquence Club</div>
+      <h2 class="display">No nacimos<br>para convencer.</h2>
+    </div>
+    <div class="stack">
+      <p>Nacimos para crear un lugar donde distintas personas puedan encontrarse sin dejar de ser ellas mismas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CIERRE VISUAL (shared component) -->
+<div data-closing-section></div>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>FREEquence Club</span>
+    <span>Movimiento · Bienestar · Compartir</span>
+    <span>Punta Chica</span>
+  </div>
+</footer>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module" src="../js/closing-section.js?v=5"></script>
+
+  </body>
+</html>

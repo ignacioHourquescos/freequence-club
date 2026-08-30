@@ -1,0 +1,1254 @@
+<!doctype html>
+<html lang="es">
+  <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FREEquence Club</title>
+    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="css/closing-section.css?v=4" />
+<style>
+:root{
+  /* Brand palette */
+  --snow:#fbfbf8;       /* Snow White */
+  --white:#ffffff;      /* Pure White */
+  --blue:#0f62ff;       /* Azure Blue */
+  --ink:#000000;        /* Jet Black */
+  --cream:var(--snow);
+  --soft:#f0f0ed;       /* soft tint from black on Snow White */
+  --muted:#5c5c5c;
+  --line:rgba(0,0,0,.12);
+  --dark:#000000;
+  --max:1280px;
+  --page-x:32px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:Inter,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(calc(100% - 2 * var(--page-x)),var(--max));margin:0 auto}
+
+/* NAV */
+.nav{
+  height:52px;
+  background:var(--ink);
+  color:var(--white);
+  display:flex;
+  align-items:center;
+  position:relative;
+  z-index:10;
+}
+.navin{height:100%;display:flex;align-items:center;justify-content:space-between}
+.wordmark{
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:-.8px;
+}
+.wordmark span{
+  margin-left:4px;
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:1.6px;
+  color:rgba(255,255,255,.55);
+}
+.navlinks{
+  display:flex;
+  align-items:center;
+  gap:24px;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.35px;
+}
+.loc{
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;
+  padding:6px 12px;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:1.15px;
+}
+
+/* HERO */
+.hero{
+  --hero-ease:cubic-bezier(.45,.05,.15,1);
+  --hero-side:25%;
+  display:flex;
+  flex-direction:row;
+  align-items:stretch;
+  min-height:calc(100vh - 52px);
+  height:calc(100vh - 52px);
+  padding:0 !important;
+  margin:0;
+  background:var(--cream);
+  overflow:hidden;
+}
+.heroMain{
+  flex:1 1 auto;
+  min-width:0;
+  min-height:0;
+  padding:8vh 0 7vh;
+  display:flex;
+  flex-direction:column;
+  background:var(--cream);
+  background-image:
+    linear-gradient(to right,rgba(0,0,0,.045) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(0,0,0,.045) 1px,transparent 1px);
+  background-size:150px 150px;
+}
+.heroInner{
+  flex:1;
+  width:100%;
+  max-width:none;
+  margin:0;
+  box-sizing:border-box;
+  /* Same left inset as .wrap on full-width sections */
+  padding-left:max(var(--page-x),calc((100vw - var(--max)) / 2));
+  padding-right:var(--page-x);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.hero.is-copy-in .heroInner{
+  justify-content:flex-start;
+}
+/* Opening: keep the lead left-padded like final, not dead-centered */
+.hero:not(.is-copy-in) .heroInner{
+  justify-content:flex-start;
+}
+.eyebrow,.sectionLabel{
+  color:var(--blue);
+  font-size:10px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.heroLead{
+  position:relative;
+  display:block;
+  /* Title is the vertical anchor; logo is pinned above it at a fixed gap */
+}
+.heroTitle{
+  margin:0;
+  max-width:18ch;
+  font-size:clamp(52px,6.4vw,112px);
+  line-height:.79;
+  letter-spacing:-5px;
+  font-weight:900;
+}
+.heroTitle--self{
+  color:var(--ink);
+  opacity:0;
+  transform:translate3d(-72px,0,0);
+  /* In layout from frame 1 so vertical centering matches the final state */
+  visibility:hidden;
+  pointer-events:none;
+}
+.hero.is-copy-in .heroTitle--self{
+  visibility:visible;
+  pointer-events:auto;
+}
+.microLogo{
+  position:absolute;
+  left:0;
+  bottom:100%;
+  margin-bottom:clamp(16px,2vh,24px);
+  z-index:2;
+  color:var(--ink);
+  font-size:clamp(32px,3vw,48px);
+  line-height:1;
+  font-weight:900;
+  letter-spacing:-1.8px;
+  opacity:1;
+  transform:none;
+  white-space:nowrap;
+  transition:
+    color .9s var(--hero-ease),
+    font-size .9s var(--hero-ease),
+    letter-spacing .9s var(--hero-ease);
+}
+/* Shrinks into the eyebrow — bottom edge stays on the same Y */
+.hero.is-copy-in .microLogo,
+.hero.is-ready .microLogo{
+  color:rgba(0,0,0,.55);
+  font-size:clamp(20px,1.35vw,21px);
+  letter-spacing:-1.2px;
+}
+.microLogo span{
+  color:rgba(0,0,0,.4);
+  margin-left:3px;
+  font-size:.42em;
+  letter-spacing:1.3px;
+}
+.heroSide{
+  flex:0 0 var(--hero-side);
+  width:var(--hero-side);
+  min-width:0;
+  min-height:0;
+  background:var(--blue);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  padding:8vh max(var(--page-x),clamp(1.25rem,3vw,2.8rem)) 7vh;
+  overflow:hidden;
+}
+.heroSideInner{
+  width:100%;
+  display:flex;
+  align-items:center;
+}
+.heroTitle--others{
+  color:#fff;
+  opacity:0;
+  transform:translate3d(-72px,0,0);
+}
+
+/* SECTION BASE */
+section{
+  position:relative;
+  margin:0;
+  padding:118px 0;
+}
+section.hero{
+  padding:0 !important;
+  margin:0;
+  background:var(--cream);
+}
+.hero + .dimensions{
+  margin-top:0;
+}
+.intro{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:80px;
+  align-items:end;
+}
+h2{
+  margin:14px 0 0;
+  font-size:clamp(36px,4.3vw,68px);
+  line-height:.86;
+  letter-spacing:-3.4px;
+  font-weight:900;
+}
+.body{
+  margin:0;
+  max-width:600px;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.45;
+}
+
+/* BODY / MIND / ENCOUNTER */
+.dimensions{
+  background:var(--ink);
+  color:#fff;
+}
+.dimensions .sectionLabel{color:var(--blue)}
+.dimensions .body{color:rgba(255,255,255,.78)}
+.dimensionsHead{
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+  max-width:none;
+}
+.dimensionsTitle{
+  margin:0;
+  max-width:none;
+  width:100%;
+  font-size:clamp(36px,4.3vw,66px);
+  line-height:.86;
+  letter-spacing:-3.2px;
+  font-weight:900;
+}
+.dimensions .body{
+  max-width:none;
+  width:100%;
+}
+.dimensionCards{
+  margin-top:52px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  background:transparent;
+}
+.dimension{
+  min-height:350px;
+  padding:30px;
+  background:var(--cream);
+  color:var(--ink);
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+.dimension:nth-child(2),
+.dimension:nth-child(3){
+  background:var(--soft);
+  color:var(--ink);
+}
+.dimension small{
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.8px;
+}
+.dimension h3{
+  margin:50px 0 0;
+  font-size:clamp(34px,4vw,56px);
+  line-height:.84;
+  letter-spacing:-2.8px;
+  font-weight:900;
+}
+.dimension p{
+  margin:20px 0 0;
+  max-width:330px;
+  font-size:16px;
+  line-height:1.4;
+  color:var(--muted);
+}
+.dimension:nth-child(3) p{color:var(--muted)}
+
+
+/* EXPERIENCE IMAGES */
+.dimension{
+  padding:0;
+  overflow:hidden;
+  min-height:430px;
+  background:var(--soft);
+  color:var(--ink);
+}
+.dimensionImage{
+  width:100%;
+  height:215px;
+  display:block;
+  object-fit:cover;
+}
+.dimensionContent{
+  min-height:250px;
+  padding:27px 30px 30px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+.dimensionContent h3{margin:34px 0 0}
+.dimensionContent p{margin:15px 0 0}
+.dimensionChips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:18px;
+}
+.dimensionChip{
+  display:inline-flex;
+  align-items:center;
+  border:1px solid rgba(0,0,0,.14);
+  border-radius:999px;
+  padding:7px 12px;
+  background:rgba(255,255,255,.55);
+  color:var(--ink);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.6px;
+  line-height:1;
+  white-space:nowrap;
+}
+
+/* IDEA */
+.idea{
+  background:var(--cream);
+}
+.ideaGrid{
+  display:grid;
+  grid-template-columns:1fr .72fr;
+  gap:90px;
+  align-items:center;
+}
+.ideaHeadline{
+  margin-top:17px;
+  max-width:720px;
+  font-size:clamp(48px,5.8vw,92px);
+  line-height:.84;
+  letter-spacing:-5px;
+  font-weight:900;
+}
+.ideaSub{
+  margin-top:22px;
+  color:var(--blue);
+  font-size:clamp(26px,3vw,46px);
+  line-height:.92;
+  letter-spacing:-2.2px;
+  font-weight:900;
+}
+.ideaNote{
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.5;
+}
+
+/* POINTS */
+.points{
+  background:var(--soft);
+  height:100vh;
+  height:100svh;
+  max-height:100vh;
+  max-height:100svh;
+  padding:48px 0 0 !important;
+  box-sizing:border-box;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+.points > .wrap{
+  position:relative;
+  z-index:3;
+  flex:0 0 auto;
+}
+.pointsIntro{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:48px;
+  align-items:start;
+}
+.pointsTitle{
+  margin:0;
+  max-width:18ch;
+  font-size:clamp(32px,3.8vw,56px);
+  line-height:.86;
+  letter-spacing:-3px;
+  font-weight:900;
+}
+.pointsTitle span{color:var(--blue)}
+.pointsIntroCopy{
+  color:var(--muted);
+  font-size:16px;
+  line-height:1.45;
+}
+.pointsIntroCopy p{margin:0 0 12px}
+.pointsIntroCopy p:last-child{margin-bottom:0}
+.pointsIntroMobile{display:none}
+.pointsMapStage{
+  position:relative;
+  margin-top:12px;
+  flex:1 1 auto;
+  min-height:0;
+}
+.pointsMapStage::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;
+  height:80px;
+  background:linear-gradient(to bottom,var(--soft),rgba(240,240,237,0));
+  z-index:1;
+  pointer-events:none;
+}
+.pointsMapStage .mapFrame,
+.pointsMapStage .realMapFrame{
+  position:absolute;
+  inset:0;
+  min-height:100%;
+  height:100%;
+  z-index:0;
+}
+.pointsCards{
+  position:relative;
+  z-index:2;
+  height:100%;
+  padding:16px 0 20px;
+  box-sizing:border-box;
+  pointer-events:none;
+  display:flex;
+  flex-direction:column;
+}
+.pointsCards .point{
+  pointer-events:auto;
+}
+.pointGrid{
+  margin-top:0;
+  display:grid;
+  grid-template-columns:1fr;
+  grid-template-rows:repeat(6,1fr);
+  gap:8px;
+  width:min(260px,100%);
+  height:100%;
+  margin-right:auto;
+  flex:1 1 auto;
+  min-height:0;
+}
+.point{
+  padding:12px 14px;
+  background:var(--white);
+  border:1px solid var(--line);
+  color:var(--ink);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:4px;
+  cursor:pointer;
+  transition:background .2s ease,border-color .2s ease,color .2s ease,box-shadow .2s ease;
+  min-width:0;
+  min-height:0;
+  box-shadow:0 8px 28px rgba(0,0,0,.08);
+}
+.point.is-map-active{
+  background:var(--blue);
+  border-color:transparent;
+  color:#fff;
+}
+.point.is-map-active .k,
+.point.is-map-active p{
+  color:#fff;
+}
+.pointHead{
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  min-width:0;
+}
+.point .k{
+  color:var(--blue);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.4px;
+  line-height:1;
+  flex:0 0 auto;
+  transition:color .2s ease;
+}
+.point h3{
+  margin:0;
+  font-size:15px;
+  line-height:1.05;
+  letter-spacing:-.7px;
+  font-weight:900;
+  min-width:0;
+}
+.point p{
+  margin:0;
+  max-width:none;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.3;
+  transition:color .2s ease;
+}
+.point:hover{
+  background:var(--blue);
+  border-color:transparent;
+  color:#fff;
+}
+.point:hover .k,
+.point:hover p{
+  color:#fff;
+}
+
+
+
+.realMapFrame{
+  min-height:325px;
+  background:#dfe4e8;
+  position:relative;
+}
+.realMapFrame #freequence-map{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+}
+.realMapFrame .mapLegend{
+  z-index:2;
+  color:#5c6670;
+  background:rgba(255,255,255,.88);
+  padding:8px 12px;
+  border-radius:999px;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+.realMapFrame .leaflet-control-zoom{
+  display:none;
+}
+.realMapFrame .leaflet-control-attribution{
+  font-size:10px;
+  background:rgba(255,255,255,.72);
+}
+.freequence-marker{
+  background:transparent;
+  border:0;
+}
+.freequence-pin{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:var(--blue);
+  border:3px solid #fff;
+  box-shadow:0 2px 8px rgba(0,0,0,.25);
+  transition:transform .22s ease,box-shadow .22s ease,opacity .22s ease;
+}
+.freequence-marker.is-dimmed .freequence-pin{
+  opacity:.28;
+  transform:scale(.85);
+}
+.freequence-marker.is-active .freequence-pin{
+  opacity:1;
+  transform:scale(1.45);
+  box-shadow:0 0 0 8px rgba(15,98,255,.22),0 2px 10px rgba(0,0,0,.28);
+}
+
+/* ZONA NORTE MAP */
+.mapFrame{
+  margin:0;
+  position:relative;
+  min-height:325px;
+  overflow:hidden;
+  background:#dfe4e8;
+  border:0;
+}
+.mapFrame > svg{
+  width:100%;
+  height:610px;
+  display:block;
+}
+.realMapFrame .leaflet-control-container svg{
+  width:auto;
+  height:auto;
+  display:inline;
+}
+.mapLabel{
+  font-family:Inter,"Helvetica Neue",Arial,sans-serif;
+  fill:#aeb7c4;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.2px;
+}
+.mapLabel.major{
+  fill:#fff;
+  font-size:16px;
+  font-weight:900;
+}
+.mapWater{fill:#202f3b}
+.mapLand{fill:#252a31;stroke:#48505a;stroke-width:1}
+.mapBoundary{fill:none;stroke:#39414b;stroke-width:1}
+.mapRoad{fill:none;stroke:#313842;stroke-width:3;opacity:.7}
+.mapPin{fill:var(--blue);stroke:#fff;stroke-width:3}
+.mapPinHalo{fill:rgba(15,98,255,.14)}
+.mapCaption{
+  position:absolute;
+  left:28px;
+  bottom:24px;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:#8993a0;
+}
+.mapLegend{
+  position:absolute;
+  right:24px;
+  top:22px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  color:#aeb7c4;
+  text-transform:uppercase;
+}
+.mapLegendDot{
+  width:9px;height:9px;border-radius:50%;
+  background:var(--blue);
+  border:2px solid #fff;
+}
+
+/* COMMUNITY */
+.community{
+  background:var(--cream);
+}
+.communityGrid{
+  display:grid;
+  grid-template-columns:1fr .8fr;
+  gap:100px;
+  align-items:center;
+}
+.communityQuote{
+  margin-top:16px;
+  max-width:780px;
+  font-size:clamp(38px,4.6vw,70px);
+  line-height:.86;
+  letter-spacing:-3.4px;
+  font-weight:900;
+}
+.communityQuote span{color:var(--blue)}
+.communityCopy{
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.55;
+}
+.communityCopy p{margin:0 0 20px}
+
+/* MANIFESTO TEASER */
+.manifesto{
+  background:var(--blue);
+  color:#fff;
+}
+.manifesto .sectionLabel{color:#fff}
+.manifestoTeaser{
+  display:grid;
+  grid-template-columns:1fr .72fr;
+  gap:90px;
+  align-items:end;
+}
+.manifestoTitle{
+  margin-top:0;
+  max-width:860px;
+  font-size:clamp(32px,4vw,60px);
+  line-height:.92;
+  letter-spacing:-2.8px;
+  font-weight:900;
+}
+.manifestoLead{
+  margin-top:22px;
+  max-width:18ch;
+  color:rgba(255,255,255,.88);
+  font-size:clamp(28px,3.4vw,48px);
+  line-height:.95;
+  letter-spacing:-2px;
+  font-weight:900;
+}
+.manifestoCtaWrap{
+  display:flex;
+  justify-content:flex-end;
+  align-items:flex-end;
+  padding-bottom:6px;
+}
+.manifestoCta{
+  display:inline-flex;
+  align-items:center;
+  gap:16px;
+  color:#fff;
+  font-size:clamp(18px,2vw,28px);
+  font-weight:900;
+  letter-spacing:1.8px;
+  text-transform:uppercase;
+  border-bottom:2px solid rgba(255,255,255,.75);
+  padding-bottom:12px;
+  transition:border-color .2s ease, opacity .2s ease, transform .2s ease;
+}
+.manifestoCta:hover{
+  border-color:#fff;
+  opacity:.95;
+  transform:translateX(4px);
+}
+.manifestoCta span{
+  font-size:1.15em;
+  line-height:1;
+}
+
+/* PRE-LAUNCH CTA */
+.prelaunch{
+  background:var(--ink);
+  color:#fff;
+}
+.prelaunchInner{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.prelaunchCtaWrap{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.prelaunchCta{
+  display:inline-flex;
+  align-items:center;
+  gap:16px;
+  color:#fff;
+  font-size:clamp(18px,2vw,28px);
+  font-weight:900;
+  letter-spacing:1.8px;
+  text-transform:uppercase;
+  border-bottom:2px solid rgba(255,255,255,.75);
+  padding-bottom:12px;
+  transition:border-color .2s ease, opacity .2s ease, transform .2s ease;
+}
+.prelaunchCta:hover{
+  border-color:#fff;
+  opacity:.95;
+  transform:translateX(4px);
+}
+.prelaunchCta span{
+  font-size:1.15em;
+  line-height:1;
+}
+
+/* FOOTER */
+footer{
+  background:var(--ink);
+  color:rgba(255,255,255,.62);
+  padding:26px 0;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+}
+.foot{display:flex;justify-content:space-between}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  :root{--page-x:24px}
+  .nav{height:48px}
+  .navlinks{display:none}
+  .hero{
+    flex-direction:column;
+    --hero-side:25%;
+    min-height:calc(100svh - 48px);
+    height:calc(100svh - 48px);
+    padding:0 !important;
+    background:var(--cream);
+  }
+  .heroMain{
+    flex:1 1 auto;
+    min-height:0;
+    padding:48px 0 36px;
+    background-size:90px 90px;
+  }
+  .heroSide{
+    flex:0 0 var(--hero-side);
+    width:100%;
+    height:var(--hero-side);
+    padding:36px var(--page-x) 40px !important;
+    align-items:center;
+  }
+  .heroTitle{
+    font-size:clamp(44px,11vw,72px);
+    letter-spacing:-3.6px;
+  }
+  .heroLead{gap:16px}
+  .microLogo{font-size:clamp(30px,8vw,40px)}
+  .heroInner{gap:28px}
+  section{padding:82px 0}
+  section.hero{padding:0 !important}
+  .intro,.ideaGrid,.pointsIntro,.communityGrid,.manifestoTeaser{grid-template-columns:1fr;gap:32px}
+  .manifestoCtaWrap{justify-content:flex-start;padding-bottom:0;margin-top:8px}
+  .dimensionsHead{gap:18px}
+  h2,.dimensionsTitle,.ideaHeadline,.communityQuote{letter-spacing:-3.2px}
+  .dimensionCards{grid-template-columns:1fr}
+  section.points{padding:28px 0 0 !important}
+  .pointsIntro{gap:10px}
+  .pointsTitle{font-size:clamp(28px,8vw,40px);letter-spacing:-2.2px;margin-top:0}
+  .pointsIntroDesktop{display:none}
+  .pointsIntroMobile{display:block;margin:0}
+  .pointsIntroCopy{font-size:13px;line-height:1.35}
+  .pointsMapStage{margin-top:8px}
+  .pointsMapStage::before{height:48px}
+  .pointsCards{padding:8px 0 10px;display:block;height:auto}
+  .pointGrid{
+    grid-template-columns:repeat(2,1fr);
+    grid-template-rows:none;
+    gap:6px;
+    width:100%;
+    height:auto;
+  }
+  .point{padding:7px 9px 8px;gap:2px;justify-content:flex-start}
+  .pointHead{gap:6px}
+  .point h3{font-size:13px;letter-spacing:-.5px}
+  .point p{font-size:10px;line-height:1.2;max-width:none}
+  .dimensionCards{gap:12px}
+  .dimension{min-height:380px}
+  .dimensionImage{height:190px}
+  .dimensionContent{min-height:230px;padding:24px 26px 26px}
+  .dimensionChips{gap:14px}
+  .mapLabel.major{font-size:12px}
+  .mapLabel{font-size:10px}
+  .mapCaption{left:18px;bottom:16px}
+  .foot{flex-direction:column;gap:10px}
+}
+</style>
+  </head>
+  <body>
+
+<header class="nav">
+  <div class="wrap navin">
+    <a class="wordmark" href="#top">FREEquence <span>CLUB</span></a>
+    <nav class="navlinks">
+      <a href="#dimensions">LA EXPERIENCIA</a>
+      <a href="#points">PUNTOS</a>
+      <a href="#points">COMUNIDAD</a>
+      <a href="manifiesto/">MANIFIESTO</a>
+      <a href="animation/">WAVES</a>
+      <a href="animation/noise/">NOISE</a>
+        </nav>
+    <div class="loc">PUNTA CHICA</div>
+  </div>
+      </header>
+
+<main id="top">
+
+<!-- 01 HERO -->
+<section class="hero is-logo-in" aria-label="Sintonizá con vos. Sincronizá con otros.">
+  <div class="heroMain">
+    <div class="heroInner">
+      <div class="heroLead">
+        <div class="microLogo">FREEquence <span>CLUB</span></div>
+        <h1 class="heroTitle heroTitle--self">Sintonizá<br>con vos.</h1>
+      </div>
+    </div>
+  </div>
+  <aside class="heroSide">
+    <div class="heroSideInner">
+      <p class="heroTitle heroTitle--others" aria-hidden="true">Sincronizá<br>con otros.</p>
+    </div>
+  </aside>
+</section>
+
+<!-- 02 BODY / MIND / ENCOUNTER -->
+<section id="dimensions" class="dimensions">
+  <div class="wrap">
+    <div class="dimensionsHead">
+      <div class="dimensionsTitle">Una experiencia.<br>Tres dimensiones.</div>
+      <p class="body">Cuerpo, mente y encuentros se cruzan para construir una experiencia de bienestar más integrada.</p>
+          </div>
+
+    <div class="dimensionCards">
+      <article class="dimension">
+        <img class="dimensionImage" src="universe/punto-training.png" alt=". Training">
+        <div class="dimensionContent">
+          <small>CUERPO</small>
+          <div>
+            <h3>Movete.</h3>
+            <p>Activar el cuerpo, entrenar, jugar y sentirte fuerte.</p>
+            <div class="dimensionChips">
+              <span class="dimensionChip">Gimnasio</span>
+              <span class="dimensionChip">Functional</span>
+              <span class="dimensionChip">Yoga</span>
+              <span class="dimensionChip">Personal training</span>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="dimension">
+        <img class="dimensionImage" src="universe/ecstatic.png" alt="Ecstatic">
+        <div class="dimensionContent">
+          <small>MENTE</small>
+          <div>
+            <h3>Resetea.</h3>
+            <p>Bajar revoluciones, recuperar energía y volver a tu eje.</p>
+            <div class="dimensionChips">
+              <span class="dimensionChip">Ecstatic dance</span>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="dimension">
+        <img class="dimensionImage" src="universe/experiencias.png" alt="Experiencias FREEquence">
+        <div class="dimensionContent">
+          <small>ENCUENTRO</small>
+          <div>
+            <h3>Conecta.</h3>
+            <p>Compartir, conversar, descubrir y encontrarte con otros.</p>
+            <div class="dimensionChips">
+              <span class="dimensionChip">Co working</span>
+              <span class="dimensionChip">Coffee Lounge</span>
+              <span class="dimensionChip">Encuentros abiertos</span>
+              <span class="dimensionChip">Charlas</span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+        </div>
+      </section>
+
+<!-- 03 MANIFESTO TEASER -->
+<section id="manifesto" class="manifesto">
+  <div class="wrap manifestoTeaser">
+    <div>
+      <div class="manifestoTitle">No te decimos<br>cómo vivir.</div>
+      <div class="manifestoLead">Creamos el espacio<br>para que encuentres<br>lo que resuena con vos.</div>
+    </div>
+    <div class="manifestoCtaWrap">
+      <a class="manifestoCta" href="manifiesto/">Ver Manifiesto <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 04 POINTS + MAPA -->
+<section id="points" class="points">
+  <div class="wrap">
+    <div class="pointsIntro">
+      <div>
+        <h2 class="pointsTitle">Diferentes puntos.<br>Un mismo <span>lugar.</span></h2>
+      </div>
+      <div class="pointsIntroCopy">
+        <p class="pointsIntroDesktop">La comunidad no se impone. Se construye a partir de los vínculos que nacen entre personas que comparten un entorno.</p>
+        <p class="pointsIntroDesktop">Entrenamiento, café, trabajo, música, cultura o simplemente estar. Diferentes maneras de encontrarse.</p>
+        <p class="pointsIntroMobile">Vínculos que nacen entre personas que comparten un entorno.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pointsMapStage">
+    <div class="mapFrame realMapFrame">
+      <div
+        id="freequence-map"
+        role="img"
+        aria-label="Mapa FREEquence con ubicaciones en Zona Norte"
+      ></div>
+      <div class="mapLegend"><span class="mapLegendDot"></span> FREEquence</div>
+    </div>
+    <div class="wrap pointsCards">
+      <div class="pointGrid">
+        <article class="point" data-map="hub">
+          <div class="pointHead"><div class="k">01</div><h3>. Training</h3></div>
+          <p>Fuerza y movimiento.</p>
+        </article>
+        <article class="point" data-map="wellness">
+          <div class="pointHead"><div class="k">02</div><h3>. Wellness</h3></div>
+          <p>Recovery y renovación.</p>
+        </article>
+        <article class="point" data-map="hub">
+          <div class="pointHead"><div class="k">03</div><h3>. Coffee</h3></div>
+          <p>Café y encuentro.</p>
+        </article>
+        <article class="point" data-map="hub south">
+          <div class="pointHead"><div class="k">04</div><h3>. Cowork</h3></div>
+          <p>Trabajar y crear.</p>
+        </article>
+        <article class="point" data-map="padel">
+          <div class="pointHead"><div class="k">05</div><h3>. Pádel</h3></div>
+          <p>Juego y comunidad.</p>
+        </article>
+        <article class="point" data-map="south">
+          <div class="pointHead"><div class="k">06</div><h3>Experiencias</h3></div>
+          <p>Eventos y cultura.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 PRE-LAUNCH CTA -->
+<section id="prelaunch" class="prelaunch">
+  <div class="wrap prelaunchInner">
+    <div class="prelaunchCtaWrap">
+      <a
+        class="prelaunchCta"
+        href="https://www.whatsapp.com/channel/0029VbClfwB5PO155kXd952y"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Unite al canal <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 06 CLOSING (shared component) -->
+<div data-closing-section></div>
+
+</main>
+
+      <footer>
+  <div class="wrap foot">
+    <span>FREEquence Club</span>
+    <span>Movimiento · Bienestar · Compartir</span>
+    <span>Punta Chica</span>
+  </div>
+      </footer>
+
+<script src="js/main.js?v=16"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+  (function initFreequenceMap() {
+    const el = document.getElementById("freequence-map");
+    if (!el || typeof L === "undefined") return;
+
+    const locations = [
+      {
+        id: "hub",
+        latlng: [-34.450381103683945, -58.53202918542037],
+        label: "Training · Coffee · Cowork",
+      },
+      {
+        id: "padel",
+        latlng: [-34.43252555973877, -58.564266133056],
+        label: "Pádel",
+      },
+      {
+        id: "wellness",
+        latlng: [-34.45424308483209, -58.52515033887387],
+        label: "Wellness",
+      },
+      {
+        id: "south",
+        latlng: [-34.52503487043843, -58.47237562553121],
+        label: "Cowork · Experiencias",
+      },
+    ];
+
+    const map = L.map(el, {
+      zoomControl: false,
+      scrollWheelZoom: false,
+      attributionControl: true,
+    });
+
+    L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+      {
+        attribution: "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
+        maxZoom: 16,
+      }
+    ).addTo(map);
+
+    const bounds = L.latLngBounds([]);
+    const markersById = {};
+
+    locations.forEach((loc) => {
+      const icon = L.divIcon({
+        className: "freequence-marker",
+        html: '<div class="freequence-pin" aria-hidden="true"></div>',
+        iconSize: [18, 18],
+        iconAnchor: [9, 9],
+      });
+      const marker = L.marker(loc.latlng, { icon, title: loc.label }).addTo(map);
+      marker._fqId = loc.id;
+      markersById[loc.id] = marker;
+      bounds.extend(loc.latlng);
+    });
+
+    const mapPadding = () => {
+      const mobile = window.matchMedia("(max-width: 900px)").matches;
+      // Keep pins clear of the card overlay
+      return mobile
+        ? { paddingTopLeft: [16, 220], paddingBottomRight: [16, 28] }
+        : { paddingTopLeft: [260, 28], paddingBottomRight: [28, 28] };
+    };
+
+    const fitAll = () => {
+      map.invalidateSize();
+      map.fitBounds(bounds, { ...mapPadding(), maxZoom: 14 });
+    };
+
+    let lockedCard = null;
+
+    const clearHighlight = () => {
+      Object.values(markersById).forEach((marker) => {
+        const iconEl = marker.getElement();
+        if (!iconEl) return;
+        iconEl.classList.remove("is-active", "is-dimmed");
+      });
+      document.querySelectorAll(".point.is-map-active").forEach((card) => {
+        card.classList.remove("is-map-active");
+      });
+    };
+
+    const highlightLocations = (ids, { focus = false, activeCard = null } = {}) => {
+      const idSet = new Set(ids);
+      clearHighlight();
+      if (activeCard) activeCard.classList.add("is-map-active");
+
+      const activeBounds = L.latLngBounds([]);
+      Object.entries(markersById).forEach(([id, marker]) => {
+        const iconEl = marker.getElement();
+        if (!iconEl) return;
+        if (idSet.has(id)) {
+          iconEl.classList.add("is-active");
+          activeBounds.extend(marker.getLatLng());
+        } else {
+          iconEl.classList.add("is-dimmed");
+        }
+      });
+
+      if (focus && activeBounds.isValid()) {
+        map.invalidateSize();
+        map.flyToBounds(activeBounds, {
+          ...mapPadding(),
+          maxZoom: ids.length === 1 ? 14 : 13,
+          duration: 0.7,
+        });
+      }
+    };
+
+    const idsFromCard = (card) =>
+      (card.getAttribute("data-map") || "")
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+
+    const unlock = () => {
+      lockedCard = null;
+      clearHighlight();
+      fitAll();
+    };
+
+    document.querySelectorAll(".point[data-map]").forEach((card) => {
+      card.addEventListener("mouseenter", () => {
+        if (lockedCard && lockedCard !== card) return;
+        highlightLocations(idsFromCard(card), { activeCard: card });
+      });
+      card.addEventListener("mouseleave", () => {
+        if (lockedCard) return;
+        clearHighlight();
+      });
+      card.addEventListener("click", () => {
+        const ids = idsFromCard(card);
+        lockedCard = card;
+        highlightLocations(ids, { focus: true, activeCard: card });
+        document.querySelector("#points")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      });
+    });
+
+    Object.entries(markersById).forEach(([id, marker]) => {
+      marker.on("mouseover", () => {
+        if (lockedCard) return;
+        highlightLocations([id]);
+        document.querySelectorAll(".point[data-map]").forEach((card) => {
+          if (idsFromCard(card).includes(id)) card.classList.add("is-map-active");
+        });
+      });
+      marker.on("mouseout", () => {
+        if (lockedCard) return;
+        clearHighlight();
+      });
+      marker.on("click", (event) => {
+        L.DomEvent.stopPropagation(event);
+        lockedCard = null;
+        highlightLocations([id], { focus: true });
+        document.querySelectorAll(".point[data-map]").forEach((card) => {
+          if (idsFromCard(card).includes(id)) card.classList.add("is-map-active");
+        });
+      });
+    });
+
+    map.on("click", unlock);
+
+    window.addEventListener("resize", fitAll);
+    requestAnimationFrame(fitAll);
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) fitAll();
+        },
+        { threshold: 0.1 }
+      );
+      observer.observe(el);
+    }
+  })();
+</script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module" src="js/closing-section.js?v=5"></script>
+
+  </body>
+</html>

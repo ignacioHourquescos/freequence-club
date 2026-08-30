@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Noise waves · FREEquence</title>
+  <link rel="icon" href="../../favicon-32x32.png" sizes="32x32" type="image/png">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --cream: #f7f5ef;
+      --ink: #10141b;
+      --blue: #2864f0;
+      --muted: #8a93a0;
+      --panel: rgba(16, 20, 27, 0.82);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #0d1214;
+      color: #fff;
+      font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    #stage {
+      position: fixed;
+      inset: 0;
+    }
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 22px;
+      pointer-events: none;
+    }
+    .topbar a, .topbar span { pointer-events: auto; }
+    .wordmark {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: -0.6px;
+    }
+    .wordmark small {
+      margin-left: 6px;
+      color: #9ea4ad;
+      font-size: 8px;
+      letter-spacing: 1.4px;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .nav a {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    .nav a.is-active { color: #fff; }
+    .hint {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    .panel {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 2;
+      width: min(320px, calc(100vw - 24px));
+      padding: 16px 16px 14px;
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(16px);
+      max-height: calc(100vh - 90px);
+      overflow: auto;
+    }
+    .panel h1 {
+      margin: 0 0 12px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+    .group {
+      margin: 12px 0 4px;
+      color: #9ea4ad;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 11px;
+      color: #c7ccd3;
+    }
+    .row label { letter-spacing: .3px; }
+    .row output { color: #fff; font-variant-numeric: tabular-nums; }
+    input[type="range"] { width: 100%; grid-column: 1 / -1; }
+    .colors {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 10px 0 12px;
+    }
+    .colors label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11px;
+      color: #c7ccd3;
+    }
+    input[type="color"] {
+      width: 36px;
+      height: 22px;
+      padding: 0;
+      border: 0;
+      background: none;
+    }
+    .toggles {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 11px;
+      color: #c7ccd3;
+    }
+    .presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    button {
+      border: 1px solid rgba(255,255,255,.2);
+      background: transparent;
+      color: #fff;
+      padding: 6px 9px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    button:hover { border-color: #fff; }
+    @media (max-width: 700px) {
+      .hint { display: none; }
+      .panel { right: 12px; left: 12px; width: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div id="stage"></div>
+
+  <div class="topbar">
+    <a class="wordmark" href="../../index.html">FREEquence <small>NOISE</small></a>
+    <div class="nav">
+      <a href="../">Puntos</a>
+      <a class="is-active" href="./">Noise</a>
+      <span class="hint">Arrastrá · dos capas de value noise</span>
+    </div>
+  </div>
+
+  <aside class="panel">
+    <h1>Playground</h1>
+
+    <div class="row">
+      <label for="pointSize">Tamaño puntos</label>
+      <output id="pointSizeOut">2.0</output>
+      <input id="pointSize" type="range" min="1" max="10" step="0.5" value="2">
+    </div>
+    <div class="row">
+      <label for="segments">Densidad</label>
+      <output id="segmentsOut">128</output>
+      <input id="segments" type="range" min="32" max="192" step="16" value="128">
+    </div>
+    <div class="row">
+      <label for="cameraZ">Cámara Z</label>
+      <output id="cameraZOut">4.5</output>
+      <input id="cameraZ" type="range" min="2" max="10" step="0.1" value="4.5">
+    </div>
+
+    <div class="group">Ola 1</div>
+    <div class="row">
+      <label for="wave1Freq">Frecuencia</label>
+      <output id="wave1FreqOut">3.0</output>
+      <input id="wave1Freq" type="range" min="0.1" max="3" step="0.1" value="3">
+    </div>
+    <div class="row">
+      <label for="wave1Amp">Amplitud</label>
+      <output id="wave1AmpOut">0.20</output>
+      <input id="wave1Amp" type="range" min="0.1" max="3" step="0.1" value="0.2">
+    </div>
+    <div class="row">
+      <label for="wave1Speed">Velocidad</label>
+      <output id="wave1SpeedOut">1.00</output>
+      <input id="wave1Speed" type="range" min="0.01" max="2" step="0.01" value="1">
+    </div>
+
+    <div class="group">Ola 2</div>
+    <div class="row">
+      <label for="wave2Freq">Frecuencia</label>
+      <output id="wave2FreqOut">2.0</output>
+      <input id="wave2Freq" type="range" min="0.1" max="3" step="0.1" value="2">
+    </div>
+    <div class="row">
+      <label for="wave2Amp">Amplitud</label>
+      <output id="wave2AmpOut">0.30</output>
+      <input id="wave2Amp" type="range" min="0.1" max="3" step="0.1" value="0.3">
+    </div>
+    <div class="row">
+      <label for="wave2Speed">Velocidad</label>
+      <output id="wave2SpeedOut">0.80</output>
+      <input id="wave2Speed" type="range" min="0.01" max="2" step="0.01" value="0.8">
+    </div>
+
+    <div class="colors">
+      <label>Tinte <input id="tint" type="color" value="#2864f0"></label>
+      <label>Fondo <input id="background" type="color" value="#0d1214"></label>
+    </div>
+    <div class="row">
+      <label for="tintAmount">Tinte</label>
+      <output id="tintAmountOut">0.00</output>
+      <input id="tintAmount" type="range" min="0" max="1" step="0.05" value="0">
+    </div>
+
+    <label class="toggles">
+      <input id="autoRotate" type="checkbox" checked>
+      Rotación automática
+    </label>
+
+    <div class="presets">
+      <button type="button" data-preset="original">Original</button>
+      <button type="button" data-preset="club">FREEquence</button>
+      <button type="button" data-preset="calm">Calma</button>
+    </div>
+  </aside>
+
+  <script type="module">
+    import { createValueNoiseWaves } from "../../js/value-noise-waves.js";
+
+    const stage = document.getElementById("stage");
+    const waves = createValueNoiseWaves(stage);
+
+    const fields = {
+      pointSize: document.getElementById("pointSize"),
+      segments: document.getElementById("segments"),
+      cameraZ: document.getElementById("cameraZ"),
+      wave1Freq: document.getElementById("wave1Freq"),
+      wave1Amp: document.getElementById("wave1Amp"),
+      wave1Speed: document.getElementById("wave1Speed"),
+      wave2Freq: document.getElementById("wave2Freq"),
+      wave2Amp: document.getElementById("wave2Amp"),
+      wave2Speed: document.getElementById("wave2Speed"),
+      tint: document.getElementById("tint"),
+      background: document.getElementById("background"),
+      tintAmount: document.getElementById("tintAmount"),
+      autoRotate: document.getElementById("autoRotate"),
+    };
+
+    const outs = {
+      pointSize: document.getElementById("pointSizeOut"),
+      segments: document.getElementById("segmentsOut"),
+      cameraZ: document.getElementById("cameraZOut"),
+      wave1Freq: document.getElementById("wave1FreqOut"),
+      wave1Amp: document.getElementById("wave1AmpOut"),
+      wave1Speed: document.getElementById("wave1SpeedOut"),
+      wave2Freq: document.getElementById("wave2FreqOut"),
+      wave2Amp: document.getElementById("wave2AmpOut"),
+      wave2Speed: document.getElementById("wave2SpeedOut"),
+      tintAmount: document.getElementById("tintAmountOut"),
+    };
+
+    const applyFromUi = () => {
+      waves.setParams({
+        pointSize: Number(fields.pointSize.value),
+        segments: Number(fields.segments.value),
+        cameraZ: Number(fields.cameraZ.value),
+        wave1Freq: Number(fields.wave1Freq.value),
+        wave1Amp: Number(fields.wave1Amp.value),
+        wave1Speed: Number(fields.wave1Speed.value),
+        wave2Freq: Number(fields.wave2Freq.value),
+        wave2Amp: Number(fields.wave2Amp.value),
+        wave2Speed: Number(fields.wave2Speed.value),
+        tint: fields.tint.value,
+        background: fields.background.value,
+        tintAmount: Number(fields.tintAmount.value),
+        autoRotate: fields.autoRotate.checked,
+      });
+      outs.pointSize.textContent = Number(fields.pointSize.value).toFixed(1);
+      outs.segments.textContent = fields.segments.value;
+      outs.cameraZ.textContent = Number(fields.cameraZ.value).toFixed(1);
+      outs.wave1Freq.textContent = Number(fields.wave1Freq.value).toFixed(1);
+      outs.wave1Amp.textContent = Number(fields.wave1Amp.value).toFixed(2);
+      outs.wave1Speed.textContent = Number(fields.wave1Speed.value).toFixed(2);
+      outs.wave2Freq.textContent = Number(fields.wave2Freq.value).toFixed(1);
+      outs.wave2Amp.textContent = Number(fields.wave2Amp.value).toFixed(2);
+      outs.wave2Speed.textContent = Number(fields.wave2Speed.value).toFixed(2);
+      outs.tintAmount.textContent = Number(fields.tintAmount.value).toFixed(2);
+    };
+
+    Object.values(fields).forEach((el) => {
+      el.addEventListener("input", applyFromUi);
+    });
+
+    const presets = {
+      original: {
+        pointSize: 2,
+        segments: 128,
+        cameraZ: 4.5,
+        wave1Freq: 3,
+        wave1Amp: 0.2,
+        wave1Speed: 1,
+        wave2Freq: 2,
+        wave2Amp: 0.3,
+        wave2Speed: 0.8,
+        tint: "#2864f0",
+        background: "#0d1214",
+        tintAmount: 0,
+        autoRotate: true,
+      },
+      club: {
+        pointSize: 2.5,
+        segments: 128,
+        cameraZ: 4.8,
+        wave1Freq: 2.4,
+        wave1Amp: 0.28,
+        wave1Speed: 0.7,
+        wave2Freq: 1.6,
+        wave2Amp: 0.36,
+        wave2Speed: 0.55,
+        tint: "#2864f0",
+        background: "#10141b",
+        tintAmount: 0.85,
+        autoRotate: true,
+      },
+      calm: {
+        pointSize: 1.5,
+        segments: 96,
+        cameraZ: 5.2,
+        wave1Freq: 1.4,
+        wave1Amp: 0.16,
+        wave1Speed: 0.35,
+        wave2Freq: 1.1,
+        wave2Amp: 0.2,
+        wave2Speed: 0.28,
+        tint: "#10141b",
+        background: "#f7f5ef",
+        tintAmount: 0.55,
+        autoRotate: false,
+      },
+    };
+
+    document.querySelectorAll("[data-preset]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const preset = presets[button.dataset.preset];
+        if (!preset) return;
+        fields.pointSize.value = preset.pointSize;
+        fields.segments.value = preset.segments;
+        fields.cameraZ.value = preset.cameraZ;
+        fields.wave1Freq.value = preset.wave1Freq;
+        fields.wave1Amp.value = preset.wave1Amp;
+        fields.wave1Speed.value = preset.wave1Speed;
+        fields.wave2Freq.value = preset.wave2Freq;
+        fields.wave2Amp.value = preset.wave2Amp;
+        fields.wave2Speed.value = preset.wave2Speed;
+        fields.tint.value = preset.tint;
+        fields.background.value = preset.background;
+        fields.tintAmount.value = preset.tintAmount;
+        fields.autoRotate.checked = preset.autoRotate;
+        applyFromUi();
+      });
+    });
+  </script>
+</body>
+</html>

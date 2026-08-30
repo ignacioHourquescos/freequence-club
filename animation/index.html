@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Waves · FREEquence</title>
+  <link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --cream: #f7f5ef;
+      --ink: #10141b;
+      --blue: #2864f0;
+      --muted: #8a93a0;
+      --panel: rgba(16, 20, 27, 0.82);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #000;
+      color: #fff;
+      font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    #stage {
+      position: fixed;
+      inset: 0;
+    }
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 22px;
+      pointer-events: none;
+    }
+    .topbar a, .topbar span { pointer-events: auto; }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .nav a {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    .nav a.is-active { color: #fff; }
+    .wordmark {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: -0.6px;
+    }
+    .wordmark small {
+      margin-left: 6px;
+      color: #9ea4ad;
+      font-size: 8px;
+      letter-spacing: 1.4px;
+    }
+    .hint {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    .panel {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 2;
+      width: min(320px, calc(100vw - 24px));
+      padding: 16px 16px 14px;
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(16px);
+    }
+    .panel h1 {
+      margin: 0 0 12px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 11px;
+      color: #c7ccd3;
+    }
+    .row label { letter-spacing: .3px; }
+    .row output { color: #fff; font-variant-numeric: tabular-nums; }
+    input[type="range"] { width: 100%; grid-column: 1 / -1; }
+    .colors {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 10px 0 12px;
+    }
+    .colors label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11px;
+      color: #c7ccd3;
+    }
+    input[type="color"] {
+      width: 36px;
+      height: 22px;
+      padding: 0;
+      border: 0;
+      background: none;
+    }
+    .toggles {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 11px;
+      color: #c7ccd3;
+    }
+    .presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    button {
+      border: 1px solid rgba(255,255,255,.2);
+      background: transparent;
+      color: #fff;
+      padding: 6px 9px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    button:hover { border-color: #fff; }
+    @media (max-width: 700px) {
+      .hint { display: none; }
+      .panel { right: 12px; left: 12px; width: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div id="stage"></div>
+
+  <div class="topbar">
+    <a class="wordmark" href="../index.html">FREEquence <small>WAVES</small></a>
+    <div class="nav">
+      <a class="is-active" href="./">Puntos</a>
+      <a href="noise/">Noise</a>
+      <span class="hint">Mové el mouse · ajustá el panel</span>
+    </div>
+  </div>
+
+  <aside class="panel">
+    <h1>Playground</h1>
+
+    <div class="row">
+      <label for="speed">Velocidad</label>
+      <output id="speedOut">0.06</output>
+      <input id="speed" type="range" min="0" max="0.4" step="0.01" value="0.06">
+    </div>
+    <div class="row">
+      <label for="amplitude">Amplitud</label>
+      <output id="amplitudeOut">24</output>
+      <input id="amplitude" type="range" min="0" max="180" step="1" value="24">
+    </div>
+    <div class="row">
+      <label for="sizeScale">Tamaño puntos</label>
+      <output id="sizeScaleOut">6</output>
+      <input id="sizeScale" type="range" min="2" max="50" step="1" value="6">
+    </div>
+    <div class="row">
+      <label for="cameraZ">Cámara Z</label>
+      <output id="cameraZOut">1200</output>
+      <input id="cameraZ" type="range" min="400" max="2400" step="20" value="1200">
+    </div>
+    <div class="row">
+      <label for="separation">Separación</label>
+      <output id="separationOut">60</output>
+      <input id="separation" type="range" min="40" max="180" step="5" value="60">
+    </div>
+    <div class="row">
+      <label for="amount">Grilla</label>
+      <output id="amountOut">70 × 70</output>
+      <input id="amount" type="range" min="16" max="70" step="2" value="70">
+    </div>
+    <div class="row">
+      <label for="morphAmount">Ondulación borde</label>
+      <output id="morphAmountOut">0.00</output>
+      <input id="morphAmount" type="range" min="0" max="2" step="0.05" value="0">
+    </div>
+    <div class="row">
+      <label for="personalAmp">Vibración propia</label>
+      <output id="personalAmpOut">10</output>
+      <input id="personalAmp" type="range" min="0" max="30" step="1" value="10">
+    </div>
+
+    <div class="colors">
+      <label>Puntos <input id="color" type="color" value="#2864f0"></label>
+      <label>Fondo <input id="background" type="color" value="#10141b"></label>
+    </div>
+
+    <label class="toggles">
+      <input id="followPointer" type="checkbox" checked>
+      Seguir el mouse
+    </label>
+
+    <div class="presets">
+      <button type="button" data-preset="original">Original</button>
+      <button type="button" data-preset="club">FREEquence</button>
+      <button type="button" data-preset="cream">Cream</button>
+    </div>
+  </aside>
+
+  <script type="module">
+    import { createPointsWaves, CLOSING_WAVES } from "../js/points-waves.js?v=24";
+
+    const stage = document.getElementById("stage");
+    const waves = createPointsWaves(stage, { ...CLOSING_WAVES });
+
+    const fields = {
+      speed: document.getElementById("speed"),
+      amplitude: document.getElementById("amplitude"),
+      sizeScale: document.getElementById("sizeScale"),
+      cameraZ: document.getElementById("cameraZ"),
+      separation: document.getElementById("separation"),
+      amount: document.getElementById("amount"),
+      morphAmount: document.getElementById("morphAmount"),
+      personalAmp: document.getElementById("personalAmp"),
+      color: document.getElementById("color"),
+      background: document.getElementById("background"),
+      followPointer: document.getElementById("followPointer"),
+    };
+
+    const outs = {
+      speed: document.getElementById("speedOut"),
+      amplitude: document.getElementById("amplitudeOut"),
+      sizeScale: document.getElementById("sizeScaleOut"),
+      cameraZ: document.getElementById("cameraZOut"),
+      separation: document.getElementById("separationOut"),
+      amount: document.getElementById("amountOut"),
+      morphAmount: document.getElementById("morphAmountOut"),
+      personalAmp: document.getElementById("personalAmpOut"),
+    };
+
+    const applyFromUi = () => {
+      const amount = Number(fields.amount.value);
+      waves.setParams({
+        speed: Number(fields.speed.value),
+        amplitude: Number(fields.amplitude.value),
+        sizeScale: Number(fields.sizeScale.value),
+        cameraZ: Number(fields.cameraZ.value),
+        separation: Number(fields.separation.value),
+        amountX: amount,
+        amountY: amount,
+        morphAmount: Number(fields.morphAmount.value),
+        personalAmp: Number(fields.personalAmp.value),
+        color: fields.color.value,
+        background: fields.background.value,
+        followPointer: fields.followPointer.checked,
+      });
+      outs.speed.textContent = Number(fields.speed.value).toFixed(2);
+      outs.amplitude.textContent = fields.amplitude.value;
+      outs.sizeScale.textContent = fields.sizeScale.value;
+      outs.cameraZ.textContent = fields.cameraZ.value;
+      outs.separation.textContent = fields.separation.value;
+      outs.amount.textContent = `${amount} × ${amount}`;
+      outs.morphAmount.textContent = Number(fields.morphAmount.value).toFixed(2);
+      outs.personalAmp.textContent = fields.personalAmp.value;
+    };
+
+    Object.values(fields).forEach((el) => {
+      el.addEventListener("input", applyFromUi);
+    });
+
+    const presets = {
+      original: {
+        speed: 0.1,
+        amplitude: 50,
+        sizeScale: 20,
+        cameraZ: 1000,
+        separation: 100,
+        amount: 50,
+        morphAmount: 0,
+        personalAmp: 8,
+        color: "#ffffff",
+        background: "#000000",
+        followPointer: true,
+      },
+      club: {
+        speed: CLOSING_WAVES.speed,
+        amplitude: CLOSING_WAVES.amplitude,
+        sizeScale: CLOSING_WAVES.sizeScale,
+        cameraZ: CLOSING_WAVES.cameraZ,
+        separation: CLOSING_WAVES.separation,
+        amount: CLOSING_WAVES.amountX,
+        morphAmount: CLOSING_WAVES.morphAmount,
+        personalAmp: CLOSING_WAVES.personalAmp,
+        color: CLOSING_WAVES.color,
+        background: CLOSING_WAVES.background,
+        followPointer: true,
+      },
+      cream: {
+        speed: 0.06,
+        amplitude: 36,
+        sizeScale: 14,
+        cameraZ: 1300,
+        separation: 120,
+        amount: 40,
+        morphAmount: 0,
+        personalAmp: 6,
+        color: "#10141b",
+        background: "#f7f5ef",
+        followPointer: false,
+      },
+    };
+
+    document.querySelectorAll("[data-preset]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const preset = presets[button.dataset.preset];
+        if (!preset) return;
+        fields.speed.value = preset.speed;
+        fields.amplitude.value = preset.amplitude;
+        fields.sizeScale.value = preset.sizeScale;
+        fields.cameraZ.value = preset.cameraZ;
+        fields.separation.value = preset.separation;
+        fields.amount.value = preset.amount;
+        fields.morphAmount.value = preset.morphAmount;
+        fields.personalAmp.value = preset.personalAmp;
+        fields.color.value = preset.color;
+        fields.background.value = preset.background;
+        fields.followPointer.checked = preset.followPointer;
+        applyFromUi();
+      });
+    });
+  </script>
+</body>
+</html>
