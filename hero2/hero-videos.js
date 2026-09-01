@@ -1,6 +1,6 @@
-(function heroSideVideos() {
-  const stage = document.querySelector(".heroSide");
-  const host = stage && stage.querySelector(".heroSideVideos");
+(function heroVideos() {
+  const stage = document.querySelector(".hero");
+  const host = stage && stage.querySelector(".heroVideos");
   const videos = host ? Array.from(host.querySelectorAll("video")) : [];
   if (!stage || videos.length === 0) return;
 

@@ -1,13 +1,13 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
   <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FREEquence Club</title>
-    <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180" />
+<title>Hero 2 · FREEquence Club</title>
+    <link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="css/closing-section.css?v=4" />
+    <link rel="stylesheet" href="../css/closing-section.css?v=4" />
 <style>
 :root{
   /* Brand palette */
@@ -87,12 +87,11 @@ a{color:inherit;text-decoration:none}
   letter-spacing:1.15px;
 }
 
-/* HERO */
+/* HERO 2 — full-bleed videos + blue overlay + MOVE/RESET/CONNECT */
 .hero{
-  --hero-ease:cubic-bezier(.45,.05,.15,1);
+  position:relative;
   display:flex;
-  flex-direction:row;
-  align-items:stretch;
+  align-items:center;
   min-height:100vh;
   min-height:100svh;
   height:100vh;
@@ -101,96 +100,14 @@ a{color:inherit;text-decoration:none}
   margin:0;
   background:var(--blue);
   overflow:hidden;
-}
-.heroMain{
-  flex:0 0 50%;
-  width:50%;
-  min-width:0;
-  min-height:0;
-  padding:8vh 0 7vh;
-  display:flex;
-  flex-direction:column;
-  background:var(--blue);
-  color:#fff;
-  background-image:
-    linear-gradient(to right,rgba(255,255,255,.12) 1px,transparent 1px),
-    linear-gradient(to bottom,rgba(255,255,255,.12) 1px,transparent 1px);
-  background-size:150px 150px;
-}
-.heroInner{
-  flex:1;
-  width:100%;
-  max-width:none;
-  margin:0;
-  box-sizing:border-box;
-  /* Same left inset as .wrap on full-width sections */
-  padding-left:max(var(--page-x),calc((100vw - var(--max)) / 2));
-  padding-right:var(--page-x);
-  display:flex;
-  align-items:center;
-  justify-content:flex-start;
-  position:relative;
-}
-.eyebrow,.sectionLabel{
-  color:var(--blue);
-  font-size:10px;
-  line-height:1;
-  font-weight:900;
-  letter-spacing:2px;
-  text-transform:uppercase;
-}
-.heroLead{
-  position:relative;
-  display:block;
-  /* Title is the vertical anchor; logo is pinned above it at a fixed gap */
-}
-.heroTitle{
-  margin:0;
-  max-width:18ch;
-  font-size:clamp(52px,6.4vw,112px);
-  line-height:.79;
-  letter-spacing:-5px;
-  font-weight:900;
-}
-.heroTitle--self{
   color:#fff;
 }
-.microLogo{
-  position:absolute;
-  left:0;
-  bottom:100%;
-  margin-bottom:clamp(16px,2vh,24px);
-  z-index:2;
-  color:rgba(255,255,255,.55);
-  font-size:clamp(20px,1.35vw,21px);
-  line-height:1;
-  font-weight:900;
-  letter-spacing:-1.2px;
-  opacity:1;
-  transform:none;
-  white-space:nowrap;
-}
-.microLogo span{
-  color:rgba(255,255,255,.4);
-  margin-left:3px;
-  font-size:.42em;
-  letter-spacing:1.3px;
-}
-.heroSide{
-  position:relative;
-  flex:0 0 50%;
-  width:50%;
-  min-width:0;
-  min-height:0;
-  background:var(--ink);
-  padding:0;
-  overflow:hidden;
-}
-.heroSideVideos{
+.heroVideos{
   position:absolute;
   inset:0;
+  z-index:0;
 }
-.heroSideVideos video{
+.heroVideos video{
   position:absolute;
   inset:0;
   width:100%;
@@ -199,16 +116,56 @@ a{color:inherit;text-decoration:none}
   opacity:0;
   transition:opacity .45s ease;
 }
-.heroSideVideos video.is-active{
+.heroVideos video.is-active{
   opacity:1;
 }
-.heroSideVideos::after{
-  content:"";
+.heroOverlay{
   position:absolute;
   inset:0;
   z-index:1;
   pointer-events:none;
-  background:rgba(0,0,0,.35);
+  background:rgba(15,98,255,.72);
+}
+.heroInner{
+  position:relative;
+  z-index:2;
+  width:min(calc(100% - 2 * var(--page-x)),var(--max));
+  margin:0 auto;
+  padding:10vh 0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+}
+.heroEyebrow{
+  margin:0 0 clamp(28px,5vh,56px);
+  color:rgba(255,255,255,.92);
+  font-size:clamp(10px,1.05vw,13px);
+  font-weight:800;
+  letter-spacing:2.6px;
+  text-transform:uppercase;
+  line-height:1;
+}
+.heroTitle{
+  margin:0;
+  max-width:12ch;
+  font-size:clamp(64px,12vw,168px);
+  line-height:.86;
+  letter-spacing:-6px;
+  font-weight:900;
+  text-transform:uppercase;
+  color:#fff;
+}
+.heroTitle span{
+  display:block;
+}
+.eyebrow,.sectionLabel{
+  color:var(--blue);
+  font-size:10px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
 }
 
 /* SECTION BASE */
@@ -836,33 +793,16 @@ footer{
   .nav{height:48px}
   .navlinks{display:none}
   .hero{
-    flex-direction:column;
     min-height:100svh;
     height:100svh;
     padding:0 !important;
     background:var(--blue);
   }
-  .heroMain{
-    flex:0 0 50%;
-    width:100%;
-    height:50%;
-    min-height:0;
-    padding:48px 0 36px;
-    background-size:90px 90px;
-  }
-  .heroSide{
-    flex:0 0 50%;
-    width:100%;
-    height:50%;
-    padding:0 !important;
-  }
+  .heroInner{padding:12vh 0 10vh}
   .heroTitle{
-    font-size:clamp(44px,11vw,72px);
-    letter-spacing:-3.6px;
+    font-size:clamp(56px,16vw,96px);
+    letter-spacing:-4px;
   }
-  .heroLead{gap:16px}
-  .microLogo{font-size:clamp(18px,4.5vw,21px)}
-  .heroInner{gap:28px}
   section{padding:82px 0}
   section.hero{padding:0 !important}
   .intro,.ideaGrid,.pointsIntro,.communityGrid,.manifestoTeaser{grid-template-columns:1fr;gap:32px}
@@ -913,10 +853,11 @@ footer{
       <a href="#dimensions">LA EXPERIENCIA</a>
       <a href="#points">PUNTOS</a>
       <a href="#points">COMUNIDAD</a>
-      <a href="manifiesto/">MANIFIESTO</a>
-      <a href="hero2/">HERO 2</a>
-      <a href="animation/">WAVES</a>
-      <a href="animation/noise/">NOISE</a>
+      <a href="../manifiesto/">MANIFIESTO</a>
+      <a href="../">HERO 1</a>
+      <a href="./">HERO 2</a>
+      <a href="../animation/">WAVES</a>
+      <a href="../animation/noise/">NOISE</a>
         </nav>
     <div class="loc">PUNTA CHICA</div>
   </div>
@@ -925,22 +866,21 @@ footer{
 <main id="top">
 
 <!-- 01 HERO -->
-<section class="hero" aria-label="Sintonizá con vos.">
-  <div class="heroMain">
-    <div class="heroInner">
-      <div class="heroLead">
-        <div class="microLogo">FREEquence <span>CLUB</span></div>
-        <h1 class="heroTitle heroTitle--self">Sintonizá<br>con vos.</h1>
-      </div>
-    </div>
+<section class="hero" aria-label="Move. Reset. Connect.">
+  <div class="heroVideos" aria-hidden="true">
+    <video muted playsinline preload="auto" data-src="../videos/mujer-transpirando.mp4"></video>
+    <video muted playsinline preload="auto" data-src="../videos/hombre-meditando.mp4"></video>
+    <video muted playsinline preload="auto" data-src="../videos/cafe.mp4"></video>
   </div>
-  <aside class="heroSide" aria-hidden="true">
-    <div class="heroSideVideos">
-      <video muted playsinline preload="auto" data-src="videos/mujer-transpirando.mp4"></video>
-      <video muted playsinline preload="auto" data-src="videos/hombre-meditando.mp4"></video>
-      <video muted playsinline preload="auto" data-src="videos/cafe.mp4"></video>
-    </div>
-  </aside>
+  <div class="heroOverlay" aria-hidden="true"></div>
+  <div class="heroInner">
+    <p class="heroEyebrow">Wellness &amp; Social Club</p>
+    <h1 class="heroTitle">
+      <span>Move.</span>
+      <span>Reset.</span>
+      <span>Connect.</span>
+    </h1>
+  </div>
 </section>
 
 <!-- 02 EXPERIENCE STAGE -->
@@ -961,7 +901,7 @@ footer{
   <div class="wrap">
     <div class="dimensionCards">
       <article class="dimension">
-        <img class="dimensionImage" src="universe/punto-training.png" alt=". Training">
+        <img class="dimensionImage" src="../universe/punto-training.png" alt=". Training">
         <div class="dimensionContent">
           <small>CUERPO</small>
           <div>
@@ -971,7 +911,7 @@ footer{
         </div>
       </article>
       <article class="dimension">
-        <img class="dimensionImage" src="universe/ecstatic.png" alt="Ecstatic">
+        <img class="dimensionImage" src="../universe/ecstatic.png" alt="Ecstatic">
         <div class="dimensionContent">
           <small>MENTE</small>
           <div>
@@ -981,7 +921,7 @@ footer{
         </div>
       </article>
       <article class="dimension">
-        <img class="dimensionImage" src="universe/experiencias.png" alt="Experiencias FREEquence">
+        <img class="dimensionImage" src="../universe/experiencias.png" alt="Experiencias FREEquence">
         <div class="dimensionContent">
           <small>ENCUENTRO</small>
           <div>
@@ -1002,7 +942,7 @@ footer{
       <div class="manifestoLead">Creamos el espacio<br>para que encuentres<br>lo que resuena con vos.</div>
     </div>
     <div class="manifestoCtaWrap">
-      <a class="manifestoCta" href="manifiesto/">Ver Manifiesto <span aria-hidden="true">→</span></a>
+      <a class="manifestoCta" href="../manifiesto/">Ver Manifiesto <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
@@ -1107,8 +1047,8 @@ footer{
   </div>
       </footer>
 
-<script src="js/main.js?v=18"></script>
-<script src="js/experience-stage.js?v=4"></script>
+<script src="../js/main.js?v=18"></script>
+<script src="hero-videos.js?v=1"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
   (function initFreequenceMap() {
@@ -1298,7 +1238,7 @@ footer{
   }
 }
 </script>
-<script type="module" src="js/closing-section.js?v=5"></script>
+<script type="module" src="../js/closing-section.js?v=5"></script>
 
   </body>
 </html>
