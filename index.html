@@ -150,7 +150,7 @@ a{color:inherit;text-decoration:none}
   flex:1 1 auto;
   min-width:0;
   min-height:0;
-  background:var(--ink);
+  background:var(--blue);
   overflow:hidden;
 }
 .heroVideoGrid{
@@ -159,16 +159,17 @@ a{color:inherit;text-decoration:none}
   display:flex;
   flex-direction:row;
   align-items:stretch;
-  gap:3px;
-  background:var(--ink);
+  gap:0;
+  background:var(--blue);
 }
 .heroVideoCell{
   position:relative;
   overflow:hidden;
-  background:#0a0a0a;
+  background:var(--blue);
   min-width:0;
   min-height:0;
   flex:1 1 0;
+  border:0;
   transition:flex .65s cubic-bezier(.45,.05,.15,1);
 }
 .heroVideoGrid.has-playing .heroVideoCell{
@@ -181,11 +182,10 @@ a{color:inherit;text-decoration:none}
   content:"";
   position:absolute;
   inset:0;
-  z-index:1;
+  z-index:2;
   pointer-events:none;
-  background:transparent;
-  mix-blend-mode:multiply;
-  transition:background .55s ease;
+  background:var(--blue);
+  transition:opacity .45s ease;
 }
 .heroVideoCell video{
   position:absolute;
@@ -193,9 +193,9 @@ a{color:inherit;text-decoration:none}
   width:100%;
   height:100%;
   object-fit:cover;
-  opacity:.38;
-  filter:grayscale(1) contrast(1.15) brightness(.42);
-  transition:opacity .55s ease,filter .55s ease;
+  opacity:0;
+  filter:grayscale(1) contrast(1.12) brightness(1.02);
+  transition:opacity .45s ease;
 }
 /* Café: keep cups in frame when cropped in a tall column */
 .heroVideoCell:nth-child(3) video{
@@ -203,11 +203,9 @@ a{color:inherit;text-decoration:none}
 }
 .heroVideoCell.is-playing video{
   opacity:1;
-  filter:sepia(.92) saturate(1.05) contrast(1.12) brightness(1.02);
 }
 .heroVideoCell.is-playing::after{
-  background:rgba(180,130,70,.22);
-  mix-blend-mode:soft-light;
+  opacity:0;
 }
 .eyebrow,.sectionLabel{
   color:var(--blue);
@@ -870,32 +868,71 @@ footer{
   :root{--page-x:24px}
   .nav{height:48px}
   .navlinks{display:none}
-  .hero{
+  .hero,
+  section.hero{
     flex-direction:column;
-    --hero-main:50%;
+    --hero-main:100%;
     min-height:100svh;
     height:100svh;
     padding:0 !important;
-    background:var(--ink);
+    background:var(--blue) !important;
   }
   .heroMain{
-    flex:0 0 50%;
+    position:relative;
+    z-index:1;
+    flex:1 1 auto;
     width:100%;
-    height:50%;
+    height:100%;
+    min-height:100%;
+    background:transparent;
+    pointer-events:none;
   }
   .heroSide{
-    flex:0 0 50%;
+    position:absolute;
+    left:0;
+    right:0;
+    top:42%;
+    z-index:2;
+    flex:none;
     width:100%;
-    height:50%;
-    min-height:0;
+    height:20svh;
+    min-height:20svh;
+    transform:translateY(-50%);
+    background:var(--blue);
   }
   .heroInner{
-    width:calc(100% + 8vw);
-    padding:56px var(--page-x) 40px;
+    position:relative;
+    z-index:3;
+    width:100%;
+    max-width:none;
+    height:100%;
+    display:block;
+    padding:0;
+  }
+  .heroEyebrow{
+    position:absolute;
+    left:var(--page-x);
+    right:var(--page-x);
+    top:0;
+    height:calc(42% - 10svh); /* band above the raised 20svh videos */
+    margin:0;
+    transform:none;
+    display:flex;
+    align-items:center; /* vertically centered above videos */
+    justify-content:flex-start;
   }
   .heroTitle{
-    font-size:clamp(44px,12.8vw,82px);
-    letter-spacing:-3.4px;
+    position:absolute;
+    left:var(--page-x);
+    right:var(--page-x);
+    bottom:max(28px,6svh);
+    margin:0;
+    transform:none;
+    font-size:clamp(56px,16vw,104px);
+    letter-spacing:-4px;
+  }
+  .heroTitle span{
+    white-space:normal;
   }
   .heroVideoGrid{gap:2px}
   section{padding:82px 0}
