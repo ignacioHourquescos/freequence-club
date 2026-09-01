@@ -6,12 +6,15 @@
   color:var(--white,#fff);
   text-align:left;
   min-height:100vh;
-  padding:22vh 0 24vh;
+  min-height:100svh;
+  padding:0;
   display:flex;
   align-items:center;
+  justify-content:center;
   margin:0;
 }
 .closingCanvas{
+  display:none; /* temporarily hide dots animation */
   position:absolute;
   inset:0;
   z-index:0;
@@ -52,18 +55,13 @@
 
 @media(max-width:900px){
   .closing{
-    min-height:92vh;
-    padding:16vh 0 18vh;
+    min-height:100svh;
+    padding:0;
+    align-items:center;
+    justify-content:center;
   }
-  /* Rotate the wave field 90° so the band of points reads vertically in portrait */
-  .closingCanvas{
-    inset:auto;
-    top:50%;
-    /* Center + 25% toward the right on the screen X axis */
-    left:75%;
-    width:100vh;
-    height:100vw;
-    transform:translate(-50%,-50%) rotate(90deg);
+  .closing .wrap{
+    margin-top:0;
   }
   .closing h2{
     max-width:14ch;

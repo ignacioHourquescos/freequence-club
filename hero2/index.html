@@ -1,13 +1,13 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
   <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hero 2 · FREEquence Club</title>
+<title>Hero 2 ? Split ? FREEquence Club</title>
     <link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="../css/closing-section.css?v=4" />
+    <link rel="stylesheet" href="../css/closing-section.css?v=8" />
 <style>
 :root{
   /* Brand palette */
@@ -35,7 +35,7 @@ body{
 a{color:inherit;text-decoration:none}
 .wrap{width:min(calc(100% - 2 * var(--page-x)),var(--max));margin:0 auto}
 
-/* NAV — hidden until scroll */
+/* NAV ? hidden until scroll */
 .nav{
   height:52px;
   background:var(--ink);
@@ -87,11 +87,12 @@ a{color:inherit;text-decoration:none}
   letter-spacing:1.15px;
 }
 
-/* HERO 2 — full-bleed videos + blue overlay + MOVE/RESET/CONNECT */
+/* HERO ? split 50/50: Sintoniz? + videos */
 .hero{
-  position:relative;
+  --hero-ease:cubic-bezier(.45,.05,.15,1);
   display:flex;
-  align-items:center;
+  flex-direction:row;
+  align-items:stretch;
   min-height:100vh;
   min-height:100svh;
   height:100vh;
@@ -100,64 +101,34 @@ a{color:inherit;text-decoration:none}
   margin:0;
   background:var(--blue);
   overflow:hidden;
-  color:#fff;
 }
-.heroVideos{
-  position:absolute;
-  inset:0;
-  z-index:0;
-}
-.heroVideos video{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:0;
-  transition:opacity .45s ease;
-}
-.heroVideos video.is-active{
-  opacity:1;
-}
-.heroOverlay{
-  position:absolute;
-  inset:0;
-  z-index:1;
-  pointer-events:none;
-  background:rgba(15,98,255,.72);
-}
-.heroInner{
-  position:relative;
-  z-index:2;
-  width:min(calc(100% - 2 * var(--page-x)),var(--max));
-  margin:0 auto;
-  padding:10vh 0;
+.heroMain{
+  flex:0 0 50%;
+  width:50%;
+  min-width:0;
+  min-height:0;
+  padding:8vh 0 7vh;
   display:flex;
   flex-direction:column;
-  justify-content:center;
-  align-items:flex-start;
-}
-.heroEyebrow{
-  margin:0 0 clamp(28px,5vh,56px);
-  color:rgba(255,255,255,.92);
-  font-size:clamp(10px,1.05vw,13px);
-  font-weight:800;
-  letter-spacing:2.6px;
-  text-transform:uppercase;
-  line-height:1;
-}
-.heroTitle{
-  margin:0;
-  max-width:12ch;
-  font-size:clamp(64px,12vw,168px);
-  line-height:.86;
-  letter-spacing:-6px;
-  font-weight:900;
-  text-transform:uppercase;
+  background:var(--blue);
   color:#fff;
+  background-image:
+    linear-gradient(to right,rgba(255,255,255,.12) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(255,255,255,.12) 1px,transparent 1px);
+  background-size:150px 150px;
 }
-.heroTitle span{
-  display:block;
+.heroInner{
+  flex:1;
+  width:100%;
+  max-width:none;
+  margin:0;
+  box-sizing:border-box;
+  padding-left:max(var(--page-x),calc((100vw - var(--max)) / 2));
+  padding-right:var(--page-x);
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  position:relative;
 }
 .eyebrow,.sectionLabel{
   color:var(--blue);
@@ -166,6 +137,76 @@ a{color:inherit;text-decoration:none}
   font-weight:900;
   letter-spacing:2px;
   text-transform:uppercase;
+}
+.heroLead{
+  position:relative;
+  display:block;
+}
+.heroTitle{
+  margin:0;
+  max-width:18ch;
+  font-size:clamp(52px,6.4vw,112px);
+  line-height:.79;
+  letter-spacing:-5px;
+  font-weight:900;
+}
+.heroTitle--self{
+  color:#fff;
+}
+.microLogo{
+  position:absolute;
+  left:0;
+  bottom:100%;
+  margin-bottom:clamp(16px,2vh,24px);
+  z-index:2;
+  color:rgba(255,255,255,.55);
+  font-size:clamp(20px,1.35vw,21px);
+  line-height:1;
+  font-weight:900;
+  letter-spacing:-1.2px;
+  opacity:1;
+  transform:none;
+  white-space:nowrap;
+}
+.microLogo span{
+  color:rgba(255,255,255,.4);
+  margin-left:3px;
+  font-size:.42em;
+  letter-spacing:1.3px;
+}
+.heroSide{
+  position:relative;
+  flex:0 0 50%;
+  width:50%;
+  min-width:0;
+  min-height:0;
+  background:var(--ink);
+  padding:0;
+  overflow:hidden;
+}
+.heroSideVideos{
+  position:absolute;
+  inset:0;
+}
+.heroSideVideos video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity .45s ease;
+}
+.heroSideVideos video.is-active{
+  opacity:1;
+}
+.heroSideVideos::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:rgba(0,0,0,.35);
 }
 
 /* SECTION BASE */
@@ -203,12 +244,14 @@ h2{
   line-height:1.45;
 }
 
-/* EXPERIENCE STAGE — grid + centered title */
+/* EXPERIENCE STAGE ? grid + centered title */
 .experienceStage{
   position:relative;
   overflow:hidden;
-  min-height:100vh;
-  min-height:100svh;
+  height:60vh;
+  height:60svh;
+  min-height:60vh;
+  min-height:60svh;
   padding:0 !important;
   margin:0;
   background:var(--cream);
@@ -226,18 +269,29 @@ h2{
   z-index:1;
   width:min(calc(100% - 2 * var(--page-x)),var(--max));
   margin:0 auto;
-  text-align:center;
+  text-align:left;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
 }
 .experienceStageTitle{
-  margin:0 auto;
-  max-width:18ch;
-  font-size:clamp(32px,4.6vw,64px);
+  margin:0;
+  max-width:14ch;
+  font-size:clamp(32px,4vw,60px);
   line-height:.92;
   letter-spacing:-2.8px;
   font-weight:900;
+  text-align:left;
 }
-.experienceStageTitle span{
-  display:block;
+.experienceStageLead{
+  margin:22px 0 0;
+  max-width:18ch;
+  color:rgba(0,0,0,.55);
+  font-size:clamp(28px,3.4vw,48px);
+  line-height:.95;
+  letter-spacing:-2px;
+  font-weight:900;
+  text-align:left;
 }
 
 /* BODY / MIND / ENCOUNTER */
@@ -251,7 +305,7 @@ h2{
   margin-top:0;
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:14px;
+  gap:28px;
   background:transparent;
 }
 .dimension{
@@ -339,10 +393,10 @@ h2{
   justify-content:center;
   border:1px solid rgba(255,255,255,.28);
   border-radius:0;
-  padding:16px 24px;
-  color:rgba(255,255,255,.78);
-  font-size:13px;
-  font-weight:500;
+  padding:18px 28px;
+  color:rgba(255,255,255,.9);
+  font-size:18px;
+  font-weight:600;
   letter-spacing:.15px;
   line-height:1;
   white-space:nowrap;
@@ -549,6 +603,20 @@ h2{
   height:100%;
   z-index:0;
 }
+@media(max-width:900px){
+  .realMapFrame #freequence-map.leaflet-container{
+    touch-action:pan-y !important;
+  }
+  .realMapFrame #freequence-map .leaflet-pane,
+  .realMapFrame #freequence-map .leaflet-overlay-pane,
+  .realMapFrame #freequence-map .leaflet-marker-pane,
+  .realMapFrame #freequence-map .leaflet-tile-pane{
+    pointer-events:none;
+  }
+  .realMapFrame #freequence-map .leaflet-marker-icon{
+    pointer-events:auto;
+  }
+}
 .realMapFrame .mapLegend{
   z-index:2;
   color:#5c6670;
@@ -718,17 +786,17 @@ h2{
   display:inline-flex;
   align-items:center;
   gap:16px;
-  color:#fff;
+  color:#e0c48a;
   font-size:clamp(18px,2vw,28px);
   font-weight:900;
   letter-spacing:1.8px;
   text-transform:uppercase;
-  border-bottom:2px solid rgba(255,255,255,.75);
+  border-bottom:2px solid rgba(224,196,138,.8);
   padding-bottom:12px;
   transition:border-color .2s ease, opacity .2s ease, transform .2s ease;
 }
 .manifestoCta:hover{
-  border-color:#fff;
+  border-color:#e0c48a;
   opacity:.95;
   transform:translateX(4px);
 }
@@ -739,7 +807,7 @@ h2{
 
 /* PRE-LAUNCH CTA */
 .prelaunch{
-  background:var(--ink);
+  background:var(--blue);
   color:#fff;
 }
 .prelaunchInner{
@@ -793,22 +861,43 @@ footer{
   .nav{height:48px}
   .navlinks{display:none}
   .hero{
+    flex-direction:column;
     min-height:100svh;
     height:100svh;
     padding:0 !important;
     background:var(--blue);
   }
-  .heroInner{padding:12vh 0 10vh}
-  .heroTitle{
-    font-size:clamp(56px,16vw,96px);
-    letter-spacing:-4px;
+  .heroMain{
+    flex:0 0 50%;
+    width:100%;
+    height:50%;
+    min-height:0;
+    padding:48px 0 36px;
+    background-size:90px 90px;
   }
+  .heroSide{
+    flex:0 0 50%;
+    width:100%;
+    height:50%;
+    padding:0 !important;
+  }
+  .heroTitle{
+    font-size:clamp(44px,11vw,72px);
+    letter-spacing:-3.6px;
+  }
+  .heroLead{gap:16px}
+  .microLogo{font-size:clamp(18px,4.5vw,21px)}
+  .heroInner{gap:28px}
   section{padding:82px 0}
   section.hero{padding:0 !important}
   .intro,.ideaGrid,.pointsIntro,.communityGrid,.manifestoTeaser{grid-template-columns:1fr;gap:32px}
   .manifestoCtaWrap{justify-content:flex-start;padding-bottom:0;margin-top:8px}
-  .experienceStage{min-height:92svh;background-size:90px 90px}
-  .experienceStageTitle{letter-spacing:-2.2px;font-size:clamp(28px,7.5vw,48px)}
+  .experienceStage{height:60svh;min-height:60svh;background-size:90px 90px}
+  .experienceStageTitle,
+  .manifestoTitle{font-size:clamp(37px,9.2vw,69px);letter-spacing:-2.4px}
+  .experienceStageLead,
+  .manifestoLead{font-size:clamp(32px,7.8vw,55px);letter-spacing:-1.8px;margin-top:16px}
+  .manifestoCta{font-size:clamp(21px,2.3vw,32px)}
   h2,.ideaHeadline,.communityQuote{letter-spacing:-3.2px}
   .dimensionCards{grid-template-columns:1fr}
   section.points{padding:28px 0 0 !important}
@@ -831,12 +920,12 @@ footer{
   .pointHead{gap:6px}
   .point h3{font-size:13px;letter-spacing:-.5px}
   .point p{font-size:10px;line-height:1.2;max-width:none}
-  .dimensionCards{gap:12px}
+  .dimensionCards{gap:28px}
   .dimension{min-height:380px}
   .dimensionImage{height:190px}
   .dimensionContent{min-height:180px;padding:24px 26px 26px}
   .services{padding:64px 0}
-  .serviceTag{padding:12px 16px;font-size:11px;white-space:normal;text-align:center}
+  .serviceTag{padding:14px 18px;font-size:15px;white-space:normal;text-align:center}
   .mapLabel.major{font-size:12px}
   .mapLabel{font-size:10px}
   .mapCaption{left:18px;bottom:16px}
@@ -854,7 +943,7 @@ footer{
       <a href="#points">PUNTOS</a>
       <a href="#points">COMUNIDAD</a>
       <a href="../manifiesto/">MANIFIESTO</a>
-      <a href="../">HERO 1</a>
+      <a href="../">HOME</a>
       <a href="./">HERO 2</a>
       <a href="../animation/">WAVES</a>
       <a href="../animation/noise/">NOISE</a>
@@ -866,33 +955,29 @@ footer{
 <main id="top">
 
 <!-- 01 HERO -->
-<section class="hero" aria-label="Move. Reset. Connect.">
-  <div class="heroVideos" aria-hidden="true">
-    <video muted playsinline preload="auto" data-src="../videos/mujer-transpirando.mp4"></video>
-    <video muted playsinline preload="auto" data-src="../videos/hombre-meditando.mp4"></video>
-    <video muted playsinline preload="auto" data-src="../videos/cafe.mp4"></video>
+<section class="hero" aria-label="Sintoniz? con vos.">
+  <div class="heroMain">
+    <div class="heroInner">
+      <div class="heroLead">
+        <div class="microLogo">FREEquence <span>CLUB</span></div>
+        <h1 class="heroTitle heroTitle--self">Sintoniz?<br>con vos.</h1>
+      </div>
+    </div>
   </div>
-  <div class="heroOverlay" aria-hidden="true"></div>
-  <div class="heroInner">
-    <p class="heroEyebrow">Wellness &amp; Social Club</p>
-    <h1 class="heroTitle">
-      <span>Move.</span>
-      <span>Reset.</span>
-      <span>Connect.</span>
-    </h1>
-  </div>
+  <aside class="heroSide" aria-hidden="true">
+    <div class="heroSideVideos">
+      <video muted playsinline preload="auto" data-src="../videos/mujer-transpirando.mp4"></video>
+      <video muted playsinline preload="auto" data-src="../videos/hombre-meditando.mp4"></video>
+      <video muted playsinline preload="auto" data-src="../videos/cafe.mp4"></video>
+    </div>
+  </aside>
 </section>
 
 <!-- 02 EXPERIENCE STAGE -->
 <section id="dimensions" class="experienceStage" aria-label="Un segundo lugar fuera de tu casa para moverte, resetearte y reconectar">
   <div class="experienceStageCopy">
-    <h2 class="experienceStageTitle">
-      <span>Un segundo lugar</span>
-      <span>fuera de tu casa para</span>
-      <span>moverte</span>
-      <span>resetearte y</span>
-      <span>reconectar</span>
-    </h2>
+    <h2 class="experienceStageTitle">Un segundo<br>lugar</h2>
+    <p class="experienceStageLead">fuera de tu casa para<br>moverte, resetearte y<br>reconectar</p>
   </div>
 </section>
 
@@ -916,7 +1001,7 @@ footer{
           <small>MENTE</small>
           <div>
             <h3>Resetea.</h3>
-            <p>Bajar revoluciones, recuperar energía y volver a tu eje.</p>
+            <p>Bajar revoluciones, recuperar energ?a y volver a tu eje.</p>
           </div>
         </div>
       </article>
@@ -938,11 +1023,11 @@ footer{
 <section id="manifesto" class="manifesto">
   <div class="wrap manifestoTeaser">
     <div>
-      <div class="manifestoTitle">No te decimos<br>cómo vivir.</div>
+      <div class="manifestoTitle">No te decimos<br>c?mo vivir.</div>
       <div class="manifestoLead">Creamos el espacio<br>para que encuentres<br>lo que resuena con vos.</div>
     </div>
     <div class="manifestoCtaWrap">
-      <a class="manifestoCta" href="../manifiesto/">Ver Manifiesto <span aria-hidden="true">→</span></a>
+      <a class="manifestoCta" href="../manifiesto/">Ver Manifiesto <span aria-hidden="true">?</span></a>
     </div>
   </div>
 </section>
@@ -973,9 +1058,9 @@ footer{
         <h2 class="pointsTitle">Diferentes puntos.<br>Un mismo <span>lugar.</span></h2>
       </div>
       <div class="pointsIntroCopy">
-        <p class="pointsIntroDesktop">La comunidad no se impone. Se construye a partir de los vínculos que nacen entre personas que comparten un entorno.</p>
-        <p class="pointsIntroDesktop">Entrenamiento, café, trabajo, música, cultura o simplemente estar. Diferentes maneras de encontrarse.</p>
-        <p class="pointsIntroMobile">Vínculos que nacen entre personas que comparten un entorno.</p>
+        <p class="pointsIntroDesktop">La comunidad no se impone. Se construye a partir de los v?nculos que nacen entre personas que comparten un entorno.</p>
+        <p class="pointsIntroDesktop">Entrenamiento, caf?, trabajo, m?sica, cultura o simplemente estar. Diferentes maneras de encontrarse.</p>
+        <p class="pointsIntroMobile">V?nculos que nacen entre personas que comparten un entorno.</p>
       </div>
     </div>
   </div>
@@ -997,18 +1082,18 @@ footer{
         </article>
         <article class="point" data-map="wellness">
           <div class="pointHead"><div class="k">02</div><h3>. Wellness</h3></div>
-          <p>Recovery y renovación.</p>
+          <p>Recovery y renovaci?n.</p>
         </article>
         <article class="point" data-map="hub">
           <div class="pointHead"><div class="k">03</div><h3>. Coffee</h3></div>
-          <p>Café y encuentro.</p>
+          <p>Caf? y encuentro.</p>
         </article>
         <article class="point" data-map="hub south">
           <div class="pointHead"><div class="k">04</div><h3>. Cowork</h3></div>
           <p>Trabajar y crear.</p>
         </article>
         <article class="point" data-map="padel">
-          <div class="pointHead"><div class="k">05</div><h3>. Pádel</h3></div>
+          <div class="pointHead"><div class="k">05</div><h3>. P?del</h3></div>
           <p>Juego y comunidad.</p>
         </article>
         <article class="point" data-map="south">
@@ -1029,7 +1114,7 @@ footer{
         href="https://www.whatsapp.com/channel/0029VbClfwB5PO155kXd952y"
         target="_blank"
         rel="noopener noreferrer"
-      >Unite al canal <span aria-hidden="true">→</span></a>
+      >Unite al canal <span aria-hidden="true">?</span></a>
     </div>
   </div>
 </section>
@@ -1042,13 +1127,13 @@ footer{
       <footer>
   <div class="wrap foot">
     <span>FREEquence Club</span>
-    <span>Movimiento · Bienestar · Compartir</span>
+    <span>Movimiento ? Bienestar ? Compartir</span>
     <span>Punta Chica</span>
   </div>
       </footer>
 
-<script src="../js/main.js?v=18"></script>
-<script src="hero-videos.js?v=1"></script>
+<script src="../js/main.js?v=19"></script>
+<script src="../js/experience-stage.js?v=4"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
   (function initFreequenceMap() {
@@ -1059,12 +1144,12 @@ footer{
       {
         id: "hub",
         latlng: [-34.450381103683945, -58.53202918542037],
-        label: "Training · Coffee · Cowork",
+        label: "Training ? Coffee ? Cowork",
       },
       {
         id: "padel",
         latlng: [-34.43252555973877, -58.564266133056],
-        label: "Pádel",
+        label: "P?del",
       },
       {
         id: "wellness",
@@ -1074,13 +1159,19 @@ footer{
       {
         id: "south",
         latlng: [-34.52503487043843, -58.47237562553121],
-        label: "Cowork · Experiencias",
+        label: "Cowork ? Experiencias",
       },
     ];
 
+    const isTouchMap = window.matchMedia("(max-width: 900px)").matches;
     const map = L.map(el, {
       zoomControl: false,
       scrollWheelZoom: false,
+      dragging: !isTouchMap,
+      touchZoom: false,
+      doubleClickZoom: !isTouchMap,
+      boxZoom: false,
+      keyboard: !isTouchMap,
       attributionControl: true,
     });
 
@@ -1238,7 +1329,7 @@ footer{
   }
 }
 </script>
-<script type="module" src="../js/closing-section.js?v=5"></script>
+<script type="module" src="../js/closing-section.js?v=8"></script>
 
   </body>
 </html>

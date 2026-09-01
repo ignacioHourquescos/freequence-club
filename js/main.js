@@ -3,6 +3,10 @@ document.documentElement.classList.add("reveal-ready");
 (function scrollNav() {
   const nav = document.querySelector(".nav");
   if (!nav) return;
+  if (nav.hasAttribute("data-nav-always")) {
+    nav.classList.add("is-visible");
+    return;
+  }
 
   const SHOW_AT = 24;
   let ticking = false;
