@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>E · FREEquence</title>
+  <link rel="icon" href="../../favicon-32x32.png" sizes="32x32" type="image/png">
+  <style>
+    :root {
+      --cream: #f7f5ef;
+      --ink: #000;
+      --blue: #0f62ff;
+      --muted: rgba(255,255,255,.55);
+      --type: clamp(34px, 5.2vw, 72px);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+      background: #000;
+      color: #fff;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .nav a {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    .nav a.is-active { color: #fff; }
+    .wordmark {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: -0.6px;
+    }
+    .wordmark small {
+      margin-left: 6px;
+      color: rgba(255,255,255,.55);
+      font-size: 8px;
+      letter-spacing: 1.4px;
+    }
+    .nav .replay { margin-left: 4px; }
+    .replay {
+      border: 1px solid rgba(255,255,255,.28);
+      background: transparent;
+      color: #fff;
+      padding: 7px 12px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .9px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .replay:hover { border-color: #fff; }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100svh;
+      padding-top: 52px;
+    }
+    .col {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      padding: 40px 48px;
+    }
+    .col-word {
+      background: #fff;
+      color: #000;
+      justify-content: center;
+    }
+    .col-anim {
+      background: var(--blue);
+      color: #fff;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .anim-group {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.22em;
+      min-width: 0;
+      overflow: visible;
+    }
+
+    .logo,
+    .phase-word {
+      margin: 0;
+      display: flex;
+      align-items: baseline;
+      font-size: var(--type);
+      font-weight: 900;
+      letter-spacing: -0.055em;
+      line-height: 1;
+      user-select: none;
+    }
+    .logo-e {
+      position: relative;
+      display: inline-block;
+      margin-left: 0.08em;
+      margin-right: 0.06em;
+      line-height: 1;
+    }
+    .logo-e-ref { visibility: hidden; }
+    .logo-e-iso {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 1cap;
+      top: auto;
+      bottom: 0.16em;
+      transform: none;
+      overflow: hidden;
+    }
+    .logo-quence { letter-spacing: -0.05em; }
+    .col-word .logo-e-iso .bar-solid { fill: #000; }
+
+    .iso-wrap {
+      position: relative;
+      flex: 0 0 auto;
+      width: var(--e-mark-w, 1cap);
+      height: var(--e-mark-h, 1cap);
+      overflow: visible;
+    }
+    .iso {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    .iso .bar-solid { fill: #fff; }
+    .iso .bar-ecg {
+      fill: none;
+      stroke: #fff;
+      stroke-linecap: butt;
+      stroke-linejoin: round;
+      stroke-miterlimit: 8;
+    }
+    .phase-word {
+      position: relative;
+      overflow: hidden;
+      min-width: 7.2em;
+      height: 1em;
+      text-transform: uppercase;
+    }
+    .phase-track {
+      display: block;
+      opacity: 0;
+    }
+    .phase-track.is-out {
+      position: absolute;
+      left: 0;
+      top: 0;
+      margin: 0;
+    }
+    .phase-word-solo {
+      display: flex;
+      align-items: baseline;
+      overflow: visible;
+      min-width: 0;
+      width: auto;
+    }
+    .phase-clip {
+      position: relative;
+      overflow: hidden;
+      height: 1em;
+    }
+
+    .hint {
+      position: fixed;
+      left: 22px;
+      bottom: 18px;
+      color: rgba(0,0,0,.4);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 900px) {
+      .split {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+      .col,
+      .col-word,
+      .col-anim {
+        padding: 32px 20px;
+        min-height: 0;
+        justify-content: flex-start;
+        align-items: center;
+      }
+      .hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a class="wordmark" href="../../index.html">FREEquence <small>E</small></a>
+    <div class="nav">
+      <a href="../">Puntos</a>
+      <a href="../noise/">Noise</a>
+      <a class="is-active" href="./">E</a>
+      <button class="replay" type="button" id="replay">Replay</button>
+    </div>
+  </div>
+
+  <main class="split">
+    <section class="col col-word">
+      <h1 class="logo" aria-label="FREEquence">
+        <span>FR</span><span class="logo-e-normal">E</span><span class="logo-e">
+          <span class="logo-e-ref">E</span>
+          <svg class="logo-e-iso" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <rect class="bar-solid" x="0" y="0" width="100" height="24"></rect>
+            <rect class="bar-solid" x="0" y="38" width="100" height="24"></rect>
+            <rect class="bar-solid" x="0" y="76" width="100" height="24"></rect>
+          </svg>
+        </span><span class="logo-quence">quence</span>
+      </h1>
+    </section>
+
+    <section class="col col-anim">
+      <div class="anim-group">
+        <div class="iso-wrap" aria-hidden="true">
+          <svg class="iso" id="soloMark" viewBox="0 0 100 100" preserveAspectRatio="none" overflow="visible">
+            <path class="bar-ecg" id="soloMove" d="M0 12 C25 12 25 12 50 12 C75 12 75 12 100 12" stroke-width="24" opacity="0"></path>
+            <rect class="bar-solid" id="soloReset" x="0" y="38" width="100" height="24" opacity="0"></rect>
+            <rect class="bar-solid" id="soloCelebrate" x="0" y="76" width="100" height="24" opacity="0"></rect>
+            <rect class="bar-solid" id="soloCeleDot" x="39" y="76" width="22" height="22" opacity="0"></rect>
+          </svg>
+        </div>
+        <p class="phase-word phase-word-solo">
+          <span class="phase-clip">
+            <span class="phase-track" id="soloWord"></span>
+          </span>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <p class="hint">Replay</p>
+
+  <script>
+    const BAR_H = 24;
+    const LINE_FLAT = "M0 12 C25 12 25 12 50 12 C75 12 75 12 100 12";
+    const STROKE_BAR = BAR_H;
+    const BANG_W = 22;
+    const BANG_STEM_H = 62;
+    const WORDS = {
+      move: "Move",
+      reset: "Reset",
+      celebrate: "Celebrate"
+    };
+    const BEAT = {
+      word: 1080,
+      hold: 240,
+      move: 1500,
+      reset: 2600,
+      celeOut: 630,
+      celeHold: 1000,
+      iso: 2000,
+      isoGap: 400
+    };
+    const WORD_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+
+    const soloMove = document.getElementById("soloMove");
+    const soloReset = document.getElementById("soloReset");
+    const soloCelebrate = document.getElementById("soloCelebrate");
+    const soloCeleDot = document.getElementById("soloCeleDot");
+    let soloGen = 0;
+    let soloRunId = 0;
+
+    function createWordSlider(el) {
+      const box = el.parentElement;
+      let shown = "";
+      let gen = 0;
+
+      function clearExtras() {
+        box.querySelectorAll(".phase-track.is-out").forEach((node) => node.remove());
+        el.getAnimations().forEach((animation) => animation.cancel());
+      }
+
+      return {
+        snap(name) {
+          gen += 1;
+          const next = name && WORDS[name] ? WORDS[name] : "";
+          shown = next;
+          clearExtras();
+          el.textContent = next;
+          el.style.transform = "none";
+          el.style.opacity = next ? "1" : "0";
+        },
+        async to(name) {
+          const next = name && WORDS[name] ? WORDS[name] : "";
+          if (next === shown) return;
+          const id = ++gen;
+          const had = shown;
+          shown = next;
+          clearExtras();
+
+          if (had && next) {
+            const outgoing = el.cloneNode(true);
+            outgoing.classList.add("is-out");
+            outgoing.textContent = had;
+            outgoing.style.opacity = "1";
+            box.appendChild(outgoing);
+            el.textContent = next;
+            await Promise.all([
+              animate(outgoing, [
+                { opacity: 1 },
+                { opacity: 0 }
+              ], { duration: BEAT.word, easing: WORD_EASE }),
+              animate(el, [
+                { opacity: 0 },
+                { opacity: 1 }
+              ], { duration: BEAT.word, easing: WORD_EASE })
+            ]);
+            outgoing.remove();
+          } else if (had) {
+            await animate(el, [
+              { opacity: 1 },
+              { opacity: 0 }
+            ], { duration: BEAT.word, easing: WORD_EASE });
+            el.textContent = "";
+            el.style.opacity = "0";
+          } else {
+            el.textContent = next;
+            await animate(el, [
+              { opacity: 0 },
+              { opacity: 1 }
+            ], { duration: BEAT.word, easing: WORD_EASE });
+          }
+          if (id !== gen) return;
+        }
+      };
+    }
+
+    const word = createWordSlider(document.getElementById("soloWord"));
+
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function poseExclaim(stem, dot, amount) {
+      const x = lerp(0, (100 - BANG_W) / 2, amount);
+      const y = lerp(76, 0, amount);
+      const w = lerp(100, BANG_W, amount);
+      const h = lerp(BAR_H, BANG_STEM_H, amount);
+      stem.setAttribute("x", String(x));
+      stem.setAttribute("y", String(y));
+      stem.setAttribute("width", String(w));
+      stem.setAttribute("height", String(Math.max(h, 0.01)));
+      stem.style.opacity = "1";
+      stem.setAttribute("opacity", "1");
+
+      const size = BANG_W * Math.max(amount, 0.001);
+      dot.setAttribute("x", String(50 - size / 2));
+      dot.setAttribute("y", String(lerp(82, 76, amount)));
+      dot.setAttribute("width", String(size));
+      dot.setAttribute("height", String(size));
+      const dop = amount < 0.2 ? 0 : (amount - 0.2) / 0.8;
+      dot.style.opacity = String(dop);
+      dot.setAttribute("opacity", String(dop));
+    }
+
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    function animate(el, keyframes, options) {
+      return el.animate(keyframes, { fill: "forwards", ...options }).finished;
+    }
+
+    function cancelIsoAnims(el) {
+      if (!el) return;
+      el.getAnimations().forEach((animation) => animation.cancel());
+    }
+
+    function setLineOn(el, on) {
+      if (!el) return;
+      cancelIsoAnims(el);
+      const value = on ? "1" : "0";
+      el.style.opacity = value;
+      el.setAttribute("opacity", value);
+    }
+
+    function showOnlyLine(active, lines) {
+      lines.forEach((el) => setLineOn(el, el === active));
+    }
+
+    function easeInOut(t) {
+      return t < 0.5 ? 2 * t * t : 1 - ((-2 * t + 2) ** 2) / 2;
+    }
+
+    function easeOutCubic(t) {
+      return 1 - ((1 - t) ** 3);
+    }
+
+    function tween(duration, isCurrent, onFrame, ease = easeInOut) {
+      const start = performance.now();
+      return new Promise((resolve) => {
+        function frame(now) {
+          if (!isCurrent()) {
+            resolve();
+            return;
+          }
+          const t = Math.min(1, (now - start) / duration);
+          onFrame(ease(t));
+          if (t < 1) requestAnimationFrame(frame);
+          else resolve();
+        }
+        requestAnimationFrame(frame);
+      });
+    }
+
+    function buildTravelWave(pos, midY = 12) {
+      const pts = [];
+      for (let i = 0; i <= 20; i += 1) {
+        const x = i * 5;
+        const local = x - pos;
+        const envelope = Math.exp(-((local / 28) ** 2));
+        const y = midY - 38 * envelope * Math.sin((local * Math.PI) / 24);
+        pts.push([x, y]);
+      }
+      let d = `M${pts[0][0]} ${pts[0][1]}`;
+      for (let i = 0; i < pts.length - 1; i += 1) {
+        const [x0, y0] = pts[i];
+        const [x1, y1] = pts[i + 1];
+        const mx = (x0 + x1) / 2;
+        d += ` C${mx} ${y0} ${mx} ${y1} ${x1} ${y1}`;
+      }
+      return d;
+    }
+
+    function easeLinear(t) {
+      return t;
+    }
+
+    function lines() {
+      return [soloMove, soloReset, soloCelebrate, soloCeleDot];
+    }
+
+    async function playExclaimForm(isCurrent) {
+      showOnlyLine(soloCelebrate, lines());
+      setLineOn(soloCeleDot, true);
+      poseExclaim(soloCelebrate, soloCeleDot, 0);
+      await tween(BEAT.celeOut, isCurrent, (e) => poseExclaim(soloCelebrate, soloCeleDot, e), easeOutCubic);
+      if (!isCurrent()) return;
+      await wait(BEAT.celeHold);
+    }
+
+    async function showIsoHold() {
+      word.snap("");
+      lines().forEach((el) => setLineOn(el, false));
+      poseExclaim(soloCelebrate, soloCeleDot, 0);
+      soloMove.setAttribute("d", LINE_FLAT);
+      const on = [soloMove, soloReset, soloCelebrate];
+      on.forEach((el) => {
+        el.style.opacity = "0";
+        el.setAttribute("opacity", "0");
+      });
+      await Promise.all(on.map((el) => animate(el, [
+        { opacity: 0 },
+        { opacity: 1, offset: 0.38 },
+        { opacity: 1, offset: 0.82 },
+        { opacity: 0 }
+      ], { duration: BEAT.iso, easing: "ease-in-out" })));
+      await wait(BEAT.isoGap);
+    }
+
+    function resetSolo() {
+      soloGen += 1;
+      document.getAnimations().forEach((animation) => {
+        if (animation.effect && animation.effect.target === soloMove) animation.cancel();
+        if (animation.effect && animation.effect.target === soloReset) animation.cancel();
+      });
+      soloMove.setAttribute("d", LINE_FLAT);
+      soloMove.setAttribute("stroke-width", String(STROKE_BAR));
+      poseExclaim(soloCelebrate, soloCeleDot, 0);
+      showOnlyLine(null, lines());
+      word.snap("");
+    }
+
+    async function playMove(isCurrent) {
+      const gen = soloGen;
+      const live = () => isCurrent() && soloGen === gen;
+      showOnlyLine(soloMove, lines());
+      soloMove.setAttribute("stroke-width", String(STROKE_BAR));
+      await tween(BEAT.move, live, (e) => {
+        soloMove.setAttribute("d", buildTravelWave(-52 + e * 204, 12));
+      }, easeLinear);
+      soloMove.setAttribute("d", LINE_FLAT);
+    }
+
+    async function playReset() {
+      showOnlyLine(soloReset, lines());
+      await animate(soloReset, [
+        { opacity: 1 },
+        { opacity: 1, offset: 0.42 },
+        { opacity: 0 }
+      ], {
+        duration: BEAT.reset,
+        easing: "cubic-bezier(0.2, 0.8, 0.2, 1)"
+      });
+    }
+
+    async function playCelebrate(isCurrent) {
+      const gen = soloGen;
+      await playExclaimForm(() => isCurrent() && soloGen === gen);
+    }
+
+    async function playSequence() {
+      const id = ++soloRunId;
+      resetSolo();
+      do {
+        if (id !== soloRunId) return;
+        await Promise.all([word.to("move"), playMove(() => id === soloRunId)]);
+        if (id !== soloRunId) return;
+        await wait(BEAT.hold);
+        await Promise.all([word.to("reset"), playReset()]);
+        if (id !== soloRunId) return;
+        await wait(BEAT.hold);
+        await Promise.all([word.to("celebrate"), playCelebrate(() => id === soloRunId)]);
+        if (id !== soloRunId) return;
+        await showIsoHold();
+        if (id !== soloRunId) return;
+      } while (id === soloRunId);
+    }
+
+    document.getElementById("replay").addEventListener("click", () => {
+      playSequence();
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.code === "Space" && event.target === document.body) {
+        event.preventDefault();
+        playSequence();
+      }
+    });
+
+    function getBaseline(el) {
+      const probe = document.createElement("img");
+      probe.alt = "";
+      probe.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+      probe.style.cssText = "display:inline-block;width:1px;height:1px;padding:0;border:0;margin:0;vertical-align:baseline;";
+      el.appendChild(probe);
+      const y = probe.getBoundingClientRect().bottom;
+      probe.remove();
+      return y;
+    }
+
+    function syncIsoSize() {
+      const sample = document.querySelector(".logo-e-normal");
+      if (!sample) return;
+
+      const cs = getComputedStyle(sample);
+      const ctx = document.createElement("canvas").getContext("2d");
+      ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      const metrics = ctx.measureText("E");
+      const inkW = metrics.actualBoundingBoxLeft + metrics.actualBoundingBoxRight;
+      const inkH = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+
+      document.querySelectorAll(".logo").forEach((logo) => {
+        const letter = logo.querySelector(".logo-e-normal");
+        const slot = logo.querySelector(".logo-e");
+        const mark = logo.querySelector(".logo-e-iso");
+        if (!letter || !slot || !mark) return;
+        const baseline = getBaseline(letter);
+        const slotBox = slot.getBoundingClientRect();
+        const inkTop = baseline - metrics.actualBoundingBoxAscent;
+        mark.style.width = `${inkW.toFixed(2)}px`;
+        mark.style.height = `${inkH.toFixed(2)}px`;
+        mark.style.left = "50%";
+        mark.style.transform = "translateX(-50%)";
+        mark.style.top = `${(inkTop - slotBox.top).toFixed(2)}px`;
+        mark.style.bottom = "auto";
+      });
+
+      document.documentElement.style.setProperty("--e-mark-w", `${Math.round(inkW)}px`);
+      document.documentElement.style.setProperty("--e-mark-h", `${Math.round(inkH)}px`);
+    }
+
+    window.addEventListener("resize", syncIsoSize);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(syncIsoSize);
+    }
+    syncIsoSize();
+    resetSolo();
+    playSequence();
+  </script>
+</body>
+</html>
