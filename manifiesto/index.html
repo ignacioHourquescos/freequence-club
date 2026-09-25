@@ -6,7 +6,7 @@
     <title>Manifiesto · FREEquence Club</title>
     <link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180" />
-    <link rel="stylesheet" href="../css/closing-section.css?v=8" />
+    <link rel="stylesheet" href="../css/closing-section.css?v=11" />
     <style>
 :root{
   --snow:#fbfbf8;
@@ -73,6 +73,59 @@ a{color:inherit;text-decoration:none}
   font-weight:800;
   letter-spacing:1.15px;
 }
+.navend{display:flex;align-items:center;gap:14px}
+.burger{
+  width:36px;
+  height:36px;
+  margin-right:-8px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#fff;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+}
+.burger span{
+  display:block;
+  width:18px;
+  height:1.5px;
+  background:#fff;
+  transition:transform .25s ease,opacity .2s ease;
+}
+.nav.is-open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav.is-open .burger span:nth-child(2){opacity:0}
+.nav.is-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.menu{
+  position:fixed;
+  top:52px;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:99;
+  background:rgba(0,0,0,.55);
+  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(18px);
+  padding:clamp(28px,7vh,64px) 0 48px;
+  border-top:1px solid rgba(255,255,255,.12);
+  overflow:auto;
+}
+.menu[hidden]{display:none !important}
+.menu a{
+  display:block;
+  color:#fff;
+  padding:14px 0;
+  font-size:clamp(28px,4vw,44px);
+  font-weight:900;
+  letter-spacing:-1.6px;
+  line-height:1;
+  text-transform:uppercase;
+}
+.menu a:hover,.menu a.is-active{color:var(--blue)}
+body.menu-open{overflow:hidden}
 
 /* BASE */
 section{
@@ -162,17 +215,30 @@ footer{
   letter-spacing:1.2px;
   text-transform:uppercase;
 }
-.foot{display:flex;justify-content:space-between}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:24px}
+.footLine{
+  flex:1;
+  text-align:center;
+  text-transform:none;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:0;
+  line-height:1.35;
+  color:rgba(255,255,255,.78);
+}
 
 @media(max-width:900px){
   :root{--page-x:24px}
   .nav{height:48px}
   .navlinks{display:none}
+  .menu{top:48px}
   section{padding:82px 0}
   .mHero{padding:90px 0}
   .cierre{padding:14vh 0 16vh;min-height:78vh}
   .editorialGrid{grid-template-columns:1fr;gap:32px}
   .display{letter-spacing:-3.2px}
+  .foot{flex-direction:column;align-items:flex-start;gap:10px}
+  .footLine{flex:none;text-align:left;max-width:28em}
 }
     </style>
   </head>
@@ -190,8 +256,20 @@ footer{
       <a href="../animation/noise/">NOISE</a>
       <a href="../animation/e/">ANIMACIÓN</a>
     </nav>
-    <div class="loc">PUNTA CHICA</div>
+    <div class="navend">
+      <div class="loc">PUNTA CHICA</div>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
+  <nav class="menu" id="site-menu" hidden>
+    <div class="wrap">
+      <a href="../formulario/">Quiero ser miembro</a>
+      <a href="./" class="is-active">Manifiesto</a>
+      <a href="../preguntas/">Preguntas frecuentes</a>
+    </div>
+  </nav>
 </header>
 
 <main>
@@ -283,7 +361,7 @@ footer{
 <footer>
   <div class="wrap foot">
     <span>FREEquence Club</span>
-    <span>Movimiento · Bienestar · Compartir</span>
+    <span class="footLine">Acá puedo ser yo. ❤️</span>
     <span>Punta Chica</span>
   </div>
 </footer>
@@ -295,7 +373,34 @@ footer{
   }
 }
 </script>
-<script type="module" src="../js/closing-section.js?v=8"></script>
+<script type="module" src="../js/closing-section.js?v=10"></script>
+<script>
+  (function () {
+    var nav = document.querySelector(".nav");
+    var btn = nav && nav.querySelector(".burger");
+    var menu = document.getElementById("site-menu");
+    if (!btn || !menu) return;
+
+    function setOpen(open) {
+      nav.classList.toggle("is-open", open);
+      document.body.classList.toggle("menu-open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+      menu.hidden = !open;
+    }
+
+    btn.addEventListener("click", function () {
+      setOpen(menu.hidden);
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !menu.hidden) {
+        setOpen(false);
+        btn.focus();
+      }
+    });
+  })();
+</script>
 
   </body>
 </html>

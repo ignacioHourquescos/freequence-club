@@ -45,10 +45,10 @@
 }
 .closing h2{
   margin:22px 0 0;
-  max-width:18ch;
-  font-size:clamp(36px,4.5vw,70px);
-  line-height:.86;
-  letter-spacing:-3.2px;
+  max-width:14em;
+  font-size:clamp(34px,4.2vw,64px);
+  line-height:.92;
+  letter-spacing:-2.2px;
   font-weight:900;
   text-shadow:0 2px 28px rgba(0,0,0,.45);
 }
@@ -64,7 +64,9 @@
     margin-top:0;
   }
   .closing h2{
-    max-width:14ch;
-    letter-spacing:-2.8px;
+    max-width:none;
+    font-size:clamp(36px,11.5vw,52px);
+    letter-spacing:-2px;
+    line-height:.9;
   }
 }

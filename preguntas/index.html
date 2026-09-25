@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Preguntas frecuentes · FREEquence Club</title>
+    <link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180" />
+    <style>
+:root{
+  --snow:#fbfbf8;
+  --white:#ffffff;
+  --blue:#0f62ff;
+  --ink:#000000;
+  --soft:#f0f0ed;
+  --muted:#5c5c5c;
+  --max:1280px;
+  --page-x:32px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--soft);
+  color:var(--ink);
+  font-family:Inter,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.wrap{width:min(calc(100% - 2 * var(--page-x)),var(--max));margin:0 auto}
+
+.nav{
+  height:52px;
+  background:var(--ink);
+  color:var(--white);
+  display:flex;
+  align-items:center;
+  position:relative;
+  z-index:10;
+}
+.navin{height:100%;display:flex;align-items:center;justify-content:space-between}
+.wordmark{
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:-.8px;
+}
+.wordmark span{
+  margin-left:4px;
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:1.6px;
+  color:rgba(255,255,255,.55);
+}
+.loc{
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;
+  padding:6px 12px;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:1.15px;
+}
+.navend{display:flex;align-items:center;gap:14px}
+.burger{
+  width:36px;
+  height:36px;
+  margin-right:-8px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#fff;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+}
+.burger span{
+  display:block;
+  width:18px;
+  height:1.5px;
+  background:#fff;
+  transition:transform .25s ease,opacity .2s ease;
+}
+.nav.is-open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav.is-open .burger span:nth-child(2){opacity:0}
+.nav.is-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.menu{
+  position:fixed;
+  top:52px;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:99;
+  background:rgba(0,0,0,.55);
+  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(18px);
+  padding:clamp(28px,7vh,64px) 0 48px;
+  border-top:1px solid rgba(255,255,255,.12);
+  overflow:auto;
+}
+.menu[hidden]{display:none !important}
+.menu a{
+  display:block;
+  color:#fff;
+  padding:14px 0;
+  font-size:clamp(28px,4vw,44px);
+  font-weight:900;
+  letter-spacing:-1.6px;
+  line-height:1;
+  text-transform:uppercase;
+}
+.menu a:hover,.menu a.is-active{color:var(--blue)}
+body.menu-open{overflow:hidden}
+
+.faqPage{padding:72px 0 96px}
+.eyebrow{
+  margin:0;
+  color:var(--blue);
+  font-size:10px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+h1{
+  margin:16px 0 0;
+  font-size:clamp(52px,6vw,88px);
+  line-height:.84;
+  letter-spacing:-4.2px;
+  font-weight:900;
+}
+.lead{
+  margin:22px 0 0;
+  max-width:28em;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.45;
+}
+.faqList{
+  margin:56px 0 0;
+  border-top:1px solid rgba(0,0,0,.12);
+}
+.faqList details{border-bottom:1px solid rgba(0,0,0,.12)}
+.faqList summary{
+  list-style:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  padding:22px 0;
+  font-size:clamp(20px,2.2vw,28px);
+  font-weight:900;
+  letter-spacing:-.8px;
+  line-height:1.15;
+}
+.faqList summary::-webkit-details-marker{display:none}
+.faqList summary::after{
+  content:"+";
+  flex:none;
+  font-size:28px;
+  font-weight:400;
+  line-height:1;
+}
+.faqList details[open] summary::after{content:"–"}
+.faqList details p{
+  margin:0 0 22px;
+  max-width:42em;
+  color:var(--muted);
+  font-size:16px;
+  line-height:1.5;
+}
+
+footer{
+  background:var(--ink);
+  color:rgba(255,255,255,.62);
+  padding:26px 0;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:24px}
+.footLine{
+  flex:1;
+  text-align:center;
+  text-transform:none;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:0;
+  line-height:1.35;
+  color:rgba(255,255,255,.78);
+}
+
+@media(max-width:900px){
+  :root{--page-x:24px}
+  .nav{height:48px}
+  .menu{top:48px}
+  .faqPage{padding:48px 0 72px}
+  h1{font-size:clamp(44px,12vw,64px);letter-spacing:-2.6px}
+  .lead{font-size:16px}
+  .faqList{margin-top:36px}
+  .foot{flex-direction:column;align-items:flex-start;gap:10px}
+  .footLine{flex:none;text-align:left;max-width:28em}
+}
+    </style>
+  </head>
+  <body>
+
+<header class="nav">
+  <div class="wrap navin">
+    <a class="wordmark" href="../">FREEquence <span>CLUB</span></a>
+    <div class="navend">
+      <div class="loc">PUNTA CHICA</div>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="menu" id="site-menu" hidden>
+    <div class="wrap">
+      <a href="../formulario/">Quiero ser miembro</a>
+      <a href="../manifiesto/">Manifiesto</a>
+      <a href="./" class="is-active">Preguntas frecuentes</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="faqPage">
+    <div class="wrap">
+      <p class="eyebrow">FAQ</p>
+      <h1>Preguntas<br>frecuentes.</h1>
+      <p class="lead">Siete preguntas de ejemplo. Las respuestas son placeholder y se van a reemplazar.</p>
+
+      <div class="faqList">
+        <details>
+          <summary>¿Qué es FREEquence Club?</summary>
+          <p>Respuesta de ejemplo. Este texto es un placeholder.</p>
+        </details>
+        <details>
+          <summary>¿Dónde queda el club?</summary>
+          <p>Respuesta de ejemplo. Este texto es un placeholder.</p>
+        </details>
+        <details>
+          <summary>¿Cómo me hago socio?</summary>
+          <p>Respuesta de ejemplo. Este texto es un placeholder.</p>
+        </details>
+        <details>
+          <summary>¿Qué incluye la membresía?</summary>
+          <p>Respuesta de ejemplo. Este texto es un placeholder.</p>
+        </details>
+        <details>
+          <summary>¿Puedo ir sin ser socio?</summary>
+          <p>Respuesta de ejemplo. Este texto es un placeholder.</p>
+        </details>
+        <details>
+          <summary>¿Hay que reservar para ir?</summary>
+          <p>Respuesta de ejemplo. Este texto es un placeholder.</p>
+        </details>
+        <details>
+          <summary>¿Cómo los contacto?</summary>
+          <p>Respuesta de ejemplo. Este texto es un placeholder.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>FREEquence Club</span>
+    <span class="footLine">Acá puedo ser yo. ❤️</span>
+    <span>Punta Chica</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var nav = document.querySelector(".nav");
+    var btn = nav && nav.querySelector(".burger");
+    var menu = document.getElementById("site-menu");
+    if (!btn || !menu) return;
+
+    function setOpen(open) {
+      nav.classList.toggle("is-open", open);
+      document.body.classList.toggle("menu-open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+      menu.hidden = !open;
+    }
+
+    btn.addEventListener("click", function () {
+      setOpen(menu.hidden);
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !menu.hidden) {
+        setOpen(false);
+        btn.focus();
+      }
+    });
+  })();
+</script>
+  </body>
+</html>

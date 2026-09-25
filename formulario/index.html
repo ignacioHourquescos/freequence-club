@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quiero ser miembro · FREEquence Club</title>
+    <link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180" />
+    <style>
+:root{
+  --snow:#fbfbf8;
+  --white:#ffffff;
+  --blue:#0f62ff;
+  --ink:#000000;
+  --soft:#f0f0ed;
+  --muted:#5c5c5c;
+  --max:1280px;
+  --page-x:32px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--soft);
+  color:var(--ink);
+  font-family:Inter,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+.wrap{width:min(calc(100% - 2 * var(--page-x)),var(--max));margin:0 auto}
+
+.nav{
+  height:52px;
+  background:var(--ink);
+  color:var(--white);
+  display:flex;
+  align-items:center;
+  position:relative;
+  z-index:10;
+}
+.navin{height:100%;display:flex;align-items:center;justify-content:space-between}
+.wordmark{
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:-.8px;
+}
+.wordmark span{
+  margin-left:4px;
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:1.6px;
+  color:rgba(255,255,255,.55);
+}
+.navlinks{
+  display:flex;
+  align-items:center;
+  gap:24px;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.35px;
+}
+.loc{
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;
+  padding:6px 12px;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:1.15px;
+}
+.navend{display:flex;align-items:center;gap:14px}
+.burger{
+  width:36px;
+  height:36px;
+  margin-right:-8px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#fff;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+}
+.burger span{
+  display:block;
+  width:18px;
+  height:1.5px;
+  background:#fff;
+  transition:transform .25s ease,opacity .2s ease;
+}
+.nav.is-open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav.is-open .burger span:nth-child(2){opacity:0}
+.nav.is-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.menu{
+  position:fixed;
+  top:52px;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:99;
+  background:rgba(0,0,0,.55);
+  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(18px);
+  padding:clamp(28px,7vh,64px) 0 48px;
+  border-top:1px solid rgba(255,255,255,.12);
+  overflow:auto;
+}
+.menu[hidden]{display:none !important}
+.menu a{
+  display:block;
+  color:#fff;
+  padding:14px 0;
+  font-size:clamp(28px,4vw,44px);
+  font-weight:900;
+  letter-spacing:-1.6px;
+  line-height:1;
+  text-transform:uppercase;
+}
+.menu a:hover,.menu a.is-active{color:var(--blue)}
+body.menu-open{overflow:hidden}
+
+.formPage{padding:72px 0 96px}
+.formLayout{
+  display:grid;
+  grid-template-columns:minmax(0,.85fr) minmax(320px,1fr);
+  gap:clamp(40px,6vw,96px);
+  align-items:start;
+}
+.eyebrow{
+  margin:0;
+  color:var(--blue);
+  font-size:10px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+h1{
+  margin:16px 0 0;
+  font-size:clamp(52px,6vw,88px);
+  line-height:.84;
+  letter-spacing:-4.2px;
+  font-weight:900;
+}
+.lead{
+  margin:22px 0 0;
+  max-width:28em;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.45;
+}
+
+.memberForm{display:flex;flex-direction:column;gap:26px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field[hidden]{display:none !important}
+.field span{
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.8px;
+  text-transform:uppercase;
+}
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="tel"],
+.field select{
+  width:100%;
+  border:0;
+  border-bottom:1.5px solid rgba(0,0,0,.22);
+  background-color:transparent;
+  padding:12px 0;
+  color:var(--ink);
+  font-size:18px;
+  font-weight:600;
+  border-radius:0;
+  outline:none;
+}
+.field select{
+  padding-right:28px;
+  cursor:pointer;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 2px center;
+  background-size:12px 8px;
+}
+.field select:has(option[value=""]:checked){
+  color:var(--muted);
+  font-weight:500;
+}
+.field input:focus,
+.field select:focus{border-bottom-color:var(--blue)}
+.field--other{margin-top:-10px}
+.memberForm.is-invalid .field:has(:invalid) input,
+.memberForm.is-invalid .field:has(:invalid) select{
+  border-bottom-color:#c62828;
+}
+.formError{
+  display:none;
+  margin:0;
+  color:#c62828;
+  font-size:14px;
+  font-weight:700;
+}
+.memberForm.is-invalid .formError{display:block}
+.submit{
+  display:inline-flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  width:100%;
+  margin:0;
+  padding:18px 20px;
+  border:0;
+  background:var(--blue);
+  color:#fff;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:transform .2s ease, opacity .2s ease;
+}
+.submit:hover{opacity:.94;transform:translateX(4px)}
+.submit span{font-size:1.15em;line-height:1}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+footer{
+  background:var(--ink);
+  color:rgba(255,255,255,.62);
+  padding:26px 0;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:24px}
+.footLine{
+  flex:1;
+  text-align:center;
+  text-transform:none;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:0;
+  line-height:1.35;
+  color:rgba(255,255,255,.78);
+}
+
+@media(max-width:900px){
+  :root{--page-x:24px}
+  .nav{height:48px}
+  .navlinks{display:none}
+  .menu{top:48px}
+  .formPage{padding:48px 0 72px}
+  .formLayout{grid-template-columns:1fr;gap:32px}
+  h1{font-size:clamp(44px,12vw,64px);letter-spacing:-2.6px}
+  .lead{font-size:16px}
+  .foot{flex-direction:column;align-items:flex-start;gap:10px}
+  .footLine{flex:none;text-align:left;max-width:28em}
+}
+    </style>
+  </head>
+  <body>
+
+<header class="nav">
+  <div class="wrap navin">
+    <a class="wordmark" href="../">FREEquence <span>CLUB</span></a>
+    <nav class="navlinks">
+      <a href="../#dimensions">LA EXPERIENCIA</a>
+      <a href="../#points">PUNTOS</a>
+      <a href="../#points">COMUNIDAD</a>
+      <a href="../manifiesto/">MANIFIESTO</a>
+      <a href="../hero2/">HERO 2</a>
+      <a href="../animation/">WAVES</a>
+      <a href="../animation/noise/">NOISE</a>
+      <a href="../animation/e/">ANIMACIÓN</a>
+    </nav>
+    <div class="navend">
+      <div class="loc">PUNTA CHICA</div>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="menu" id="site-menu" hidden>
+    <div class="wrap">
+      <a href="./" class="is-active">Quiero ser miembro</a>
+      <a href="../manifiesto/">Manifiesto</a>
+      <a href="../preguntas/">Preguntas frecuentes</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="formPage">
+    <div class="wrap formLayout">
+      <div>
+        <p class="eyebrow">Membresía</p>
+        <h1>Quiero ser<br>miembro.</h1>
+        <p class="lead">Contanos un poco. Con eso seguimos la conversación por WhatsApp.</p>
+      </div>
+
+      <form class="memberForm" id="member-form" novalidate>
+        <label class="field">
+          <span>Nombre</span>
+          <input type="text" name="nombre" autocomplete="name" required maxlength="80">
+        </label>
+        <label class="field">
+          <span>Mail</span>
+          <input type="email" name="mail" autocomplete="email" required maxlength="120">
+        </label>
+        <label class="field">
+          <span>Teléfono</span>
+          <input type="tel" name="telefono" autocomplete="tel" inputmode="tel" required maxlength="30">
+        </label>
+
+        <label class="field">
+          <span>¿Por dónde nos conociste?</span>
+          <select name="origen" required>
+            <option value="" selected disabled>Elegí una opción</option>
+            <option>Instagram</option>
+            <option>Un amigo</option>
+            <option>Pasé por el lugar</option>
+            <option>Google</option>
+            <option>Otro</option>
+          </select>
+        </label>
+        <label class="field field--other" hidden>
+          <span>Contanos</span>
+          <input type="text" name="origenOtro" maxlength="120">
+        </label>
+
+        <label class="field">
+          <span>Intención</span>
+          <select name="intencion" required>
+            <option value="" selected disabled>Elegí una opción</option>
+            <option>Quiero ser parte del club</option>
+            <option>Quiero empezar a entrenar</option>
+            <option>Quiero conocer la propuesta</option>
+          </select>
+        </label>
+
+        <p class="formError" role="alert">Completá los campos para seguir.</p>
+        <button class="submit" type="submit">Seguir por WhatsApp <span aria-hidden="true">→</span></button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>FREEquence Club</span>
+    <span class="footLine">Acá puedo ser yo. ❤️</span>
+    <span>Punta Chica</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var nav = document.querySelector(".nav");
+    var btn = nav && nav.querySelector(".burger");
+    var menu = document.getElementById("site-menu");
+    if (!btn || !menu) return;
+
+    function setOpen(open) {
+      nav.classList.toggle("is-open", open);
+      document.body.classList.toggle("menu-open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+      menu.hidden = !open;
+    }
+
+    btn.addEventListener("click", function () {
+      setOpen(menu.hidden);
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !menu.hidden) {
+        setOpen(false);
+        btn.focus();
+      }
+    });
+  })();
+</script>
+<script>
+  // Número del club, internacional, sin + ni espacios. Ej: 5491112345678
+  const WHATSAPP_NUMBER = "";
+
+  const form = document.getElementById("member-form");
+  const otherWrap = form.querySelector(".field--other");
+  const otherInput = form.querySelector("[name=origenOtro]");
+
+  const clean = (value) => String(value || "").trim().replace(/\s+/g, " ");
+
+  form.origen.addEventListener("change", () => {
+    const show = form.origen.value === "Otro";
+    otherWrap.hidden = !show;
+    otherInput.required = show;
+    if (!show) otherInput.value = "";
+  });
+
+  form.addEventListener("input", () => {
+    if (form.checkValidity()) form.classList.remove("is-invalid");
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!form.checkValidity()) {
+      form.classList.add("is-invalid");
+      const invalid = form.querySelector(":invalid");
+      if (invalid) invalid.focus();
+      return;
+    }
+
+    form.classList.remove("is-invalid");
+
+    const data = new FormData(form);
+    const origen = data.get("origen") === "Otro"
+      ? `Otro: ${clean(data.get("origenOtro"))}`
+      : clean(data.get("origen"));
+    const message = [
+      "Hola, quiero ser miembro.",
+      "",
+      `Nombre: ${clean(data.get("nombre"))}`,
+      `Mail: ${clean(data.get("mail"))}`,
+      `Teléfono: ${clean(data.get("telefono"))}`,
+      `Por dónde nos conocieron: ${origen}`,
+      `Intención: ${clean(data.get("intencion"))}`,
+    ].join("\n");
+
+    const text = encodeURIComponent(message);
+    const url = WHATSAPP_NUMBER
+      ? `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`
+      : `https://api.whatsapp.com/send?text=${text}`;
+
+    const opened = window.open(url, "_blank", "noopener,noreferrer");
+    if (!opened) window.location.href = url;
+  });
+</script>
+  </body>
+</html>

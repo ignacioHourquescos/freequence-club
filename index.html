@@ -7,7 +7,7 @@
     <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="css/closing-section.css?v=8" />
+    <link rel="stylesheet" href="css/closing-section.css?v=11" />
 <style>
 :root{
   /* Brand palette */
@@ -77,6 +77,59 @@ a{color:inherit;text-decoration:none}
   font-weight:800;
   letter-spacing:1.15px;
 }
+.navend{display:flex;align-items:center;gap:14px}
+.burger{
+  width:36px;
+  height:36px;
+  margin-right:-8px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#fff;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+}
+.burger span{
+  display:block;
+  width:18px;
+  height:1.5px;
+  background:#fff;
+  transition:transform .25s ease,opacity .2s ease;
+}
+.nav.is-open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav.is-open .burger span:nth-child(2){opacity:0}
+.nav.is-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.menu{
+  position:fixed;
+  top:52px;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:99;
+  background:rgba(0,0,0,.55);
+  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(18px);
+  padding:clamp(28px,7vh,64px) 0 48px;
+  border-top:1px solid rgba(255,255,255,.12);
+  overflow:auto;
+}
+.menu[hidden]{display:none !important}
+.menu a{
+  display:block;
+  color:#fff;
+  padding:14px 0;
+  font-size:clamp(28px,4vw,44px);
+  font-weight:900;
+  letter-spacing:-1.6px;
+  line-height:1;
+  text-transform:uppercase;
+}
+.menu a:hover,.menu a.is-active{color:var(--blue)}
+body.menu-open{overflow:hidden}
 
 /* HERO — blue 3/5 + video columns 2/5 + overflowing title */
 .hero{
@@ -283,7 +336,7 @@ h2{
 }
 .experienceStageTitle{
   margin:0;
-  max-width:14ch;
+  max-width:12em;
   font-size:clamp(32px,4vw,60px);
   line-height:.92;
   letter-spacing:-2.8px;
@@ -300,7 +353,6 @@ h2{
   font-weight:900;
   text-align:left;
 }
-
 /* BODY / MIND / ENCOUNTER */
 .dimensions{
   background:var(--ink);
@@ -596,8 +648,6 @@ h2{
   color:#fff;
 }
 
-
-
 .realMapFrame{
   min-height:325px;
   background:#dfe4e8;
@@ -813,32 +863,254 @@ h2{
   line-height:1;
 }
 
-/* PRE-LAUNCH CTA */
+/* DÍA FREEQUENCE + MEMBRESÍA */
+.invite{
+  background:var(--ink);
+  color:#fff;
+}
+.inviteGrid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+  align-items:stretch;
+}
+.inviteCard{
+  min-height:100%;
+  display:flex;
+  flex-direction:column;
+}
+.inviteCard--primary{
+  background:var(--blue);
+  color:#fff;
+  padding:52px 48px 44px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  column-gap:clamp(40px,6vw,96px);
+}
+.inviteLabel{
+  margin:0;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:2.2px;
+  text-transform:uppercase;
+}
+.inviteCard--primary .inviteLabel{color:#e0c48a}
+.inviteCard h2{
+  margin:18px 0 0;
+  max-width:11em;
+  line-height:.9;
+  font-weight:900;
+}
+.inviteCard--primary h2{
+  font-size:clamp(40px,4.4vw,68px);
+  letter-spacing:-3px;
+}
+.inviteCard .inviteCopy{
+  margin:18px 0 0;
+  max-width:34em;
+  line-height:1.45;
+}
+.inviteCard--primary .inviteCopy{
+  color:rgba(255,255,255,.9);
+  font-size:18px;
+}
+.inviteCta{
+  grid-column:1 / -1;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  width:100%;
+  margin-top:36px;
+  padding:18px 20px;
+  background:#fff;
+  color:var(--ink);
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  text-transform:uppercase;
+  transition:opacity .2s ease;
+}
+.inviteCta:hover{opacity:.92}
+.inviteCta span{
+  font-size:1.15em;
+  line-height:1;
+}
+.invitePerks{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  grid-template-columns:max-content;
+  justify-content:start;
+  gap:12px;
+  align-self:center;
+}
+.invitePerks li{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  color:#fff;
+  font-size:16px;
+  line-height:1.3;
+  font-weight:600;
+}
+.invitePerks li::before{
+  content:"";
+  flex:none;
+  width:18px;
+  height:18px;
+  margin-top:1px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18' fill='none'%3E%3Cpath d='M3.5 9.2 7.1 12.8 14.5 5.2' stroke='%23e0c48a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 18px 18px no-repeat;
+}
+/* PRÓXIMOS EVENTOS */
+.upcoming{
+  background:var(--soft);
+  color:var(--ink);
+}
+.upcomingGrid{
+  display:grid;
+  grid-template-columns:minmax(200px,.7fr) minmax(0,1.3fr);
+  gap:clamp(36px,6vw,88px);
+  align-items:start;
+}
+.upcomingTitle{
+  margin:0;
+  max-width:7ch;
+  font-size:clamp(52px,5.6vw,88px);
+  line-height:.82;
+  letter-spacing:-4px;
+  font-weight:900;
+}
+.upcomingYear{
+  margin:0 0 22px;
+  text-align:center;
+  font-size:clamp(28px,3vw,42px);
+  font-weight:900;
+  letter-spacing:-1.6px;
+  line-height:1;
+}
+.upcomingList{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.upcomingEvent{
+  display:grid;
+  grid-template-columns:92px minmax(0,1fr);
+  gap:18px;
+  align-items:center;
+  background:#fff;
+  padding:14px 22px 14px 14px;
+  box-shadow:0 14px 34px rgba(0,0,0,.06);
+}
+.upcomingDate{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+  min-height:92px;
+  background:var(--ink);
+  color:#fff;
+}
+.upcomingDate .day{
+  font-size:40px;
+  font-weight:900;
+  letter-spacing:-2px;
+  line-height:.85;
+}
+.upcomingDate .mon{
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.1px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.7);
+}
+.upcomingBody h3{
+  margin:0;
+  color:var(--blue);
+  font-size:15px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  text-transform:uppercase;
+  line-height:1.15;
+}
+.upcomingBody p{
+  margin:6px 0 0;
+  max-width:42em;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.4;
+}
+.upcomingBody .upcomingTime{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin:10px 0 0;
+  padding:4px 10px 4px 8px;
+  border-radius:999px;
+  background:#f6e7a4;
+  color:var(--ink);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.2px;
+  line-height:1;
+}
+.upcomingTime svg{
+  width:14px;
+  height:14px;
+  display:block;
+}
+
+/* ME INTERESA SABER MÁS */
 .prelaunch{
   background:var(--blue);
   color:#fff;
 }
 .prelaunchInner{
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(240px,.85fr);
+  gap:clamp(32px,5vw,72px);
+  align-items:end;
 }
-.prelaunchCtaWrap{
+.prelaunch h2{
+  margin:0;
+  max-width:10ch;
+  color:#fff;
+  font-size:clamp(40px,4.6vw,72px);
+  letter-spacing:-3.2px;
+  line-height:.88;
+}
+.prelaunchCopy{
+  margin:18px 0 0;
+  max-width:36em;
+  color:rgba(255,255,255,.9);
+  font-size:17px;
+  line-height:1.45;
+}
+.prelaunchActions{
   display:flex;
-  justify-content:center;
-  align-items:center;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:22px;
+  padding-bottom:6px;
 }
 .prelaunchCta{
   display:inline-flex;
   align-items:center;
-  gap:16px;
+  gap:14px;
   color:#fff;
-  font-size:clamp(18px,2vw,28px);
+  font-size:clamp(16px,1.5vw,22px);
   font-weight:900;
-  letter-spacing:1.8px;
+  letter-spacing:1.4px;
   text-transform:uppercase;
   border-bottom:2px solid rgba(255,255,255,.75);
-  padding-bottom:12px;
+  padding-bottom:10px;
   transition:border-color .2s ease, opacity .2s ease, transform .2s ease;
 }
 .prelaunchCta:hover{
@@ -861,13 +1133,24 @@ footer{
   letter-spacing:1.2px;
   text-transform:uppercase;
 }
-.foot{display:flex;justify-content:space-between}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:24px}
+.footLine{
+  flex:1;
+  text-align:center;
+  text-transform:none;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:0;
+  line-height:1.35;
+  color:rgba(255,255,255,.78);
+}
 
 /* RESPONSIVE */
 @media(max-width:900px){
   :root{--page-x:24px}
   .nav{height:48px}
   .navlinks{display:none}
+  .menu{top:48px}
   .hero,
   section.hero{
     flex-direction:column;
@@ -941,9 +1224,31 @@ footer{
   .manifestoCtaWrap{justify-content:flex-start;padding-bottom:0;margin-top:8px}
   .experienceStage{height:60svh;min-height:60svh;background-size:90px 90px}
   .experienceStageTitle,
-  .manifestoTitle{font-size:clamp(37px,9.2vw,69px);letter-spacing:-2.4px}
+  .manifestoTitle{font-size:clamp(34px,8.6vw,56px);letter-spacing:-2.2px}
   .experienceStageLead,
-  .manifestoLead{font-size:clamp(32px,7.8vw,55px);letter-spacing:-1.8px;margin-top:16px}
+  .manifestoLead{font-size:clamp(28px,7vw,44px);letter-spacing:-1.6px;margin-top:16px}
+  .inviteGrid{grid-template-columns:1fr}
+  .inviteCard--primary{
+    display:flex;
+    flex-direction:column;
+    padding:36px 26px 32px;
+  }
+  .invitePerks{margin-top:28px}
+  .inviteCta{margin-top:28px;font-size:13px;letter-spacing:1px}
+  .inviteCard--primary h2{font-size:clamp(36px,9vw,52px);letter-spacing:-2.4px}
+  .prelaunchInner{grid-template-columns:1fr;gap:28px;align-items:start}
+  .prelaunch h2{font-size:clamp(36px,9vw,52px);letter-spacing:-2.4px}
+  .prelaunchCopy{font-size:15px}
+  .prelaunchActions{gap:18px;padding-bottom:0}
+  .prelaunchCta{font-size:15px;letter-spacing:1px}
+  .upcomingGrid{grid-template-columns:1fr;gap:28px}
+  .upcomingTitle{font-size:clamp(44px,12vw,64px);letter-spacing:-2.6px}
+  .upcomingYear{text-align:left;font-size:26px;margin-bottom:14px}
+  .upcomingEvent{grid-template-columns:76px minmax(0,1fr);gap:14px;padding:12px}
+  .upcomingDate{min-height:76px}
+  .upcomingDate .day{font-size:32px}
+  .upcomingBody h3{font-size:13px;letter-spacing:.8px}
+  .upcomingBody p{font-size:13px}
   .manifestoCta{font-size:clamp(21px,2.3vw,32px)}
   h2,.ideaHeadline,.communityQuote{letter-spacing:-3.2px}
   .dimensionCards{grid-template-columns:1fr}
@@ -976,7 +1281,8 @@ footer{
   .mapLabel.major{font-size:12px}
   .mapLabel{font-size:10px}
   .mapCaption{left:18px;bottom:16px}
-  .foot{flex-direction:column;gap:10px}
+  .foot{flex-direction:column;align-items:flex-start;gap:10px}
+  .footLine{flex:none;text-align:left;max-width:28em}
 }
 </style>
   </head>
@@ -995,8 +1301,20 @@ footer{
       <a href="animation/noise/">NOISE</a>
       <a href="animation/e/">ANIMACIÓN</a>
         </nav>
-    <div class="loc">PUNTA CHICA</div>
+    <div class="navend">
+      <div class="loc">PUNTA CHICA</div>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
+  <nav class="menu" id="site-menu" hidden>
+    <div class="wrap">
+      <a href="formulario/">Quiero ser miembro</a>
+      <a href="manifiesto/">Manifiesto</a>
+      <a href="preguntas/">Preguntas frecuentes</a>
+    </div>
+  </nav>
       </header>
 
 <main id="top">
@@ -1023,9 +1341,9 @@ footer{
 </section>
 
 <!-- 02 EXPERIENCE STAGE -->
-<section id="dimensions" class="experienceStage" aria-label="Sintonizá con vos. Un tercer lugar que te alienta y acompaña a vivir mejor">
+<section id="dimensions" class="experienceStage" aria-label="Cuidarte también puede disfrutarse">
   <div class="experienceStageCopy">
-    <h2 class="experienceStageTitle">Sintonizá<br>con vos</h2>
+    <h2 class="experienceStageTitle">Cuidarte también<br>puede disfrutarse.</h2>
     <p class="experienceStageLead">Un tercer lugar<br>que te alienta y<br>acompaña a vivir mejor</p>
   </div>
 </section>
@@ -1045,7 +1363,7 @@ footer{
         </div>
       </article>
       <article class="dimension">
-        <img class="dimensionImage" src="universe/ecstatic.png" alt="Ecstatic">
+        <img class="dimensionImage" src="universe/experiencias.png" alt="Experiencias FREEquence">
         <div class="dimensionContent">
           <small>MENTE</small>
           <div>
@@ -1055,7 +1373,7 @@ footer{
         </div>
       </article>
       <article class="dimension">
-        <img class="dimensionImage" src="universe/experiencias.png" alt="Experiencias FREEquence">
+        <img class="dimensionImage" src="universe/celebrate.png" alt="Celebrate">
         <div class="dimensionContent">
           <small>ENCUENTRO</small>
           <div>
@@ -1099,7 +1417,96 @@ footer{
   </div>
 </section>
 
-<!-- 06 POINTS + MAPA -->
+<!-- 06 PRÓXIMOS EVENTOS -->
+<section id="events" class="upcoming" aria-label="Próximos eventos">
+  <div class="wrap upcomingGrid">
+    <h2 class="upcomingTitle">Próximos<br>eventos.</h2>
+    <div>
+      <p class="upcomingYear">2026</p>
+      <ul class="upcomingList">
+        <li>
+          <article class="upcomingEvent">
+            <time class="upcomingDate" datetime="2026-10-03T10:00">
+              <span class="day">3</span>
+              <span class="mon">Oct</span>
+            </time>
+            <div class="upcomingBody">
+              <h3>Open House</h3>
+              <p>Recorrida por el club, café y una clase para probar el lugar.</p>
+              <p class="upcomingTime">
+                <svg viewBox="0 0 14 14" aria-hidden="true" fill="none">
+                  <circle cx="7" cy="7" r="5.2" stroke="currentColor" stroke-width="1.4"/>
+                  <path d="M7 4.2V7.2L9 8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                </svg>
+                10:00
+              </p>
+            </div>
+          </article>
+        </li>
+        <li>
+          <article class="upcomingEvent">
+            <time class="upcomingDate" datetime="2026-10-18T19:30">
+              <span class="day">18</span>
+              <span class="mon">Oct</span>
+            </time>
+            <div class="upcomingBody">
+              <h3>Celebrate</h3>
+              <p>Música, movimiento y un encuentro abierto para venir sin entrenar.</p>
+              <p class="upcomingTime">
+                <svg viewBox="0 0 14 14" aria-hidden="true" fill="none">
+                  <circle cx="7" cy="7" r="5.2" stroke="currentColor" stroke-width="1.4"/>
+                  <path d="M7 4.2V7.2L9 8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                </svg>
+                19:30
+              </p>
+            </div>
+          </article>
+        </li>
+        <li>
+          <article class="upcomingEvent">
+            <time class="upcomingDate" datetime="2026-11-08T09:00">
+              <span class="day">8</span>
+              <span class="mon">Nov</span>
+            </time>
+            <div class="upcomingBody">
+              <h3>Ecstatic Training</h3>
+              <p>Movimiento, música y respiración para entrenar el cuerpo de otra manera.</p>
+              <p class="upcomingTime">
+                <svg viewBox="0 0 14 14" aria-hidden="true" fill="none">
+                  <circle cx="7" cy="7" r="5.2" stroke="currentColor" stroke-width="1.4"/>
+                  <path d="M7 4.2V7.2L9 8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                </svg>
+                09:00
+              </p>
+            </div>
+          </article>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 07 MEMBRESÍA -->
+<section id="dia" class="invite" aria-label="Membresía">
+  <div class="wrap inviteGrid">
+    <article class="inviteCard inviteCard--primary">
+      <div class="inviteMain">
+        <p class="inviteLabel">Membresía</p>
+        <h2>Quiero ser<br>miembro.</h2>
+        <p class="inviteCopy">Durante el primer mes definimos tus objetivos, adaptamos el entrenamiento y revisamos hábitos. Después seguís con una membresía que puedas sostener.</p>
+      </div>
+      <ul class="invitePerks">
+        <li>Acceso a gimnasio</li>
+        <li>Coffee Lounge preferencial</li>
+        <li>Entrenamiento personalizado</li>
+        <li>Clases y actividades</li>
+      </ul>
+      <a class="inviteCta" href="formulario/">Quiero ser miembro <span aria-hidden="true">→</span></a>
+    </article>
+  </div>
+</section>
+
+<!-- 08 POINTS + MAPA -->
 <section id="points" class="points">
   <div class="wrap">
     <div class="pointsIntro">
@@ -1154,16 +1561,26 @@ footer{
   </div>
 </section>
 
-<!-- 05 PRE-LAUNCH CTA -->
-<section id="prelaunch" class="prelaunch">
+<!-- 09 ME INTERESA SABER MÁS -->
+<section id="prelaunch" class="prelaunch" aria-label="Me interesa saber más">
   <div class="wrap prelaunchInner">
-    <div class="prelaunchCtaWrap">
+    <div>
+      <h2>Me interesa<br>saber más.</h2>
+      <p class="prelaunchCopy">Una actividad elegida con vos: gimnasio, clase o encuentro. Sin obligación de entrenar. Si el gimnasio te genera resistencia, el primer vínculo puede ser CELEBRATE.</p>
+    </div>
+    <div class="prelaunchActions">
       <a
         class="prelaunchCta"
         href="https://www.whatsapp.com/channel/0029VbClfwB5PO155kXd952y"
         target="_blank"
         rel="noopener noreferrer"
       >Unite al canal <span aria-hidden="true">→</span></a>
+      <a
+        class="prelaunchCta"
+        href="https://www.whatsapp.com/channel/0029VbClfwB5PO155kXd952y"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Agendá un día de prueba <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
@@ -1176,7 +1593,7 @@ footer{
       <footer>
   <div class="wrap foot">
     <span>FREEquence Club</span>
-    <span>Movimiento · Bienestar · Compartir</span>
+    <span class="footLine">Acá puedo ser yo. ❤️</span>
     <span>Punta Chica</span>
   </div>
       </footer>
@@ -1378,7 +1795,34 @@ footer{
   }
 }
 </script>
-<script type="module" src="js/closing-section.js?v=8"></script>
+<script type="module" src="js/closing-section.js?v=10"></script>
+<script>
+  (function () {
+    var nav = document.querySelector(".nav");
+    var btn = nav && nav.querySelector(".burger");
+    var menu = document.getElementById("site-menu");
+    if (!btn || !menu) return;
+
+    function setOpen(open) {
+      nav.classList.toggle("is-open", open);
+      document.body.classList.toggle("menu-open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+      menu.hidden = !open;
+    }
+
+    btn.addEventListener("click", function () {
+      setOpen(menu.hidden);
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !menu.hidden) {
+        setOpen(false);
+        btn.focus();
+      }
+    });
+  })();
+</script>
 
   </body>
 </html>

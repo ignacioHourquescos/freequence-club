@@ -7,7 +7,7 @@
     <link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="../css/closing-section.css?v=8" />
+    <link rel="stylesheet" href="../css/closing-section.css?v=11" />
 <style>
 :root{
   /* Brand palette */
@@ -853,7 +853,17 @@ footer{
   letter-spacing:1.2px;
   text-transform:uppercase;
 }
-.foot{display:flex;justify-content:space-between}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:24px}
+.footLine{
+  flex:1;
+  text-align:center;
+  text-transform:none;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:0;
+  line-height:1.35;
+  color:rgba(255,255,255,.78);
+}
 
 /* RESPONSIVE */
 @media(max-width:900px){
@@ -929,7 +939,8 @@ footer{
   .mapLabel.major{font-size:12px}
   .mapLabel{font-size:10px}
   .mapCaption{left:18px;bottom:16px}
-  .foot{flex-direction:column;gap:10px}
+  .foot{flex-direction:column;align-items:flex-start;gap:10px}
+  .footLine{flex:none;text-align:left;max-width:28em}
 }
 </style>
   </head>
@@ -997,7 +1008,7 @@ footer{
         </div>
       </article>
       <article class="dimension">
-        <img class="dimensionImage" src="../universe/ecstatic.png" alt="Ecstatic">
+        <img class="dimensionImage" src="../universe/experiencias.png" alt="Experiencias FREEquence">
         <div class="dimensionContent">
           <small>MENTE</small>
           <div>
@@ -1007,7 +1018,7 @@ footer{
         </div>
       </article>
       <article class="dimension">
-        <img class="dimensionImage" src="../universe/experiencias.png" alt="Experiencias FREEquence">
+        <img class="dimensionImage" src="../universe/celebrate.png" alt="Celebrate">
         <div class="dimensionContent">
           <small>ENCUENTRO</small>
           <div>
@@ -1128,7 +1139,7 @@ footer{
       <footer>
   <div class="wrap foot">
     <span>FREEquence Club</span>
-    <span>Movimiento ? Bienestar ? Compartir</span>
+    <span class="footLine">Acá puedo ser yo. ❤️</span>
     <span>Punta Chica</span>
   </div>
       </footer>
@@ -1330,7 +1341,7 @@ footer{
   }
 }
 </script>
-<script type="module" src="../js/closing-section.js?v=8"></script>
+<script type="module" src="../js/closing-section.js?v=10"></script>
 
   </body>
 </html>

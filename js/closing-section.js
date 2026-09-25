@@ -1,7 +1,7 @@
 /** Single source of truth for the closing frame copy. */
 export const CLOSING_COPY = {
   eyebrow: "FREEquence CLUB",
-  titleHtml: "Acá puedo<br>ser yo.",
+  titleHtml: "Un lugar<br>que te alienta<br>y acompaña<br>a vivir mejor.",
 };
 
 /**
