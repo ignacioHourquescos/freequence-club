@@ -11,12 +11,12 @@
 <style>
 :root{
   /* Brand palette */
-  --snow:#fbfbf8;       /* Snow White */
-  --white:#ffffff;      /* Pure White */
+  --snow:#F4F8ED;
+  --white:#F4F8ED;
   --blue:#0f62ff;       /* Azure Blue */
   --ink:#000000;        /* Jet Black */
   --cream:var(--snow);
-  --soft:#f0f0ed;       /* soft tint from black on Snow White */
+  --soft:#f0f0ed;
   --muted:#5c5c5c;
   --line:rgba(0,0,0,.12);
   --dark:#000000;
@@ -59,7 +59,7 @@ a{color:inherit;text-decoration:none}
   font-size:7px;
   font-weight:800;
   letter-spacing:1.6px;
-  color:rgba(255,255,255,.55);
+  color:rgba(244,248,237,.55);
 }
 .navlinks{
   display:flex;
@@ -68,16 +68,17 @@ a{color:inherit;text-decoration:none}
   font-size:9px;
   font-weight:900;
   letter-spacing:1.35px;
+  text-transform:uppercase;
 }
 .loc{
-  border:1px solid rgba(255,255,255,.25);
+  border:1px solid rgba(244,248,237,.25);
   border-radius:999px;
   padding:6px 12px;
   font-size:8px;
   font-weight:800;
   letter-spacing:1.15px;
 }
-.navend{display:flex;align-items:center;gap:14px}
+.navend{display:none;align-items:center;gap:14px}
 .burger{
   width:36px;
   height:36px;
@@ -85,7 +86,7 @@ a{color:inherit;text-decoration:none}
   padding:0;
   border:0;
   background:transparent;
-  color:#fff;
+  color:#F4F8ED;
   cursor:pointer;
   display:flex;
   flex-direction:column;
@@ -97,7 +98,7 @@ a{color:inherit;text-decoration:none}
   display:block;
   width:18px;
   height:1.5px;
-  background:#fff;
+  background:#F4F8ED;
   transition:transform .25s ease,opacity .2s ease;
 }
 .nav.is-open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
@@ -114,13 +115,13 @@ a{color:inherit;text-decoration:none}
   -webkit-backdrop-filter:blur(18px);
   backdrop-filter:blur(18px);
   padding:clamp(28px,7vh,64px) 0 48px;
-  border-top:1px solid rgba(255,255,255,.12);
+  border-top:1px solid rgba(244,248,237,.12);
   overflow:auto;
 }
 .menu[hidden]{display:none !important}
 .menu a{
   display:block;
-  color:#fff;
+  color:#F4F8ED;
   padding:14px 0;
   font-size:clamp(28px,4vw,44px);
   font-weight:900;
@@ -146,7 +147,7 @@ body.menu-open{overflow:hidden}
   margin:0;
   background:var(--ink);
   overflow:hidden;
-  color:#fff;
+  color:#F4F8ED;
 }
 .heroMain{
   position:relative;
@@ -168,14 +169,14 @@ body.menu-open{overflow:hidden}
   flex-direction:column;
   justify-content:center;
   align-items:flex-start;
-  /* Let MOVE/RESET/CONNECT spill onto the video grid */
+  /* Let MOVE/RESET/CELEBRATE spill onto the video grid */
   width:calc(100% + 42vw);
   max-width:none;
   pointer-events:none;
 }
 .heroEyebrow{
   margin:0 0 0;
-  color:rgba(255,255,255,.92);
+  color:rgba(244,248,237,.92);
   font-size:clamp(10px,1.05vw,13px);
   font-weight:800;
   letter-spacing:2.6px;
@@ -190,7 +191,7 @@ body.menu-open{overflow:hidden}
   letter-spacing:-5px;
   font-weight:900;
   text-transform:uppercase;
-  color:#fff;
+  color:#F4F8ED;
   transform:translateY(clamp(20px,4vh,48px));
 }
 .heroTitle span{
@@ -226,10 +227,10 @@ body.menu-open{overflow:hidden}
   transition:flex .65s cubic-bezier(.45,.05,.15,1);
 }
 .heroVideoGrid.has-playing .heroVideoCell{
-  flex:1 1 0; /* 1/4 when a sibling is active */
+  flex:1 1 0;
 }
 .heroVideoGrid.has-playing .heroVideoCell.is-playing{
-  flex:2 1 0; /* 1/2 */
+  flex:2 1 0;
 }
 .heroVideoCell::after{
   content:"";
@@ -250,9 +251,8 @@ body.menu-open{overflow:hidden}
   filter:grayscale(1) contrast(1.12) brightness(1.02);
   transition:opacity .45s ease;
 }
-/* Café: keep cups in frame when cropped in a tall column */
 .heroVideoCell:nth-child(3) video{
-  object-position:left center;
+  object-position:center center;
 }
 .heroVideoCell.is-playing video{
   opacity:1;
@@ -356,10 +356,10 @@ h2{
 /* BODY / MIND / ENCOUNTER */
 .dimensions{
   background:var(--ink);
-  color:#fff;
+  color:#F4F8ED;
 }
 .dimensions .sectionLabel{color:var(--blue)}
-.dimensions .body{color:rgba(255,255,255,.78)}
+.dimensions .body{color:rgba(244,248,237,.78)}
 .dimensionCards{
   margin-top:0;
   display:grid;
@@ -430,16 +430,48 @@ h2{
 /* SERVICES GRID */
 .services{
   background:var(--ink);
-  color:#fff;
+  color:#F4F8ED;
   padding:90px 0;
 }
+.servicesLayout{
+  display:grid;
+  grid-template-columns:minmax(0,1.08fr) minmax(320px,.92fr);
+  gap:clamp(28px,4vw,56px);
+  align-items:stretch;
+}
+.services .inviteCard--primary{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  min-height:100%;
+  padding:48px 40px 40px;
+}
+.services .inviteCard--primary h2{
+  margin-top:0;
+}
+.services .invitePerks{
+  margin-top:28px;
+  margin-bottom:36px;
+}
+.services .inviteCta{
+  width:100%;
+  margin-top:auto;
+}
 .servicesLabel{
-  margin:0 0 28px;
+  margin:0 0 14px;
   color:#c4a574;
   font-size:10px;
   font-weight:800;
   letter-spacing:2.4px;
   text-transform:uppercase;
+}
+.servicesTitle{
+  margin:0 0 36px;
+  color:#F4F8ED;
+  font-size:clamp(40px,4.6vw,68px);
+  line-height:.86;
+  letter-spacing:-2.8px;
+  font-weight:900;
 }
 .servicesGrid{
   display:flex;
@@ -450,10 +482,10 @@ h2{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  border:1px solid rgba(255,255,255,.28);
+  border:1px solid rgba(244,248,237,.28);
   border-radius:0;
   padding:18px 28px;
-  color:rgba(255,255,255,.9);
+  color:rgba(244,248,237,.9);
   font-size:18px;
   font-weight:600;
   letter-spacing:.15px;
@@ -601,11 +633,11 @@ h2{
 .point.is-map-active{
   background:var(--blue);
   border-color:transparent;
-  color:#fff;
+  color:#F4F8ED;
 }
 .point.is-map-active .k,
 .point.is-map-active p{
-  color:#fff;
+  color:#F4F8ED;
 }
 .pointHead{
   display:flex;
@@ -641,11 +673,11 @@ h2{
 .point:hover{
   background:var(--blue);
   border-color:transparent;
-  color:#fff;
+  color:#F4F8ED;
 }
 .point:hover .k,
 .point:hover p{
-  color:#fff;
+  color:#F4F8ED;
 }
 
 .realMapFrame{
@@ -678,7 +710,7 @@ h2{
 .realMapFrame .mapLegend{
   z-index:2;
   color:#5c6670;
-  background:rgba(255,255,255,.88);
+  background:rgba(244,248,237,.88);
   padding:8px 12px;
   border-radius:999px;
   box-shadow:0 2px 10px rgba(0,0,0,.08);
@@ -688,7 +720,7 @@ h2{
 }
 .realMapFrame .leaflet-control-attribution{
   font-size:10px;
-  background:rgba(255,255,255,.72);
+  background:rgba(244,248,237,.72);
 }
 .freequence-marker{
   background:transparent;
@@ -699,7 +731,7 @@ h2{
   height:18px;
   border-radius:50%;
   background:var(--blue);
-  border:3px solid #fff;
+  border:3px solid #F4F8ED;
   box-shadow:0 2px 8px rgba(0,0,0,.25);
   transition:transform .22s ease,box-shadow .22s ease,opacity .22s ease;
 }
@@ -740,7 +772,7 @@ h2{
   letter-spacing:.2px;
 }
 .mapLabel.major{
-  fill:#fff;
+  fill:#F4F8ED;
   font-size:16px;
   font-weight:900;
 }
@@ -748,7 +780,7 @@ h2{
 .mapLand{fill:#252a31;stroke:#48505a;stroke-width:1}
 .mapBoundary{fill:none;stroke:#39414b;stroke-width:1}
 .mapRoad{fill:none;stroke:#313842;stroke-width:3;opacity:.7}
-.mapPin{fill:var(--blue);stroke:#fff;stroke-width:3}
+.mapPin{fill:var(--blue);stroke:#F4F8ED;stroke-width:3}
 .mapPinHalo{fill:rgba(15,98,255,.14)}
 .mapCaption{
   position:absolute;
@@ -776,7 +808,7 @@ h2{
 .mapLegendDot{
   width:9px;height:9px;border-radius:50%;
   background:var(--blue);
-  border:2px solid #fff;
+  border:2px solid #F4F8ED;
 }
 
 /* COMMUNITY */
@@ -808,7 +840,7 @@ h2{
 /* MANIFESTO TEASER */
 .manifesto{
   background:var(--blue);
-  color:#fff;
+  color:#F4F8ED;
   overflow:hidden;
 }
 .manifestoVideo{
@@ -826,7 +858,7 @@ h2{
   background:rgba(6,32,110,.55);
   pointer-events:none;
 }
-.manifesto .sectionLabel{color:#fff}
+.manifesto .sectionLabel{color:#F4F8ED}
 .manifestoTeaser{
   position:relative;
   z-index:2;
@@ -846,7 +878,7 @@ h2{
 .manifestoLead{
   margin-top:22px;
   max-width:18ch;
-  color:#fff;
+  color:#F4F8ED;
   font-size:clamp(28px,3.4vw,48px);
   line-height:.95;
   letter-spacing:-2px;
@@ -884,7 +916,7 @@ h2{
 /* DÍA FREEQUENCE + MEMBRESÍA */
 .invite{
   background:var(--ink);
-  color:#fff;
+  color:#F4F8ED;
 }
 .inviteGrid{
   display:grid;
@@ -899,21 +931,13 @@ h2{
 }
 .inviteCard--primary{
   background:var(--blue);
-  color:#fff;
+  color:#F4F8ED;
   padding:52px 48px 44px;
   display:grid;
   grid-template-columns:minmax(0,1fr) auto;
   align-items:center;
   column-gap:clamp(40px,6vw,96px);
 }
-.inviteLabel{
-  margin:0;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:2.2px;
-  text-transform:uppercase;
-}
-.inviteCard--primary .inviteLabel{color:#e0c48a}
 .inviteCard h2{
   margin:18px 0 0;
   max-width:11em;
@@ -930,7 +954,7 @@ h2{
   line-height:1.45;
 }
 .inviteCard--primary .inviteCopy{
-  color:rgba(255,255,255,.9);
+  color:rgba(244,248,237,.9);
   font-size:18px;
 }
 .inviteCta{
@@ -943,7 +967,7 @@ h2{
   width:50%;
   margin-top:36px;
   padding:18px 20px;
-  background:#fff;
+  background:#F4F8ED;
   color:var(--ink);
   font-size:14px;
   font-weight:900;
@@ -963,14 +987,17 @@ h2{
   display:grid;
   grid-template-columns:max-content;
   justify-content:start;
+  justify-items:start;
   gap:12px;
-  align-self:center;
+  align-self:flex-start;
+  width:100%;
+  text-align:left;
 }
 .invitePerks li{
   display:flex;
   align-items:flex-start;
   gap:10px;
-  color:#fff;
+  color:#F4F8ED;
   font-size:16px;
   line-height:1.3;
   font-weight:600;
@@ -1016,7 +1043,7 @@ h2{
   grid-template-columns:92px minmax(0,1fr);
   gap:18px;
   align-items:center;
-  background:#fff;
+  background:#F4F8ED;
   padding:14px 22px 14px 14px;
   box-shadow:0 14px 34px rgba(0,0,0,.06);
 }
@@ -1028,7 +1055,7 @@ h2{
   gap:2px;
   min-height:92px;
   background:var(--ink);
-  color:#fff;
+  color:#F4F8ED;
 }
 .upcomingDate .day{
   font-size:40px;
@@ -1041,7 +1068,7 @@ h2{
   font-weight:800;
   letter-spacing:1.1px;
   text-transform:uppercase;
-  color:rgba(255,255,255,.7);
+  color:rgba(244,248,237,.7);
 }
 .upcomingBody h3{
   margin:0;
@@ -1081,10 +1108,30 @@ h2{
 
 /* ME INTERESA SABER MÁS */
 .prelaunch{
-  background:var(--blue);
-  color:#fff;
+  position:relative;
+  display:flex;
+  align-items:flex-start;
+  overflow:hidden;
+  min-height:90vh;
+  height:90vh;
+  background:#111 url("edicio2.png") center bottom / cover no-repeat;
+  color:#F4F8ED;
+}
+.prelaunch::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height:100%;
+  z-index:1;
+  pointer-events:none;
+  background:linear-gradient(to bottom, var(--blue), transparent);
+  transform:translateY(-50%);
 }
 .prelaunchInner{
+  position:relative;
+  z-index:2;
   display:grid;
   grid-template-columns:minmax(0,1.15fr) minmax(240px,.85fr);
   gap:clamp(32px,5vw,72px);
@@ -1093,17 +1140,10 @@ h2{
 .prelaunch h2{
   margin:0;
   max-width:10ch;
-  color:#fff;
+  color:#F4F8ED;
   font-size:clamp(40px,4.6vw,72px);
   letter-spacing:-3.2px;
   line-height:.88;
-}
-.prelaunchCopy{
-  margin:18px 0 0;
-  max-width:36em;
-  color:rgba(255,255,255,.9);
-  font-size:17px;
-  line-height:1.45;
 }
 .prelaunchActions{
   display:flex;
@@ -1116,17 +1156,17 @@ h2{
   display:inline-flex;
   align-items:center;
   gap:14px;
-  color:#fff;
+  color:#F4F8ED;
   font-size:clamp(16px,1.5vw,22px);
   font-weight:900;
   letter-spacing:1.4px;
   text-transform:uppercase;
-  border-bottom:2px solid rgba(255,255,255,.75);
+  border-bottom:2px solid rgba(244,248,237,.75);
   padding-bottom:10px;
   transition:border-color .2s ease, opacity .2s ease, transform .2s ease;
 }
 .prelaunchCta:hover{
-  border-color:#fff;
+  border-color:#F4F8ED;
   opacity:.95;
   transform:translateX(4px);
 }
@@ -1138,7 +1178,7 @@ h2{
 /* FOOTER */
 footer{
   background:var(--ink);
-  color:rgba(255,255,255,.62);
+  color:rgba(244,248,237,.62);
   padding:26px 0;
   font-size:9px;
   font-weight:800;
@@ -1154,7 +1194,7 @@ footer{
   font-weight:500;
   letter-spacing:0;
   line-height:1.35;
-  color:rgba(255,255,255,.78);
+  color:rgba(244,248,237,.78);
 }
 
 /* RESPONSIVE */
@@ -1162,6 +1202,7 @@ footer{
   :root{--page-x:24px}
   .nav{height:48px}
   .navlinks{display:none}
+  .navend{display:flex}
   .menu{top:48px}
   .hero,
   section.hero{
@@ -1209,11 +1250,11 @@ footer{
     left:var(--page-x);
     right:var(--page-x);
     top:0;
-    height:calc(42% - 10svh); /* band above the raised 20svh videos */
+    height:calc(42% - 10svh);
     margin:0;
     transform:none;
     display:flex;
-    align-items:center; /* vertically centered above videos */
+    align-items:center;
     justify-content:flex-start;
   }
   .heroTitle{
@@ -1223,11 +1264,11 @@ footer{
     bottom:max(28px,6svh);
     margin:0;
     transform:none;
-    font-size:clamp(56px,16vw,104px);
-    letter-spacing:-4px;
+    font-size:clamp(40px,11.4vw,84px);
+    letter-spacing:-2.4px;
   }
   .heroTitle span{
-    white-space:normal;
+    white-space:nowrap;
   }
   .heroVideoGrid{gap:2px}
   section{padding:82px 0}
@@ -1244,6 +1285,7 @@ footer{
     display:flex;
     flex-direction:column;
     justify-content:space-between;
+    align-items:stretch;
     gap:24px;
   }
   .intro,.ideaGrid,.pointsIntro,.communityGrid,.manifestoTeaser{grid-template-columns:1fr;gap:32px}
@@ -1262,9 +1304,9 @@ footer{
   .invitePerks{margin-top:28px}
   .inviteCta{width:100%;margin-top:28px;font-size:13px;letter-spacing:1px}
   .inviteCard--primary h2{font-size:clamp(36px,9vw,52px);letter-spacing:-2.4px}
+  .prelaunch{height:auto;min-height:1180px;background-position:center bottom}
   .prelaunchInner{grid-template-columns:1fr;gap:28px;align-items:start}
   .prelaunch h2{font-size:clamp(36px,9vw,52px);letter-spacing:-2.4px}
-  .prelaunchCopy{font-size:15px}
   .prelaunchActions{gap:18px;padding-bottom:0}
   .prelaunchCta{font-size:15px;letter-spacing:1px}
   .upcomingGrid{grid-template-columns:1fr;gap:28px}
@@ -1302,6 +1344,9 @@ footer{
   .dimensionImage{height:190px}
   .dimensionContent{min-height:180px;padding:24px 26px 26px}
   .services{padding:64px 0}
+  .servicesLayout{grid-template-columns:1fr;gap:36px}
+  .services .inviteCard--primary{padding:36px 26px 32px}
+  .servicesTitle{font-size:clamp(34px,8.6vw,56px);line-height:.92;letter-spacing:-2.2px;margin-bottom:28px}
   .serviceTag{padding:14px 18px;font-size:15px;white-space:normal;text-align:center}
   .mapLabel.major{font-size:12px}
   .mapLabel{font-size:10px}
@@ -1317,15 +1362,10 @@ footer{
   <div class="wrap navin">
     <a class="wordmark" href="#top">FREEquence <span>CLUB</span></a>
     <nav class="navlinks">
-      <a href="#dimensions">LA EXPERIENCIA</a>
-      <a href="#points">PUNTOS</a>
-      <a href="#points">COMUNIDAD</a>
-      <a href="manifiesto/">MANIFIESTO</a>
-      <a href="hero2/">HERO 2</a>
-      <a href="animation/">WAVES</a>
-      <a href="animation/noise/">NOISE</a>
-      <a href="animation/e/">ANIMACIÓN</a>
-        </nav>
+      <a href="formulario/">Quiero ser miembro</a>
+      <a href="manifiesto/">Manifiesto</a>
+      <a href="preguntas/">Preguntas frecuentes</a>
+    </nav>
     <div class="navend">
       <div class="loc">PUNTA CHICA</div>
       <button class="burger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Abrir menú">
@@ -1344,23 +1384,24 @@ footer{
 
 <main id="top">
 
+<div class="opening">
 <!-- 01 HERO -->
-<section class="hero" aria-label="Move Reset Connect">
+<section class="hero" aria-label="Move. Reset. Celebrate !">
   <div class="heroMain">
     <div class="heroInner">
       <p class="heroEyebrow">Wellness &amp; Social Club</p>
       <h1 class="heroTitle">
-        <span>Move</span>
-        <span>Reset</span>
-        <span>Connect</span>
+        <span>Move.</span>
+        <span>Reset.</span>
+        <span>Celebrate !</span>
       </h1>
     </div>
   </div>
   <aside class="heroSide" aria-hidden="true">
     <div class="heroVideoGrid">
-      <div class="heroVideoCell"><video muted playsinline preload="metadata" data-src="videos/mujer-transpirando.mp4"></video></div>
-      <div class="heroVideoCell"><video muted playsinline preload="metadata" data-src="videos/hombre-meditando.mp4"></video></div>
-      <div class="heroVideoCell"><video muted playsinline preload="metadata" data-src="videos/cafe.mp4"></video></div>
+      <div class="heroVideoCell"><video muted playsinline preload="metadata" data-src="videos/women_sweating_1mp4.mp4"></video></div>
+      <div class="heroVideoCell"><video muted playsinline preload="metadata" data-src="videos/men_streching.mp4"></video></div>
+      <div class="heroVideoCell"><video muted playsinline preload="metadata" data-src="videos/mug_of_coffee.mp4"></video></div>
     </div>
   </aside>
 </section>
@@ -1372,6 +1413,7 @@ footer{
     <p class="experienceStageLead">Un tercer lugar<br>que te alienta y<br>acompaña a vivir mejor</p>
   </div>
 </section>
+</div>
 
 <!-- 03 BODY / MIND / ENCOUNTER -->
 <section class="dimensions">
@@ -1426,25 +1468,7 @@ footer{
   </div>
 </section>
 
-<!-- 05 SERVICES -->
-<section id="services" class="services" aria-label="Servicios">
-  <div class="wrap">
-    <p class="servicesLabel">Servicios</p>
-    <div class="servicesGrid">
-      <span class="serviceTag">Gimnasio</span>
-      <span class="serviceTag">Functional</span>
-      <span class="serviceTag">Yoga</span>
-      <span class="serviceTag">Personal training</span>
-      <span class="serviceTag">Ecstatic dance</span>
-      <span class="serviceTag">Co working</span>
-      <span class="serviceTag">Coffee Lounge</span>
-      <span class="serviceTag">Encuentros abiertos</span>
-      <span class="serviceTag">Charlas</span>
-    </div>
-  </div>
-</section>
-
-<!-- 06 PRÓXIMOS EVENTOS -->
+<!-- 05 PRÓXIMOS EVENTOS -->
 <section id="events" class="upcoming" aria-label="Próximos eventos">
   <div class="wrap upcomingGrid">
     <h2 class="upcomingTitle">Próximos eventos.</h2>
@@ -1510,12 +1534,26 @@ footer{
   </div>
 </section>
 
-<!-- 07 MEMBRESÍA -->
-<section id="dia" class="invite" aria-label="Membresía">
-  <div class="wrap inviteGrid">
-    <article class="inviteCard inviteCard--primary">
+<!-- 06 SERVICES + MEMBRESÍA -->
+<section id="services" class="services" aria-label="Servicios y membresía">
+  <div class="wrap servicesLayout">
+    <div class="servicesCopy">
+      <p class="servicesLabel">Servicios</p>
+      <h2 class="servicesTitle">Distintas formas<br>una misma frecuencia.</h2>
+      <div class="servicesGrid">
+        <span class="serviceTag">Gimnasio</span>
+        <span class="serviceTag">Functional</span>
+        <span class="serviceTag">Yoga</span>
+        <span class="serviceTag">Personal training</span>
+        <span class="serviceTag">Ecstatic dance</span>
+        <span class="serviceTag">Co working</span>
+        <span class="serviceTag">Coffee Lounge</span>
+        <span class="serviceTag">Encuentros abiertos</span>
+        <span class="serviceTag">Charlas</span>
+      </div>
+    </div>
+    <article id="dia" class="inviteCard inviteCard--primary" aria-label="Membresía">
       <div class="inviteMain">
-        <p class="inviteLabel">Membresía</p>
         <h2>Quiero ser<br>miembro.</h2>
         <p class="inviteCopy">Durante el primer mes definimos tus objetivos, adaptamos el entrenamiento y revisamos hábitos. Después seguís con una membresía que puedas sostener.</p>
       </div>
@@ -1590,7 +1628,6 @@ footer{
   <div class="wrap prelaunchInner">
     <div>
       <h2>Me interesa<br>saber más.</h2>
-      <p class="prelaunchCopy">Una actividad elegida con vos: gimnasio, clase o encuentro. Sin obligación de entrenar. Si el gimnasio te genera resistencia, el primer vínculo puede ser CELEBRATE.</p>
     </div>
     <div class="prelaunchActions">
       <a
@@ -1623,7 +1660,7 @@ footer{
       </footer>
 
 <script src="js/main.js?v=19"></script>
-<script src="js/hero-videos.js?v=6"></script>
+<script src="js/hero-videos.js?v=7"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
   (function initFreequenceMap() {

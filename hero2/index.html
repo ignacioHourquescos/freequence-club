@@ -11,12 +11,12 @@
 <style>
 :root{
   /* Brand palette */
-  --snow:#fbfbf8;       /* Snow White */
-  --white:#ffffff;      /* Pure White */
+  --snow:#F4F8ED;
+  --white:#F4F8ED;
   --blue:#0f62ff;       /* Azure Blue */
   --ink:#000000;        /* Jet Black */
   --cream:var(--snow);
-  --soft:#f0f0ed;       /* soft tint from black on Snow White */
+  --soft:#f0f0ed;
   --muted:#5c5c5c;
   --line:rgba(0,0,0,.12);
   --dark:#000000;
@@ -68,7 +68,7 @@ a{color:inherit;text-decoration:none}
   font-size:7px;
   font-weight:800;
   letter-spacing:1.6px;
-  color:rgba(255,255,255,.55);
+  color:rgba(244,248,237,.55);
 }
 .navlinks{
   display:flex;
@@ -77,9 +77,11 @@ a{color:inherit;text-decoration:none}
   font-size:9px;
   font-weight:900;
   letter-spacing:1.35px;
+  text-transform:uppercase;
 }
 .loc{
-  border:1px solid rgba(255,255,255,.25);
+  display:none;
+  border:1px solid rgba(244,248,237,.25);
   border-radius:999px;
   padding:6px 12px;
   font-size:8px;
@@ -111,10 +113,10 @@ a{color:inherit;text-decoration:none}
   display:flex;
   flex-direction:column;
   background:var(--blue);
-  color:#fff;
+  color:#F4F8ED;
   background-image:
-    linear-gradient(to right,rgba(255,255,255,.12) 1px,transparent 1px),
-    linear-gradient(to bottom,rgba(255,255,255,.12) 1px,transparent 1px);
+    linear-gradient(to right,rgba(244,248,237,.12) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(244,248,237,.12) 1px,transparent 1px);
   background-size:150px 150px;
 }
 .heroInner{
@@ -151,7 +153,7 @@ a{color:inherit;text-decoration:none}
   font-weight:900;
 }
 .heroTitle--self{
-  color:#fff;
+  color:#F4F8ED;
 }
 .microLogo{
   position:absolute;
@@ -159,7 +161,7 @@ a{color:inherit;text-decoration:none}
   bottom:100%;
   margin-bottom:clamp(16px,2vh,24px);
   z-index:2;
-  color:rgba(255,255,255,.55);
+  color:rgba(244,248,237,.55);
   font-size:clamp(20px,1.35vw,21px);
   line-height:1;
   font-weight:900;
@@ -169,7 +171,7 @@ a{color:inherit;text-decoration:none}
   white-space:nowrap;
 }
 .microLogo span{
-  color:rgba(255,255,255,.4);
+  color:rgba(244,248,237,.4);
   margin-left:3px;
   font-size:.42em;
   letter-spacing:1.3px;
@@ -297,10 +299,10 @@ h2{
 /* BODY / MIND / ENCOUNTER */
 .dimensions{
   background:var(--ink);
-  color:#fff;
+  color:#F4F8ED;
 }
 .dimensions .sectionLabel{color:var(--blue)}
-.dimensions .body{color:rgba(255,255,255,.78)}
+.dimensions .body{color:rgba(244,248,237,.78)}
 .dimensionCards{
   margin-top:0;
   display:grid;
@@ -371,16 +373,24 @@ h2{
 /* SERVICES GRID */
 .services{
   background:var(--ink);
-  color:#fff;
+  color:#F4F8ED;
   padding:90px 0;
 }
 .servicesLabel{
-  margin:0 0 28px;
+  margin:0 0 14px;
   color:#c4a574;
   font-size:10px;
   font-weight:800;
   letter-spacing:2.4px;
   text-transform:uppercase;
+}
+.servicesTitle{
+  margin:0 0 36px;
+  color:#F4F8ED;
+  font-size:clamp(40px,4.6vw,68px);
+  line-height:.86;
+  letter-spacing:-2.8px;
+  font-weight:900;
 }
 .servicesGrid{
   display:flex;
@@ -391,10 +401,10 @@ h2{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  border:1px solid rgba(255,255,255,.28);
+  border:1px solid rgba(244,248,237,.28);
   border-radius:0;
   padding:18px 28px;
-  color:rgba(255,255,255,.9);
+  color:rgba(244,248,237,.9);
   font-size:18px;
   font-weight:600;
   letter-spacing:.15px;
@@ -542,11 +552,11 @@ h2{
 .point.is-map-active{
   background:var(--blue);
   border-color:transparent;
-  color:#fff;
+  color:#F4F8ED;
 }
 .point.is-map-active .k,
 .point.is-map-active p{
-  color:#fff;
+  color:#F4F8ED;
 }
 .pointHead{
   display:flex;
@@ -582,11 +592,11 @@ h2{
 .point:hover{
   background:var(--blue);
   border-color:transparent;
-  color:#fff;
+  color:#F4F8ED;
 }
 .point:hover .k,
 .point:hover p{
-  color:#fff;
+  color:#F4F8ED;
 }
 
 
@@ -620,7 +630,7 @@ h2{
 .realMapFrame .mapLegend{
   z-index:2;
   color:#5c6670;
-  background:rgba(255,255,255,.88);
+  background:rgba(244,248,237,.88);
   padding:8px 12px;
   border-radius:999px;
   box-shadow:0 2px 10px rgba(0,0,0,.08);
@@ -630,7 +640,7 @@ h2{
 }
 .realMapFrame .leaflet-control-attribution{
   font-size:10px;
-  background:rgba(255,255,255,.72);
+  background:rgba(244,248,237,.72);
 }
 .freequence-marker{
   background:transparent;
@@ -641,7 +651,7 @@ h2{
   height:18px;
   border-radius:50%;
   background:var(--blue);
-  border:3px solid #fff;
+  border:3px solid #F4F8ED;
   box-shadow:0 2px 8px rgba(0,0,0,.25);
   transition:transform .22s ease,box-shadow .22s ease,opacity .22s ease;
 }
@@ -682,7 +692,7 @@ h2{
   letter-spacing:.2px;
 }
 .mapLabel.major{
-  fill:#fff;
+  fill:#F4F8ED;
   font-size:16px;
   font-weight:900;
 }
@@ -690,7 +700,7 @@ h2{
 .mapLand{fill:#252a31;stroke:#48505a;stroke-width:1}
 .mapBoundary{fill:none;stroke:#39414b;stroke-width:1}
 .mapRoad{fill:none;stroke:#313842;stroke-width:3;opacity:.7}
-.mapPin{fill:var(--blue);stroke:#fff;stroke-width:3}
+.mapPin{fill:var(--blue);stroke:#F4F8ED;stroke-width:3}
 .mapPinHalo{fill:rgba(15,98,255,.14)}
 .mapCaption{
   position:absolute;
@@ -718,7 +728,7 @@ h2{
 .mapLegendDot{
   width:9px;height:9px;border-radius:50%;
   background:var(--blue);
-  border:2px solid #fff;
+  border:2px solid #F4F8ED;
 }
 
 /* COMMUNITY */
@@ -750,9 +760,9 @@ h2{
 /* MANIFESTO TEASER */
 .manifesto{
   background:var(--blue);
-  color:#fff;
+  color:#F4F8ED;
 }
-.manifesto .sectionLabel{color:#fff}
+.manifesto .sectionLabel{color:#F4F8ED}
 .manifestoTeaser{
   display:grid;
   grid-template-columns:1fr .72fr;
@@ -770,7 +780,7 @@ h2{
 .manifestoLead{
   margin-top:22px;
   max-width:18ch;
-  color:rgba(255,255,255,.88);
+  color:rgba(244,248,237,.88);
   font-size:clamp(28px,3.4vw,48px);
   line-height:.95;
   letter-spacing:-2px;
@@ -808,7 +818,7 @@ h2{
 /* PRE-LAUNCH CTA */
 .prelaunch{
   background:var(--blue);
-  color:#fff;
+  color:#F4F8ED;
 }
 .prelaunchInner{
   display:flex;
@@ -824,17 +834,17 @@ h2{
   display:inline-flex;
   align-items:center;
   gap:16px;
-  color:#fff;
+  color:#F4F8ED;
   font-size:clamp(18px,2vw,28px);
   font-weight:900;
   letter-spacing:1.8px;
   text-transform:uppercase;
-  border-bottom:2px solid rgba(255,255,255,.75);
+  border-bottom:2px solid rgba(244,248,237,.75);
   padding-bottom:12px;
   transition:border-color .2s ease, opacity .2s ease, transform .2s ease;
 }
 .prelaunchCta:hover{
-  border-color:#fff;
+  border-color:#F4F8ED;
   opacity:.95;
   transform:translateX(4px);
 }
@@ -846,7 +856,7 @@ h2{
 /* FOOTER */
 footer{
   background:var(--ink);
-  color:rgba(255,255,255,.62);
+  color:rgba(244,248,237,.62);
   padding:26px 0;
   font-size:9px;
   font-weight:800;
@@ -862,7 +872,7 @@ footer{
   font-weight:500;
   letter-spacing:0;
   line-height:1.35;
-  color:rgba(255,255,255,.78);
+  color:rgba(244,248,237,.78);
 }
 
 /* RESPONSIVE */
@@ -870,6 +880,7 @@ footer{
   :root{--page-x:24px}
   .nav{height:48px}
   .navlinks{display:none}
+  .loc{display:block}
   .hero{
     flex-direction:column;
     min-height:100svh;
@@ -935,6 +946,7 @@ footer{
   .dimensionImage{height:190px}
   .dimensionContent{min-height:180px;padding:24px 26px 26px}
   .services{padding:64px 0}
+  .servicesTitle{font-size:clamp(37px,9.2vw,69px);line-height:.92;letter-spacing:-2.4px;margin-bottom:28px}
   .serviceTag{padding:14px 18px;font-size:15px;white-space:normal;text-align:center}
   .mapLabel.major{font-size:12px}
   .mapLabel{font-size:10px}
@@ -950,16 +962,10 @@ footer{
   <div class="wrap navin">
     <a class="wordmark" href="#top">FREEquence <span>CLUB</span></a>
     <nav class="navlinks">
-      <a href="#dimensions">LA EXPERIENCIA</a>
-      <a href="#points">PUNTOS</a>
-      <a href="#points">COMUNIDAD</a>
-      <a href="../manifiesto/">MANIFIESTO</a>
-      <a href="../">HOME</a>
-      <a href="./">HERO 2</a>
-      <a href="../animation/">WAVES</a>
-      <a href="../animation/noise/">NOISE</a>
-      <a href="../animation/e/">ANIMACIÓN</a>
-        </nav>
+      <a href="../formulario/">Quiero ser miembro</a>
+      <a href="../manifiesto/">Manifiesto</a>
+      <a href="../preguntas/">Preguntas frecuentes</a>
+    </nav>
     <div class="loc">PUNTA CHICA</div>
   </div>
       </header>
@@ -978,7 +984,7 @@ footer{
   </div>
   <aside class="heroSide" aria-hidden="true">
     <div class="heroSideVideos">
-      <video muted playsinline preload="auto" data-src="../videos/mujer-transpirando.mp4"></video>
+      <video muted playsinline preload="auto" data-src="../videos/gemini_hombre1.mp4"></video>
       <video muted playsinline preload="auto" data-src="../videos/hombre-meditando.mp4"></video>
       <video muted playsinline preload="auto" data-src="../videos/cafe.mp4"></video>
     </div>
@@ -1048,6 +1054,7 @@ footer{
 <section id="services" class="services" aria-label="Servicios">
   <div class="wrap">
     <p class="servicesLabel">Servicios</p>
+    <h2 class="servicesTitle">Distintas formas<br>una misma frecuencia.</h2>
     <div class="servicesGrid">
       <span class="serviceTag">Gimnasio</span>
       <span class="serviceTag">Functional</span>

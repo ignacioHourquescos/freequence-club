@@ -82,7 +82,7 @@ const DEFAULTS = {
   wave2Freq: 2,
   wave2Amp: 0.3,
   wave2Speed: 0.8,
-  tint: 0xffffff,
+  tint: 0xf4f8ed,
   tintAmount: 0,
 };
 

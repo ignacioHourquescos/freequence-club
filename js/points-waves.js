@@ -64,7 +64,7 @@ export const CLOSING_WAVES = {
   morphAmount: 0,
   personalAmp: 10,
   highlightCenter: true,
-  highlightColor: "#ffffff",
+  highlightColor: "#F4F8ED",
   // Optional grid indices for the white “yo” point (defaults to grid center)
   highlightIx: null,
   highlightIy: null,

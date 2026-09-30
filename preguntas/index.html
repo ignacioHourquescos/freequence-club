@@ -8,8 +8,8 @@
     <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180" />
     <style>
 :root{
-  --snow:#fbfbf8;
-  --white:#ffffff;
+  --snow:#F4F8ED;
+  --white:#F4F8ED;
   --blue:#0f62ff;
   --ink:#000000;
   --soft:#f0f0ed;
@@ -50,17 +50,26 @@ button{font:inherit}
   font-size:7px;
   font-weight:800;
   letter-spacing:1.6px;
-  color:rgba(255,255,255,.55);
+  color:rgba(244,248,237,.55);
+}
+.navlinks{
+  display:flex;
+  align-items:center;
+  gap:24px;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.35px;
+  text-transform:uppercase;
 }
 .loc{
-  border:1px solid rgba(255,255,255,.25);
+  border:1px solid rgba(244,248,237,.25);
   border-radius:999px;
   padding:6px 12px;
   font-size:8px;
   font-weight:800;
   letter-spacing:1.15px;
 }
-.navend{display:flex;align-items:center;gap:14px}
+.navend{display:none;align-items:center;gap:14px}
 .burger{
   width:36px;
   height:36px;
@@ -68,7 +77,7 @@ button{font:inherit}
   padding:0;
   border:0;
   background:transparent;
-  color:#fff;
+  color:#F4F8ED;
   cursor:pointer;
   display:flex;
   flex-direction:column;
@@ -80,7 +89,7 @@ button{font:inherit}
   display:block;
   width:18px;
   height:1.5px;
-  background:#fff;
+  background:#F4F8ED;
   transition:transform .25s ease,opacity .2s ease;
 }
 .nav.is-open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
@@ -97,13 +106,13 @@ button{font:inherit}
   -webkit-backdrop-filter:blur(18px);
   backdrop-filter:blur(18px);
   padding:clamp(28px,7vh,64px) 0 48px;
-  border-top:1px solid rgba(255,255,255,.12);
+  border-top:1px solid rgba(244,248,237,.12);
   overflow:auto;
 }
 .menu[hidden]{display:none !important}
 .menu a{
   display:block;
-  color:#fff;
+  color:#F4F8ED;
   padding:14px 0;
   font-size:clamp(28px,4vw,44px);
   font-weight:900;
@@ -175,7 +184,7 @@ h1{
 
 footer{
   background:var(--ink);
-  color:rgba(255,255,255,.62);
+  color:rgba(244,248,237,.62);
   padding:26px 0;
   font-size:9px;
   font-weight:800;
@@ -191,12 +200,14 @@ footer{
   font-weight:500;
   letter-spacing:0;
   line-height:1.35;
-  color:rgba(255,255,255,.78);
+  color:rgba(244,248,237,.78);
 }
 
 @media(max-width:900px){
   :root{--page-x:24px}
   .nav{height:48px}
+  .navlinks{display:none}
+  .navend{display:flex}
   .menu{top:48px}
   .faqPage{padding:48px 0 72px}
   h1{font-size:clamp(44px,12vw,64px);letter-spacing:-2.6px}
@@ -212,6 +223,11 @@ footer{
 <header class="nav">
   <div class="wrap navin">
     <a class="wordmark" href="../">FREEquence <span>CLUB</span></a>
+    <nav class="navlinks">
+      <a href="../formulario/">Quiero ser miembro</a>
+      <a href="../manifiesto/">Manifiesto</a>
+      <a href="./" aria-current="page">Preguntas frecuentes</a>
+    </nav>
     <div class="navend">
       <div class="loc">PUNTA CHICA</div>
       <button class="burger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Abrir menú">

@@ -26,18 +26,47 @@
     video.load();
   };
 
-  const seekRandom = (video) => {
+  const seekTo = (video, seconds) => {
+    if (video._clearSeek) video._clearSeek();
+    let tries = 0;
     const jump = () => {
+      const dur = video.duration;
+      if (!Number.isFinite(dur) || dur <= 0.4) return;
+      const target = Math.min(Math.max(0, seconds), Math.max(0, dur - 0.3));
+      if (Math.abs(video.currentTime - target) <= 0.35) {
+        clear();
+        return;
+      }
+      if (tries++ > 8) {
+        clear();
+        return;
+      }
       try {
-        const dur = video.duration;
-        if (Number.isFinite(dur) && dur > 1.5) {
-          video.currentTime = Math.random() * Math.max(0.2, dur * 0.7);
-        } else {
-          video.currentTime = 0;
-        }
+        video.currentTime = target;
       } catch (_) {
         /* ignore */
       }
+    };
+    const clear = () => {
+      video.removeEventListener("loadedmetadata", jump);
+      video.removeEventListener("loadeddata", jump);
+      video.removeEventListener("playing", jump);
+      video.removeEventListener("timeupdate", jump);
+      if (video._clearSeek === clear) video._clearSeek = null;
+    };
+    video._clearSeek = clear;
+    video.addEventListener("loadedmetadata", jump);
+    video.addEventListener("loadeddata", jump);
+    video.addEventListener("playing", jump);
+    video.addEventListener("timeupdate", jump);
+    jump();
+  };
+
+  const seekRandom = (video) => {
+    const jump = () => {
+      const dur = video.duration;
+      const span = Number.isFinite(dur) && dur > 1.5 ? Math.max(0.2, dur * 0.7) : 0;
+      seekTo(video, span ? Math.random() * span : 0);
     };
     if (video.readyState >= 1) jump();
     else video.addEventListener("loadedmetadata", jump, { once: true });
@@ -55,7 +84,8 @@
     const video = videoOf(cell);
     if (!video) return;
     ensureSrc(video);
-    seekRandom(video);
+    if (cells.indexOf(cell) === 0) seekTo(video, 3);
+    else seekRandom(video);
     cell.classList.add("is-playing");
     host.classList.add("has-playing");
     const play = video.play();

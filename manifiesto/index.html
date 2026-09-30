@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="../css/closing-section.css?v=11" />
     <style>
 :root{
-  --snow:#fbfbf8;
-  --white:#ffffff;
+  --snow:#F4F8ED;
+  --white:#F4F8ED;
   --blue:#0f62ff;
   --ink:#000000;
   --cream:var(--snow);
@@ -54,7 +54,7 @@ a{color:inherit;text-decoration:none}
   font-size:7px;
   font-weight:800;
   letter-spacing:1.6px;
-  color:rgba(255,255,255,.55);
+  color:rgba(244,248,237,.55);
 }
 .navlinks{
   display:flex;
@@ -63,17 +63,18 @@ a{color:inherit;text-decoration:none}
   font-size:9px;
   font-weight:900;
   letter-spacing:1.35px;
+  text-transform:uppercase;
 }
 .navlinks a.is-active{color:var(--blue)}
 .loc{
-  border:1px solid rgba(255,255,255,.25);
+  border:1px solid rgba(244,248,237,.25);
   border-radius:999px;
   padding:6px 12px;
   font-size:8px;
   font-weight:800;
   letter-spacing:1.15px;
 }
-.navend{display:flex;align-items:center;gap:14px}
+.navend{display:none;align-items:center;gap:14px}
 .burger{
   width:36px;
   height:36px;
@@ -81,7 +82,7 @@ a{color:inherit;text-decoration:none}
   padding:0;
   border:0;
   background:transparent;
-  color:#fff;
+  color:#F4F8ED;
   cursor:pointer;
   display:flex;
   flex-direction:column;
@@ -93,7 +94,7 @@ a{color:inherit;text-decoration:none}
   display:block;
   width:18px;
   height:1.5px;
-  background:#fff;
+  background:#F4F8ED;
   transition:transform .25s ease,opacity .2s ease;
 }
 .nav.is-open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
@@ -110,13 +111,13 @@ a{color:inherit;text-decoration:none}
   -webkit-backdrop-filter:blur(18px);
   backdrop-filter:blur(18px);
   padding:clamp(28px,7vh,64px) 0 48px;
-  border-top:1px solid rgba(255,255,255,.12);
+  border-top:1px solid rgba(244,248,237,.12);
   overflow:auto;
 }
 .menu[hidden]{display:none !important}
 .menu a{
   display:block;
-  color:#fff;
+  color:#F4F8ED;
   padding:14px 0;
   font-size:clamp(28px,4vw,44px);
   font-weight:900;
@@ -174,14 +175,14 @@ section{
   align-items:center;
   padding:12vh 0 14vh;
   background:var(--ink);
-  color:#fff;
+  color:#F4F8ED;
   background-image:
-    linear-gradient(to right,rgba(255,255,255,.05) 1px,transparent 1px),
-    linear-gradient(to bottom,rgba(255,255,255,.05) 1px,transparent 1px);
+    linear-gradient(to right,rgba(244,248,237,.05) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(244,248,237,.05) 1px,transparent 1px);
   background-size:150px 150px;
 }
 .mHero .editorialGrid{align-items:center}
-.mHero .display{color:#fff}
+.mHero .display{color:#F4F8ED}
 .mHero .displaySub{
   margin-top:22px;
   color:var(--blue);
@@ -191,7 +192,7 @@ section{
   font-weight:900;
 }
 .mHero .stack p{
-  color:rgba(255,255,255,.88);
+  color:rgba(244,248,237,.88);
   font-size:clamp(18px,1.5vw,22px);
   line-height:1.45;
 }
@@ -208,7 +209,7 @@ section{
 /* FOOTER */
 footer{
   background:var(--ink);
-  color:rgba(255,255,255,.62);
+  color:rgba(244,248,237,.62);
   padding:26px 0;
   font-size:9px;
   font-weight:800;
@@ -224,13 +225,14 @@ footer{
   font-weight:500;
   letter-spacing:0;
   line-height:1.35;
-  color:rgba(255,255,255,.78);
+  color:rgba(244,248,237,.78);
 }
 
 @media(max-width:900px){
   :root{--page-x:24px}
   .nav{height:48px}
   .navlinks{display:none}
+  .navend{display:flex}
   .menu{top:48px}
   section{padding:82px 0}
   .mHero{padding:90px 0}
@@ -248,13 +250,9 @@ footer{
   <div class="wrap navin">
     <a class="wordmark" href="../">FREEquence <span>CLUB</span></a>
     <nav class="navlinks">
-      <a href="../#dimensions">LA EXPERIENCIA</a>
-      <a href="../#points">PUNTOS</a>
-      <a href="../#points">COMUNIDAD</a>
-      <a href="./" class="is-active">MANIFIESTO</a>
-      <a href="../animation/">WAVES</a>
-      <a href="../animation/noise/">NOISE</a>
-      <a href="../animation/e/">ANIMACIÓN</a>
+      <a href="../formulario/">Quiero ser miembro</a>
+      <a href="./" aria-current="page">Manifiesto</a>
+      <a href="../preguntas/">Preguntas frecuentes</a>
     </nav>
     <div class="navend">
       <div class="loc">PUNTA CHICA</div>
