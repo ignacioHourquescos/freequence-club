@@ -1,8 +1,7 @@
 /** Single source of truth for the closing frame copy. */
 export const CLOSING_COPY = {
   eyebrow: "FREEquence CLUB",
-  titleHtml: "Un lugar<br>que te alienta<br>y acompaña<br>a vivir mejor.",
-};
+  titleHtml: "Cuerpo, mente &amp; gente en sintonía.",};
 
 /**
  * Mount the shared "Acá puedo ser yo" closing section into `root`.
@@ -18,8 +17,7 @@ export function mountClosingSection(root) {
   section.innerHTML = `
     <div class="wrap">
       <div class="sectionLabel">${CLOSING_COPY.eyebrow}</div>
-      <h2>${CLOSING_COPY.titleHtml}</h2>
-    </div>
+      <h2>${CLOSING_COPY.titleHtml}</h2>    </div>
   `;
 
   root.replaceWith(section);

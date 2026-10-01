@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
   <head>
 <meta charset="utf-8">
@@ -7,7 +7,7 @@
     <link rel="icon" href="favicon-32x32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="css/closing-section.css?v=11" />
+    <link rel="stylesheet" href="css/closing-section.css?v=14" />
 <style>
 :root{
   /* Brand palette */
@@ -22,6 +22,11 @@
   --dark:#000000;
   --max:1280px;
   --page-x:32px;
+  /* Shared left edge: box edge used by nav + hero, and the visual (ink) edge of MOVE/RESET/CONNECT */
+  --hero-title-size:clamp(58px,11vw,156px);
+  --edge:max(16px,calc(max(var(--page-x),calc((100vw - var(--max)) / 2)) - 48px));
+  --ink-offset:calc(var(--hero-title-size) * .064);
+  --edge-ink:calc(var(--edge) + var(--ink-offset));
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -33,7 +38,8 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 a{color:inherit;text-decoration:none}
-.wrap{width:min(calc(100% - 2 * var(--page-x)),var(--max));margin:0 auto}
+.wrap,
+.closing .wrap{width:calc(100% - 2 * var(--edge-ink));margin:0 auto}
 
 /* NAV — always visible */
 .nav{
@@ -48,21 +54,29 @@ a{color:inherit;text-decoration:none}
   right:0;
   z-index:100;
 }
-.navin{height:100%;display:flex;align-items:center;justify-content:space-between}
+.navin{
+  height:100%;
+  width:100%;
+  box-sizing:border-box;
+  padding:0 var(--edge-ink);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
 .wordmark{
-  font-size:14px;
+  font-size:20px;
   font-weight:900;
-  letter-spacing:-.8px;
+  letter-spacing:-1px;
 }
 .wordmark span{
-  margin-left:4px;
-  font-size:7px;
+  margin-left:5px;
+  font-size:9px;
   font-weight:800;
   letter-spacing:1.6px;
   color:rgba(244,248,237,.55);
 }
 .navlinks{
-  display:flex;
+  display:none;
   align-items:center;
   gap:24px;
   font-size:9px;
@@ -78,7 +92,7 @@ a{color:inherit;text-decoration:none}
   font-weight:800;
   letter-spacing:1.15px;
 }
-.navend{display:none;align-items:center;gap:14px}
+.navend{display:flex;align-items:center;gap:14px}
 .burger{
   width:36px;
   height:36px;
@@ -164,12 +178,12 @@ body.menu-open{overflow:hidden}
   z-index:3;
   height:100%;
   box-sizing:border-box;
-  padding:10vh 0 10vh max(var(--page-x),calc((100vw - var(--max)) / 2));
+  padding:10vh 0 10vh var(--edge-ink);
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:flex-start;
-  /* Let MOVE/RESET/CELEBRATE spill onto the video grid */
+  /* Let MOVE/RESET/CONNECT spill onto the video grid */
   width:calc(100% + 42vw);
   max-width:none;
   pointer-events:none;
@@ -185,14 +199,15 @@ body.menu-open{overflow:hidden}
   transform:translateY(calc(-1 * clamp(28px,5vh,56px)));
 }
 .heroTitle{
-  margin:clamp(36px,6vh,72px) 0 0;
-  font-size:clamp(52px,9.8vw,136px);
+  /* negative left margin cancels the "M" side bearing so the ink sits on --edge-ink */
+  margin:clamp(36px,6vh,72px) 0 0 calc(-1 * var(--ink-offset));
+  font-size:var(--hero-title-size);
   line-height:.82;
-  letter-spacing:-5px;
+  letter-spacing:-5.5px;
   font-weight:900;
   text-transform:uppercase;
   color:#F4F8ED;
-  transform:translateY(clamp(20px,4vh,48px));
+  transform:translateY(clamp(72px,12vh,140px));
 }
 .heroTitle span{
   display:block;
@@ -327,7 +342,7 @@ h2{
 .experienceStageCopy{
   position:relative;
   z-index:1;
-  width:min(calc(100% - 2 * var(--page-x)),var(--max));
+  width:calc(100% - 2 * var(--edge-ink));
   margin:0 auto;
   text-align:left;
   display:flex;
@@ -345,7 +360,8 @@ h2{
 }
 .experienceStageLead{
   margin:22px 0 0;
-  max-width:18ch;
+  max-width:none;
+  white-space:nowrap;
   color:rgba(0,0,0,.55);
   font-size:clamp(28px,3.4vw,48px);
   line-height:.95;
@@ -435,8 +451,10 @@ h2{
 }
 .servicesLayout{
   display:grid;
-  grid-template-columns:minmax(0,1.08fr) minmax(320px,.92fr);
-  gap:clamp(28px,4vw,56px);
+  /* Mismas columnas y gap que .upcomingGrid: la tarjeta queda alineada
+     pixel a pixel con las tarjetas de eventos de la sección anterior. */
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(36px,6vw,88px);
   align-items:stretch;
 }
 .services .inviteCard--primary{
@@ -454,7 +472,6 @@ h2{
   margin-bottom:36px;
 }
 .services .inviteCta{
-  width:100%;
   margin-top:auto;
 }
 .servicesLabel{
@@ -468,8 +485,8 @@ h2{
 .servicesTitle{
   margin:0 0 36px;
   color:#F4F8ED;
-  font-size:clamp(40px,4.6vw,68px);
-  line-height:.86;
+  font-size:clamp(32px,4vw,60px);
+  line-height:.92;
   letter-spacing:-2.8px;
   font-weight:900;
 }
@@ -890,27 +907,71 @@ h2{
   align-items:flex-end;
   padding-bottom:6px;
 }
-.manifestoCta{
+/* CTA de línea (compartido: manifiesto, membresía, prelanzamiento) */
+.lineCta{
+  --cta-color:#F4F8ED;
+  --cta-line:rgba(244,248,237,.75);
+  position:relative;
   display:inline-flex;
   align-items:center;
-  gap:16px;
-  color:#e0c48a;
-  font-size:clamp(18px,2vw,28px);
+  gap:14px;
+  padding-bottom:10px;
+  color:var(--cta-color);
+  font-size:clamp(16px,1.5vw,22px);
   font-weight:900;
-  letter-spacing:1.8px;
+  letter-spacing:1.4px;
   text-transform:uppercase;
-  border-bottom:2px solid rgba(224,196,138,.8);
-  padding-bottom:12px;
-  transition:border-color .2s ease, opacity .2s ease, transform .2s ease;
+  transition:opacity .2s ease, transform .2s ease;
 }
-.manifestoCta:hover{
-  border-color:#e0c48a;
+.lineCta::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:2px;
+  background:var(--cta-line);
+  transform:scaleX(0);
+  transform-origin:left center;
+  transition:background-color .2s ease;
+}
+.lineCta span{
+  display:inline-block;
+  font-size:1.15em;
+  line-height:1;
+  opacity:0;
+  transform:translateX(-14px);
+}
+.lineCta.is-inview::after{
+  animation:ctaLineDraw .7s cubic-bezier(.65,0,.35,1) forwards;
+}
+.lineCta.is-inview span{
+  animation:ctaArrowIn .9s cubic-bezier(.22,1,.36,1) .35s forwards;
+}
+.lineCta:hover{
   opacity:.95;
   transform:translateX(4px);
 }
-.manifestoCta span{
-  font-size:1.15em;
-  line-height:1;
+.lineCta:hover::after{
+  background:var(--cta-color);
+}
+@keyframes ctaLineDraw{
+  from{transform:scaleX(0)}
+  to{transform:scaleX(1)}
+}
+@keyframes ctaArrowIn{
+  0%{opacity:0;transform:translateX(-14px)}
+  55%{opacity:1;transform:translateX(5px)}
+  75%{transform:translateX(-2px)}
+  100%{opacity:1;transform:translateX(0)}
+}
+@media (prefers-reduced-motion:reduce){
+  .lineCta::after{transform:scaleX(1);animation:none !important}
+  .lineCta span{opacity:1;transform:none;animation:none !important}
+}
+.manifestoCta{
+  --cta-color:#e0c48a;
+  --cta-line:rgba(224,196,138,.8);
 }
 
 /* DÍA FREEQUENCE + MEMBRESÍA */
@@ -960,25 +1021,8 @@ h2{
 .inviteCta{
   grid-column:1 / -1;
   justify-self:start;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  width:50%;
+  align-self:flex-start;
   margin-top:36px;
-  padding:18px 20px;
-  background:#F4F8ED;
-  color:var(--ink);
-  font-size:14px;
-  font-weight:900;
-  letter-spacing:1.3px;
-  text-transform:uppercase;
-  transition:opacity .2s ease;
-}
-.inviteCta:hover{opacity:.92}
-.inviteCta span{
-  font-size:1.15em;
-  line-height:1;
 }
 .invitePerks{
   list-style:none;
@@ -1024,9 +1068,9 @@ h2{
 .upcomingTitle{
   margin:0;
   max-width:none;
-  font-size:clamp(36px,3.2vw,56px);
-  line-height:.88;
-  letter-spacing:-2.2px;
+  font-size:clamp(32px,4vw,60px);
+  line-height:.92;
+  letter-spacing:-2.8px;
   font-weight:900;
   white-space:nowrap;
 }
@@ -1111,6 +1155,8 @@ h2{
   position:relative;
   display:flex;
   align-items:flex-start;
+  justify-content:center;
+  padding-top:clamp(48px,8vh,96px);
   overflow:hidden;
   min-height:90vh;
   height:90vh;
@@ -1132,49 +1178,10 @@ h2{
 .prelaunchInner{
   position:relative;
   z-index:2;
-  display:grid;
-  grid-template-columns:minmax(0,1.15fr) minmax(240px,.85fr);
-  gap:clamp(32px,5vw,72px);
-  align-items:end;
-}
-.prelaunch h2{
-  margin:0;
-  max-width:10ch;
-  color:#F4F8ED;
-  font-size:clamp(40px,4.6vw,72px);
-  letter-spacing:-3.2px;
-  line-height:.88;
-}
-.prelaunchActions{
   display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  gap:22px;
-  padding-bottom:6px;
-}
-.prelaunchCta{
-  display:inline-flex;
+  justify-content:center;
   align-items:center;
-  gap:14px;
-  color:#F4F8ED;
-  font-size:clamp(16px,1.5vw,22px);
-  font-weight:900;
-  letter-spacing:1.4px;
-  text-transform:uppercase;
-  border-bottom:2px solid rgba(244,248,237,.75);
-  padding-bottom:10px;
-  transition:border-color .2s ease, opacity .2s ease, transform .2s ease;
 }
-.prelaunchCta:hover{
-  border-color:#F4F8ED;
-  opacity:.95;
-  transform:translateX(4px);
-}
-.prelaunchCta span{
-  font-size:1.15em;
-  line-height:1;
-}
-
 /* FOOTER */
 footer{
   background:var(--ink);
@@ -1199,8 +1206,9 @@ footer{
 
 /* RESPONSIVE */
 @media(max-width:900px){
-  :root{--page-x:24px}
+  :root{--page-x:24px;--edge-ink:var(--page-x)}
   .nav{height:48px}
+  .navin{padding:0 16px}
   .navlinks{display:none}
   .navend{display:flex}
   .menu{top:48px}
@@ -1264,8 +1272,8 @@ footer{
     bottom:max(28px,6svh);
     margin:0;
     transform:none;
-    font-size:clamp(40px,11.4vw,84px);
-    letter-spacing:-2.4px;
+    font-size:clamp(44px,15vw,96px);
+    letter-spacing:-3px;
   }
   .heroTitle span{
     white-space:nowrap;
@@ -1295,6 +1303,8 @@ footer{
   .manifestoTitle{font-size:clamp(34px,8.6vw,56px);letter-spacing:-2.2px}
   .experienceStageLead,
   .manifestoLead{font-size:clamp(28px,7vw,44px);letter-spacing:-1.6px;margin-top:16px}
+  .experienceStageLead{white-space:normal}
+  .experienceStageLead .deskBr{display:none}
   .inviteGrid{grid-template-columns:1fr}
   .inviteCard--primary{
     display:flex;
@@ -1302,21 +1312,17 @@ footer{
     padding:36px 26px 32px;
   }
   .invitePerks{margin-top:28px}
-  .inviteCta{width:100%;margin-top:28px;font-size:13px;letter-spacing:1px}
+  .lineCta{font-size:15px;letter-spacing:1px}
+  .inviteCta{margin-top:28px}
   .inviteCard--primary h2{font-size:clamp(36px,9vw,52px);letter-spacing:-2.4px}
-  .prelaunch{height:auto;min-height:1180px;background-position:center bottom}
-  .prelaunchInner{grid-template-columns:1fr;gap:28px;align-items:start}
-  .prelaunch h2{font-size:clamp(36px,9vw,52px);letter-spacing:-2.4px}
-  .prelaunchActions{gap:18px;padding-bottom:0}
-  .prelaunchCta{font-size:15px;letter-spacing:1px}
+  .prelaunch{height:auto;min-height:820px;background-position:center bottom}
   .upcomingGrid{grid-template-columns:1fr;gap:28px}
-  .upcomingTitle{font-size:clamp(44px,12vw,64px);letter-spacing:-2.6px;white-space:normal}
+  .upcomingTitle{font-size:clamp(34px,8.6vw,56px);letter-spacing:-2.2px;white-space:normal}
   .upcomingEvent{grid-template-columns:76px minmax(0,1fr);gap:14px;padding:12px}
   .upcomingDate{min-height:76px}
   .upcomingDate .day{font-size:32px}
   .upcomingBody h3{font-size:13px;letter-spacing:.8px}
   .upcomingBody p{font-size:13px}
-  .manifestoCta{font-size:clamp(21px,2.3vw,32px)}
   h2,.ideaHeadline,.communityQuote{letter-spacing:-3.2px}
   .dimensionCards{grid-template-columns:1fr}
   section.points{padding:28px 0 0 !important}
@@ -1339,7 +1345,8 @@ footer{
   .pointHead{gap:6px}
   .point h3{font-size:13px;letter-spacing:-.5px}
   .point p{font-size:10px;line-height:1.2;max-width:none}
-  .dimensionCards{gap:28px}
+  .dimensions .wrap{width:min(calc(100% - 2 * 36px),var(--max))}
+  .dimensionCards{gap:40px}
   .dimension{min-height:380px}
   .dimensionImage{height:190px}
   .dimensionContent{min-height:180px;padding:24px 26px 26px}
@@ -1359,7 +1366,7 @@ footer{
   <body>
 
 <header class="nav" data-nav-always>
-  <div class="wrap navin">
+  <div class="navin">
     <a class="wordmark" href="#top">FREEquence <span>CLUB</span></a>
     <nav class="navlinks">
       <a href="formulario/">Quiero ser miembro</a>
@@ -1386,31 +1393,30 @@ footer{
 
 <div class="opening">
 <!-- 01 HERO -->
-<section class="hero" aria-label="Move. Reset. Celebrate !">
+<section class="hero" aria-label="Move. Reset. Connect.">
   <div class="heroMain">
     <div class="heroInner">
       <p class="heroEyebrow">Wellness &amp; Social Club</p>
       <h1 class="heroTitle">
         <span>Move.</span>
         <span>Reset.</span>
-        <span>Celebrate !</span>
+        <span>Connect.</span>
       </h1>
     </div>
   </div>
   <aside class="heroSide" aria-hidden="true">
     <div class="heroVideoGrid">
-      <div class="heroVideoCell"><video muted playsinline preload="metadata" data-src="videos/women_sweating_1mp4.mp4"></video></div>
+      <div class="heroVideoCell"><video muted playsinline preload="metadata" data-src="videos/tijeras.mp4"></video></div>
       <div class="heroVideoCell"><video muted playsinline preload="metadata" data-src="videos/men_streching.mp4"></video></div>
-      <div class="heroVideoCell"><video muted playsinline preload="metadata" data-src="videos/mug_of_coffee.mp4"></video></div>
+      <div class="heroVideoCell"><video muted playsinline preload="metadata" data-src="videos/coffee10.mp4"></video></div>
     </div>
   </aside>
 </section>
 
 <!-- 02 EXPERIENCE STAGE -->
-<section id="dimensions" class="experienceStage" aria-label="Cuidarte también puede disfrutarse">
+<section id="dimensions" class="experienceStage" aria-label="Cuidarse es más fácil acompañado">
   <div class="experienceStageCopy">
-    <h2 class="experienceStageTitle">Cuidarte también<br>puede disfrutarse.</h2>
-    <p class="experienceStageLead">Un tercer lugar<br>que te alienta y<br>acompaña a vivir mejor</p>
+    <h2 class="experienceStageTitle">Cuidarse es más fácil acompañado.</h2>
   </div>
 </section>
 </div>
@@ -1455,7 +1461,7 @@ footer{
 
 <!-- 04 MANIFESTO TEASER -->
 <section id="manifesto" class="manifesto">
-  <video class="manifestoVideo" autoplay muted loop playsinline preload="auto" src="gemini_generated_video_0e31cf1a.mp4"></video>
+  <video class="manifestoVideo" id="manifestoVideo" autoplay muted playsinline preload="auto" src="gemini_generated_video_0e31cf1a.mp4"></video>
   <div class="manifestoOverlay" aria-hidden="true"></div>
   <div class="wrap manifestoTeaser">
     <div>
@@ -1463,7 +1469,7 @@ footer{
       <div class="manifestoLead">Creamos el espacio<br>para que encuentres<br>lo que resuena con vos.</div>
     </div>
     <div class="manifestoCtaWrap">
-      <a class="manifestoCta" href="manifiesto/">Ver Manifiesto <span aria-hidden="true">→</span></a>
+      <a class="lineCta manifestoCta" href="manifiesto/">Ver Manifiesto <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
@@ -1563,7 +1569,7 @@ footer{
         <li>Entrenamiento personalizado</li>
         <li>Clases y actividades</li>
       </ul>
-      <a class="inviteCta" href="formulario/">Quiero ser miembro <span aria-hidden="true">→</span></a>
+      <a class="lineCta inviteCta" href="formulario/">Quiero ser miembro <span aria-hidden="true">→</span></a>
     </article>
   </div>
 </section>
@@ -1606,16 +1612,14 @@ footer{
           <div class="pointHead"><div class="k">03</div><h3>. Coffee</h3></div>
           <p>Café y encuentro.</p>
         </article>
-        <article class="point" data-map="hub south">
-          <div class="pointHead"><div class="k">04</div><h3>. Cowork</h3></div>
-          <p>Trabajar y crear.</p>
-        </article>
+        <!-- Pádel: oculto por ahora
         <article class="point" data-map="padel">
           <div class="pointHead"><div class="k">05</div><h3>. Pádel</h3></div>
           <p>Juego y comunidad.</p>
         </article>
+        -->
         <article class="point" data-map="south">
-          <div class="pointHead"><div class="k">06</div><h3>Experiencias</h3></div>
+          <div class="pointHead"><div class="k">04</div><h3>Experiencias</h3></div>
           <p>Eventos y cultura.</p>
         </article>
       </div>
@@ -1624,25 +1628,14 @@ footer{
 </section>
 
 <!-- 09 ME INTERESA SABER MÁS -->
-<section id="prelaunch" class="prelaunch" aria-label="Me interesa saber más">
+<section id="prelaunch" class="prelaunch" aria-label="Seguinos en Instagram">
   <div class="wrap prelaunchInner">
-    <div>
-      <h2>Me interesa<br>saber más.</h2>
-    </div>
-    <div class="prelaunchActions">
-      <a
-        class="prelaunchCta"
-        href="https://www.whatsapp.com/channel/0029VbClfwB5PO155kXd952y"
-        target="_blank"
-        rel="noopener noreferrer"
-      >Unite al canal <span aria-hidden="true">→</span></a>
-      <a
-        class="prelaunchCta"
-        href="https://www.whatsapp.com/channel/0029VbClfwB5PO155kXd952y"
-        target="_blank"
-        rel="noopener noreferrer"
-      >Agendá un día de prueba <span aria-hidden="true">→</span></a>
-    </div>
+    <a
+        class="lineCta prelaunchCta"
+      href="https://www.instagram.com/punto.training/?hl=en"
+      target="_blank"
+      rel="noopener noreferrer"
+    >Seguinos <span aria-hidden="true">→</span></a>
   </div>
 </section>
 
@@ -1653,9 +1646,7 @@ footer{
 
       <footer>
   <div class="wrap foot">
-    <span>FREEquence Club</span>
     <span class="footLine">Acá puedo ser yo. ❤️</span>
-    <span>Punta Chica</span>
   </div>
       </footer>
 
@@ -1671,13 +1662,14 @@ footer{
       {
         id: "hub",
         latlng: [-34.450381103683945, -58.53202918542037],
-        label: "Training · Coffee · Cowork",
+        label: "Training · Coffee",
       },
-      {
-        id: "padel",
-        latlng: [-34.43252555973877, -58.564266133056],
-        label: "Pádel",
-      },
+      // Pádel: oculto por ahora
+      // {
+      //   id: "padel",
+      //   latlng: [-34.43252555973877, -58.564266133056],
+      //   label: "Pádel",
+      // },
       {
         id: "wellness",
         latlng: [-34.45424308483209, -58.52515033887387],
@@ -1686,7 +1678,7 @@ footer{
       {
         id: "south",
         latlng: [-34.52503487043843, -58.47237562553121],
-        label: "Cowork · Experiencias",
+        label: "Experiencias",
       },
     ];
 
@@ -1856,7 +1848,28 @@ footer{
   }
 }
 </script>
-<script type="module" src="js/closing-section.js?v=10"></script>
+<script type="module" src="js/closing-section.js?v=13"></script>
+<script>
+  // Video del manifiesto: empieza (y reinicia el loop) en el segundo 2
+  (function () {
+    var v = document.getElementById("manifestoVideo");
+    if (!v) return;
+    var START = 2;
+    function seekStart() {
+      try { v.currentTime = START; } catch (e) {}
+    }
+    function play() {
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+    if (v.readyState >= 1) seekStart();
+    else v.addEventListener("loadedmetadata", seekStart, { once: true });
+    v.addEventListener("ended", function () {
+      seekStart();
+      play();
+    });
+  })();
+</script>
 <script>
   (function () {
     var nav = document.querySelector(".nav");
@@ -1882,6 +1895,26 @@ footer{
         btn.focus();
       }
     });
+  })();
+</script>
+<script>
+  (function () {
+    var ctas = document.querySelectorAll(".lineCta");
+    if (!ctas.length) return;
+    if (!("IntersectionObserver" in window)) {
+      ctas.forEach(function (el) { el.classList.add("is-inview"); });
+      return;
+    }
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          // Se reinicia al salir para que vuelva a animar cada vez que entra.
+          entry.target.classList.toggle("is-inview", entry.isIntersecting);
+        });
+      },
+      { threshold: 0.6 }
+    );
+    ctas.forEach(function (el) { observer.observe(el); });
   })();
 </script>
 

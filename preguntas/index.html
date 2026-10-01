@@ -53,7 +53,7 @@ button{font:inherit}
   color:rgba(244,248,237,.55);
 }
 .navlinks{
-  display:flex;
+  display:none;
   align-items:center;
   gap:24px;
   font-size:9px;
@@ -69,7 +69,7 @@ button{font:inherit}
   font-weight:800;
   letter-spacing:1.15px;
 }
-.navend{display:none;align-items:center;gap:14px}
+.navend{display:flex;align-items:center;gap:14px}
 .burger{
   width:36px;
   height:36px;
@@ -124,6 +124,12 @@ button{font:inherit}
 body.menu-open{overflow:hidden}
 
 .faqPage{padding:72px 0 96px}
+.faqLayout{
+  display:grid;
+  grid-template-columns:minmax(0,.85fr) minmax(320px,1fr);
+  gap:clamp(40px,6vw,96px);
+  align-items:start;
+}
 .eyebrow{
   margin:0;
   color:var(--blue);
@@ -148,9 +154,10 @@ h1{
   line-height:1.45;
 }
 .faqList{
-  margin:56px 0 0;
+  margin:0;
   border-top:1px solid rgba(0,0,0,.12);
 }
+.faqList details:first-child summary{padding-top:0}
 .faqList details{border-bottom:1px solid rgba(0,0,0,.12)}
 .faqList summary{
   list-style:none;
@@ -206,13 +213,12 @@ footer{
 @media(max-width:900px){
   :root{--page-x:24px}
   .nav{height:48px}
-  .navlinks{display:none}
-  .navend{display:flex}
   .menu{top:48px}
   .faqPage{padding:48px 0 72px}
+  .faqLayout{grid-template-columns:1fr;gap:32px}
   h1{font-size:clamp(44px,12vw,64px);letter-spacing:-2.6px}
   .lead{font-size:16px}
-  .faqList{margin-top:36px}
+  .faqList details:first-child summary{padding-top:22px}
   .foot{flex-direction:column;align-items:flex-start;gap:10px}
   .footLine{flex:none;text-align:left;max-width:28em}
 }
@@ -246,10 +252,12 @@ footer{
 
 <main>
   <section class="faqPage">
-    <div class="wrap">
-      <p class="eyebrow">FAQ</p>
-      <h1>Preguntas<br>frecuentes.</h1>
-      <p class="lead">Siete preguntas de ejemplo. Las respuestas son placeholder y se van a reemplazar.</p>
+    <div class="wrap faqLayout">
+      <div>
+        <p class="eyebrow">FAQ</p>
+        <h1>Preguntas<br>frecuentes.</h1>
+        <p class="lead">Siete preguntas de ejemplo. Las respuestas son placeholder y se van a reemplazar.</p>
+      </div>
 
       <div class="faqList">
         <details>
@@ -287,9 +295,7 @@ footer{
 
 <footer>
   <div class="wrap foot">
-    <span>FREEquence Club</span>
     <span class="footLine">Acá puedo ser yo. ❤️</span>
-    <span>Punta Chica</span>
   </div>
 </footer>
 

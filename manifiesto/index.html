@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
   <head>
     <meta charset="utf-8">
@@ -6,7 +6,7 @@
     <title>Manifiesto · FREEquence Club</title>
     <link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180" />
-    <link rel="stylesheet" href="../css/closing-section.css?v=11" />
+    <link rel="stylesheet" href="../css/closing-section.css?v=14" />
     <style>
 :root{
   --snow:#F4F8ED;
@@ -57,7 +57,7 @@ a{color:inherit;text-decoration:none}
   color:rgba(244,248,237,.55);
 }
 .navlinks{
-  display:flex;
+  display:none;
   align-items:center;
   gap:24px;
   font-size:9px;
@@ -74,7 +74,7 @@ a{color:inherit;text-decoration:none}
   font-weight:800;
   letter-spacing:1.15px;
 }
-.navend{display:none;align-items:center;gap:14px}
+.navend{display:flex;align-items:center;gap:14px}
 .burger{
   width:36px;
   height:36px;
@@ -170,10 +170,7 @@ section{
 }
 /* SECTIONS */
 .mHero{
-  min-height:calc(100vh - 52px);
-  display:flex;
-  align-items:center;
-  padding:12vh 0 14vh;
+  padding:72px 0 96px;
   background:var(--ink);
   color:#F4F8ED;
   background-image:
@@ -181,8 +178,18 @@ section{
     linear-gradient(to bottom,rgba(244,248,237,.05) 1px,transparent 1px);
   background-size:150px 150px;
 }
-.mHero .editorialGrid{align-items:center}
-.mHero .display{color:#F4F8ED}
+.mHero .editorialGrid{
+  grid-template-columns:minmax(0,.85fr) minmax(320px,1fr);
+  gap:clamp(40px,6vw,96px);
+  align-items:start;
+}
+.mHero .display{
+  margin-top:16px;
+  max-width:none;
+  font-size:clamp(48px,5.4vw,80px);
+  letter-spacing:-4px;
+  color:#F4F8ED;
+}
 .mHero .displaySub{
   margin-top:22px;
   color:var(--blue);
@@ -193,7 +200,7 @@ section{
 }
 .mHero .stack p{
   color:rgba(244,248,237,.88);
-  font-size:clamp(18px,1.5vw,22px);
+  font-size:18px;
   line-height:1.45;
 }
 .armonia,
@@ -231,13 +238,13 @@ footer{
 @media(max-width:900px){
   :root{--page-x:24px}
   .nav{height:48px}
-  .navlinks{display:none}
-  .navend{display:flex}
   .menu{top:48px}
   section{padding:82px 0}
-  .mHero{padding:90px 0}
+  .mHero{padding:48px 0 72px}
+  .mHero .display{font-size:clamp(44px,12vw,64px);letter-spacing:-2.6px}
   .cierre{padding:14vh 0 16vh;min-height:78vh}
-  .editorialGrid{grid-template-columns:1fr;gap:32px}
+  .editorialGrid,
+  .mHero .editorialGrid{grid-template-columns:1fr;gap:32px}
   .display{letter-spacing:-3.2px}
   .foot{flex-direction:column;align-items:flex-start;gap:10px}
   .footLine{flex:none;text-align:left;max-width:28em}
@@ -277,7 +284,7 @@ footer{
   <div class="wrap editorialGrid">
     <div>
       <div class="sectionLabel">01 / Nuestra postura</div>
-      <h1 class="display displayWide">No hay una sola manera.</h1>
+      <h1 class="display displayWide">No hay una<br>sola manera.</h1>
       <div class="displaySub">Encontrá la tuya.</div>
     </div>
     <div class="stack">
@@ -358,9 +365,7 @@ footer{
 
 <footer>
   <div class="wrap foot">
-    <span>FREEquence Club</span>
     <span class="footLine">Acá puedo ser yo. ❤️</span>
-    <span>Punta Chica</span>
   </div>
 </footer>
 
@@ -371,7 +376,7 @@ footer{
   }
 }
 </script>
-<script type="module" src="../js/closing-section.js?v=10"></script>
+<script type="module" src="../js/closing-section.js?v=13"></script>
 <script>
   (function () {
     var nav = document.querySelector(".nav");

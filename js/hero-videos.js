@@ -84,7 +84,7 @@
     const video = videoOf(cell);
     if (!video) return;
     ensureSrc(video);
-    if (cells.indexOf(cell) === 0) seekTo(video, 3);
+    if (cells.indexOf(cell) === 0) seekTo(video, 0);
     else seekRandom(video);
     cell.classList.add("is-playing");
     host.classList.add("has-playing");
