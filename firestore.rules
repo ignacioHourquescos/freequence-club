@@ -1,0 +1,54 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /freequence-web/{id} {
+      allow read: if true;
+      allow create: if isVisit() || isLegacyVisit();
+      allow update, delete: if false;
+    }
+
+    function isLegacyVisit() {
+      let data = request.resource.data;
+      return data.keys().hasOnly(['ruta', 'titulo', 'referencia', 'dispositivo', 'idioma', 'sesion', 'creado'])
+        && data.ruta is string
+        && data.ruta.size() > 0
+        && data.ruta.size() < 300
+        && data.titulo is string
+        && data.titulo.size() < 200
+        && data.referencia is string
+        && data.referencia.size() < 200
+        && data.dispositivo in ['mobile', 'tablet', 'desktop']
+        && data.idioma is string
+        && data.idioma.size() < 20
+        && data.sesion is string
+        && data.sesion.size() < 80
+        && data.creado == request.time;
+    }
+
+    function isVisit() {
+      let data = request.resource.data;
+      return data.keys().hasOnly(['tipo', 'ruta', 'titulo', 'referencia', 'dispositivo', 'idioma', 'sesion', 'creado', 'etiqueta', 'segundos', 'orden'])
+        && data.tipo in ['pagina', 'click', 'tiempo']
+        && data.ruta is string
+        && data.ruta.size() > 0
+        && data.ruta.size() < 300
+        && data.titulo is string
+        && data.titulo.size() < 200
+        && data.referencia is string
+        && data.referencia.size() < 200
+        && data.dispositivo in ['mobile', 'tablet', 'desktop']
+        && data.idioma is string
+        && data.idioma.size() < 20
+        && data.sesion is string
+        && data.sesion.size() < 80
+        && data.etiqueta is string
+        && data.etiqueta.size() < 80
+        && data.segundos is int
+        && data.segundos >= 0
+        && data.segundos <= 7200
+        && data.orden is int
+        && data.orden > 0
+        && data.creado == request.time;
+    }
+  }
+}

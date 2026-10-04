@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#F4F8ED">
+    <title>Admin · FREEquence</title>
+    <link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png">
+    <style>
+      :root {
+        --snow: #f4f8ed;
+        --ink: #000;
+        --line: rgba(0, 0, 0, 0.12);
+        --muted: #5c5c5c;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--snow);
+        color: var(--ink);
+        font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      button, input { font: inherit; color: inherit; }
+      a { color: inherit; }
+      .gate {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+      .panel { width: min(420px, 100%); }
+      .kicker {
+        margin: 0;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+      .panel h1 {
+        margin: 8px 0 22px;
+        font-size: clamp(36px, 6vw, 52px);
+        line-height: 0.95;
+        letter-spacing: -1.5px;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      input {
+        width: 100%;
+        border: 1px solid var(--ink);
+        background: transparent;
+        padding: 14px 12px;
+      }
+      input:focus { outline: 2px solid var(--ink); outline-offset: 2px; }
+      button {
+        border: 0;
+        background: var(--ink);
+        color: var(--snow);
+        cursor: pointer;
+      }
+      .enter, .ghost {
+        margin-top: 14px;
+        width: 100%;
+        padding: 14px 16px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .error {
+        min-height: 1.3em;
+        margin: 12px 0 0;
+        font-size: 14px;
+      }
+      .wrap {
+        width: min(1120px, calc(100% - 48px));
+        margin: 0 auto 80px;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        min-height: 72px;
+        border-bottom: 1px solid var(--ink);
+      }
+      .brand {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 900;
+        letter-spacing: -0.06em;
+      }
+      .brand span {
+        margin-left: 6px;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        color: rgba(0, 0, 0, 0.5);
+      }
+      .tools { display: flex; gap: 22px; align-items: center; }
+      .textbtn {
+        width: auto;
+        margin: 0;
+        padding: 8px 0;
+        border: 0;
+        background: transparent;
+        color: var(--ink);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-decoration: none;
+      }
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(180px, 280px) 1fr;
+        gap: 36px;
+        align-items: end;
+        padding: 32px 0 8px;
+      }
+      .hero h2 {
+        margin: 0;
+        font-size: clamp(92px, 12vw, 132px);
+        line-height: 0.78;
+        letter-spacing: -0.07em;
+        font-weight: 800;
+      }
+      .hero .label {
+        margin: 14px 0 0;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .chart-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 12px;
+      }
+      .chart {
+        height: 168px;
+        display: flex;
+        align-items: stretch;
+        gap: 6px;
+      }
+      .col {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .count {
+        height: 16px;
+        font-size: 11px;
+        font-weight: 800;
+      }
+      .track {
+        width: min(100%, 18px);
+        flex: 1;
+        display: flex;
+        align-items: flex-end;
+      }
+      .track i {
+        display: block;
+        width: 100%;
+        background: var(--ink);
+      }
+      .col.is-empty .track i {
+        height: 2px !important;
+        background: rgba(0, 0, 0, 0.18);
+      }
+      .col.is-today .track i { background: var(--ink); }
+      .tick {
+        margin-top: 8px;
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.15;
+        text-align: center;
+      }
+      .tick small {
+        display: block;
+        min-height: 12px;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: lowercase;
+      }
+      .col.is-today .tick { font-weight: 800; }
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 18px;
+        margin-top: 28px;
+        padding: 20px 0;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+      .metric b {
+        display: block;
+        font-size: 32px;
+        line-height: 1;
+        letter-spacing: -0.05em;
+      }
+      .metric span {
+        display: block;
+        margin-top: 8px;
+        max-width: none;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 56px;
+        margin-top: 36px;
+      }
+      h3 {
+        margin: 0 0 18px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+      .meter { margin: 0 0 18px; }
+      .meter-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 8px;
+        font-size: 16px;
+      }
+      .meter-top b { font-weight: 800; }
+      .meter .line {
+        height: 3px;
+        background: rgba(0, 0, 0, 0.08);
+      }
+      .meter .line i {
+        display: block;
+        height: 100%;
+        background: var(--ink);
+      }
+      .muted { color: var(--muted); font-size: 14px; }
+      .journeys { margin-top: 40px; }
+      .session { padding: 16px 0 18px; border-top: 1px solid var(--line); }
+      .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+      .chip {
+        border: 1px solid var(--ink);
+        padding: 7px 10px;
+        font-size: 13px;
+        font-weight: 650;
+        line-height: 1.2;
+      }
+      .chip small { margin-left: 6px; font-weight: 800; }
+      .notice {
+        margin-top: 22px;
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        line-height: 1.45;
+      }
+      @media (max-width: 800px) {
+        .wrap { width: min(1120px, calc(100% - 32px)); }
+        header { align-items: flex-start; flex-direction: column; padding: 18px 0; }
+        .hero { grid-template-columns: 1fr; gap: 28px; }
+        .hero h2 { font-size: 96px; }
+        .metrics { grid-template-columns: repeat(2, 1fr); gap: 22px 12px; }
+        .split { grid-template-columns: 1fr; gap: 32px; }
+        .chart { height: 140px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="../js/admin.js?v=5"></script>
+  </body>
+</html>

@@ -1,23 +1,34 @@
-/** Single source of truth for the closing frame copy. */
-export const CLOSING_COPY = {
-  eyebrow: "FREEquence CLUB",
-  titleHtml: "Cuerpo, mente &amp; gente en sintonía.",};
+/** Shared closing band: "Me interesa saber más". */
+const CHANNEL_URL = "https://www.whatsapp.com/channel/0029VbClfwB5PO155kXd952y";
+
+function pagePrefix() {
+  const script = document.querySelector('script[src*="closing-section.js"]');
+  const src = script?.getAttribute("src") || "";
+  return src.includes("../") ? "../" : "";
+}
 
 /**
- * Mount the shared "Acá puedo ser yo" closing section into `root`.
- * Dots animation is temporarily disabled — copy only.
+ * Mount the shared closing section into `root`.
  * @param {HTMLElement} root
  */
 export function mountClosingSection(root) {
   if (!root) return null;
 
+  const prefix = pagePrefix();
   const section = document.createElement("section");
   section.className = "closing";
   section.id = "closing";
+  section.setAttribute("aria-label", "Me interesa saber más");
   section.innerHTML = `
-    <div class="wrap">
-      <div class="sectionLabel">${CLOSING_COPY.eyebrow}</div>
-      <h2>${CLOSING_COPY.titleHtml}</h2>    </div>
+    <div class="wrap closingGrid">
+      <div class="closingCopy">
+        <h2><span>Me interesa</span><span>saber más<span class="period">.</span></span></h2>
+      </div>
+      <div class="closingActions">
+        <a class="closingCta" href="${CHANNEL_URL}" target="_blank" rel="noopener noreferrer">Unite al canal <span aria-hidden="true">→</span></a>
+        <a class="closingCta" href="${prefix}formulario/">Agendá un día de prueba <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
   `;
 
   root.replaceWith(section);

@@ -7,7 +7,7 @@
     <title>Manifiesto · FREEquence Club</title>
     <link rel="icon" href="../favicon-32x32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="../apple-touch-icon.png" sizes="180x180" />
-    <link rel="stylesheet" href="../css/closing-section.css?v=14" />
+    <link rel="stylesheet" href="../css/closing-section.css?v=22" />
     <style>
 :root{
   --snow:#F4F8ED;
@@ -57,6 +57,16 @@ a{color:inherit;text-decoration:none}
   letter-spacing:1.6px;
   color:rgba(244,248,237,.55);
 }
+.back{
+  display:none;
+  align-items:center;
+  justify-content:flex-start;
+  width:44px;
+  height:44px;
+  margin-left:-6px;
+  color:#F4F8ED;
+}
+.back svg{display:block}
 .navlinks{
   display:none;
   align-items:center;
@@ -240,6 +250,8 @@ footer{
   :root{--page-x:24px}
   .nav{height:48px}
   .menu{top:48px}
+  .wordmark{display:none}
+  .back{display:flex}
   section{padding:82px 0}
   .mHero{padding:48px 0 72px}
   .mHero .display{font-size:clamp(44px,12vw,64px);letter-spacing:-2.6px}
@@ -256,11 +268,15 @@ footer{
 
 <header class="nav">
   <div class="wrap navin">
+    <a class="back" href="../" aria-label="Volver">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M14.5 5 7.5 12l7 7" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
     <a class="wordmark" href="../">FREEquence <span>CLUB</span></a>
     <nav class="navlinks">
       <a href="../formulario/">Quiero ser miembro</a>
       <a href="./" aria-current="page">Manifiesto</a>
-      <a href="../preguntas/">Preguntas frecuentes</a>
     </nav>
     <div class="navend">
       <div class="loc">PUNTA CHICA</div>
@@ -273,7 +289,6 @@ footer{
     <div class="wrap">
       <a href="../formulario/">Quiero ser miembro</a>
       <a href="./" class="is-active">Manifiesto</a>
-      <a href="../preguntas/">Preguntas frecuentes</a>
     </div>
   </nav>
 </header>
@@ -364,11 +379,6 @@ footer{
 
 </main>
 
-<footer>
-  <div class="wrap foot">
-    <span class="footLine">Acá puedo ser yo. ❤️</span>
-  </div>
-</footer>
 
 <script type="importmap">
 {
@@ -377,10 +387,23 @@ footer{
   }
 }
 </script>
-<script type="module" src="../js/closing-section.js?v=13"></script>
+<script type="module" src="../js/closing-section.js?v=18"></script>
 <script>
   (function () {
     var nav = document.querySelector(".nav");
+    var back = nav && nav.querySelector(".back");
+    if (back) {
+      back.addEventListener("click", function (event) {
+        var sameOrigin = false;
+        try {
+          sameOrigin = document.referrer && new URL(document.referrer).origin === location.origin;
+        } catch (err) {}
+        if (sameOrigin && history.length > 1) {
+          event.preventDefault();
+          history.back();
+        }
+      });
+    }
     var btn = nav && nav.querySelector(".burger");
     var menu = document.getElementById("site-menu");
     if (!btn || !menu) return;
@@ -405,6 +428,7 @@ footer{
     });
   })();
 </script>
+<script type="module" src="../js/visit-metrics.js?v=2"></script>
 
   </body>
 </html>
