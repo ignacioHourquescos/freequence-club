@@ -176,7 +176,6 @@ h1{
 }
 .field input[type="text"],
 .field input[type="email"],
-.field input[type="tel"],
 .field select{
   width:100%;
   border:0;
@@ -322,10 +321,6 @@ footer{
           <span>Mail</span>
           <input type="email" name="mail" autocomplete="email" required maxlength="120">
         </label>
-        <label class="field">
-          <span>Teléfono</span>
-          <input type="tel" name="telefono" autocomplete="tel" inputmode="tel" required maxlength="30">
-        </label>
 
         <label class="field">
           <span>¿Por dónde nos conociste?</span>
@@ -447,7 +442,6 @@ footer{
       "",
       `Nombre: ${clean(data.get("nombre"))}`,
       `Mail: ${clean(data.get("mail"))}`,
-      `Teléfono: ${clean(data.get("telefono"))}`,
       `Por dónde nos conocieron: ${origen}`,
       `Intención: ${clean(data.get("intencion"))}`,
     ].join("\n");

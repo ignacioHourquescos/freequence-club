@@ -83,6 +83,25 @@
   transform:translateX(4px);
   border-bottom-color:#F4F8ED;
 }
+.closingAddress{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:clamp(28px,4.5vh,52px);
+  z-index:2;
+  margin:0;
+  text-align:center;
+}
+.closingAddress a{
+  color:rgba(196,196,190,.72);
+  font-size:clamp(12px,.95vw,14px);
+  font-weight:500;
+  letter-spacing:.04em;
+  line-height:1.3;
+}
+.closingAddress a:hover{
+  color:#F4F8ED;
+}
 @media(max-width:900px){
   .closing{
     height:80svh;

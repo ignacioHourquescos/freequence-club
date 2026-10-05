@@ -10,7 +10,7 @@
     <!-- Mapa oculto por ahora
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     -->
-    <link rel="stylesheet" href="css/closing-section.css?v=22" />
+    <link rel="stylesheet" href="css/closing-section.css?v=23" />
 <style>
 :root{
   /* Brand palette */
@@ -250,13 +250,7 @@ body.menu-open{overflow:hidden}
   min-height:0;
   flex:1 1 0;
   border:0;
-  transition:flex .65s cubic-bezier(.45,.05,.15,1);
-}
-.heroVideoGrid.has-playing .heroVideoCell{
-  flex:1 1 0;
-}
-.heroVideoGrid.has-playing .heroVideoCell.is-playing{
-  flex:2 1 0;
+  isolation:isolate;
 }
 .heroVideoCell::after{
   content:"";
@@ -265,7 +259,8 @@ body.menu-open{overflow:hidden}
   z-index:2;
   pointer-events:none;
   background:var(--blue);
-  transition:opacity .45s ease;
+  opacity:1;
+  transition:opacity .6s ease;
 }
 .heroVideoCell video{
   position:absolute;
@@ -274,17 +269,18 @@ body.menu-open{overflow:hidden}
   height:100%;
   object-fit:cover;
   opacity:0;
-  filter:grayscale(1) contrast(1.12) brightness(1.02);
-  transition:opacity .45s ease;
+  mix-blend-mode:luminosity;
+  filter:grayscale(1) contrast(2.7) brightness(.7);
+  transition:opacity .6s ease;
 }
 .heroVideoCell:nth-child(3) video{
   object-position:center center;
 }
 .heroVideoCell.is-playing video{
-  opacity:1;
+  opacity:.72;
 }
 .heroVideoCell.is-playing::after{
-  opacity:0;
+  opacity:.32;
 }
 .eyebrow,.sectionLabel{
   color:var(--blue);
@@ -457,6 +453,91 @@ h2{
   height:215px;
   display:block;
   object-fit:cover;
+}
+.dimensionMedia{
+  position:relative;
+  height:215px;
+  overflow:hidden;
+  background:var(--soft);
+}
+.dimensionSlides{
+  position:relative;
+  height:100%;
+}
+.dimensionSlides img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity .8s ease;
+}
+.dimensionSlides img.is-active{opacity:1}
+.dimensionDots{
+  position:absolute;
+  z-index:2;
+  left:10px;
+  bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:2px;
+  margin:0;
+  padding:0;
+}
+.dimensionDots button{
+  position:relative;
+  width:24px;
+  height:24px;
+  padding:0;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+}
+.dimensionDots button::before{
+  content:"";
+  position:absolute;
+  left:4px;
+  top:50%;
+  width:6px;
+  height:6px;
+  transform:translateY(-50%);
+  border-radius:999px;
+  background:rgba(244,248,237,.72);
+  box-shadow:0 0 0 1px rgba(0,0,0,.28), 0 1px 3px rgba(0,0,0,.45);
+  transition:width .35s ease, background-color .35s ease;
+}
+.dimensionDots button.is-active::before{
+  width:16px;
+  background:#F4F8ED;
+}
+.dimensionNext{
+  position:absolute;
+  z-index:2;
+  top:50%;
+  right:12px;
+  transform:translateY(-50%);
+  width:36px;
+  height:36px;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.45);
+  color:#F4F8ED;
+  cursor:pointer;
+}
+.dimensionNext svg{
+  width:18px;
+  height:18px;
+  display:block;
+}
+.dimensionNext:hover{background:rgba(0,0,0,.62)}
+.dimensionNext:focus-visible{
+  outline:2px solid #F4F8ED;
+  outline-offset:2px;
 }
 .dimensionContent{
   min-height:200px;
@@ -1048,6 +1129,7 @@ h2{
   .lineCta{transition:none}
   .lineCta::after{transform:scaleX(1);animation:none !important}
   .lineCta span{opacity:1;transform:none;animation:none !important}
+  .dimensionSlides img{transition:none}
 }
 .manifestoCta{
   --cta-color:#e0c48a;
@@ -1428,7 +1510,8 @@ footer{
   .dimensions .wrap{width:min(calc(100% - 2 * 36px),var(--max))}
   .dimensionCards{gap:40px}
   .dimension{min-height:380px}
-  .dimensionImage{height:190px}
+  .dimensionImage,
+  .dimensionMedia{height:190px}
   .dimensionContent{min-height:180px;padding:24px 26px 26px}
   .services{padding:64px 0}
   .servicesLayout{grid-template-columns:1fr;gap:36px}
@@ -1511,7 +1594,21 @@ footer{
   <div class="wrap">
     <div class="dimensionCards">
       <article class="dimension">
-        <img class="dimensionImage" src="universe/entrenamiento.png" alt="Entrenamiento">
+        <div class="dimensionMedia" data-dimension-carousel>
+          <div class="dimensionSlides">
+            <img class="is-active" src="mrc/move1.png" alt="Cintas del club">
+            <img src="mrc/move2.png" alt="Sala de musculación del club">
+          </div>
+          <div class="dimensionDots">
+            <button type="button" class="is-active" aria-label="Ver cintas" aria-pressed="true"></button>
+            <button type="button" aria-label="Ver musculación" aria-pressed="false"></button>
+          </div>
+          <button class="dimensionNext" type="button" aria-label="Siguiente foto">
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path fill="currentColor" d="M3.2 2.6 9.2 8 3.2 13.4 6.4 13.4 12.6 8 6.4 2.6Z"/>
+            </svg>
+          </button>
+        </div>
         <div class="dimensionContent">
           <small>CUERPO</small>
           <div>
@@ -1522,7 +1619,21 @@ footer{
         </div>
       </article>
       <article class="dimension">
-        <img class="dimensionImage" src="universe/meditacion.png" alt="Meditación">
+        <div class="dimensionMedia" data-dimension-carousel>
+          <div class="dimensionSlides">
+            <img class="is-active" src="mrc/reset1.png" alt="Wholefood, la heladera del club">
+            <img src="mrc/reset2.png" alt="Sesión de descanso del club">
+          </div>
+          <div class="dimensionDots">
+            <button type="button" class="is-active" aria-label="Ver wholefood" aria-pressed="true"></button>
+            <button type="button" aria-label="Ver descanso" aria-pressed="false"></button>
+          </div>
+          <button class="dimensionNext" type="button" aria-label="Siguiente foto">
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path fill="currentColor" d="M3.2 2.6 9.2 8 3.2 13.4 6.4 13.4 12.6 8 6.4 2.6Z"/>
+            </svg>
+          </button>
+        </div>
         <div class="dimensionContent">
           <small>EQUILIBRIO</small>
           <div>
@@ -1533,7 +1644,21 @@ footer{
         </div>
       </article>
       <article class="dimension">
-        <img class="dimensionImage" src="universe/encuentro.png" alt="Encuentro">
+        <div class="dimensionMedia" data-dimension-carousel>
+          <div class="dimensionSlides">
+            <img class="is-active" src="mrc/connect1.png" alt="Lounge del club">
+            <img src="mrc/connect2.png" alt="Pista de baile del club">
+          </div>
+          <div class="dimensionDots">
+            <button type="button" class="is-active" aria-label="Ver lounge" aria-pressed="true"></button>
+            <button type="button" aria-label="Ver pista" aria-pressed="false"></button>
+          </div>
+          <button class="dimensionNext" type="button" aria-label="Siguiente foto">
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path fill="currentColor" d="M3.2 2.6 9.2 8 3.2 13.4 6.4 13.4 12.6 8 6.4 2.6Z"/>
+            </svg>
+          </button>
+        </div>
         <div class="dimensionContent">
           <small>ENCUENTRO</small>
           <div>
@@ -1549,7 +1674,7 @@ footer{
 
 <!-- 04 MANIFESTO TEASER -->
 <section id="manifesto" class="manifesto">
-  <video class="manifestoVideo" id="manifestoVideo" autoplay muted playsinline preload="auto" src="videos/manifiesto.mp4"></video>
+  <video class="manifestoVideo" id="manifestoVideo" autoplay muted playsinline preload="auto" src="videos/manifiesto.mp4?v=3"></video>
   <div class="manifestoOverlay" aria-hidden="true"></div>
   <div class="wrap manifestoTeaser">
     <div>
@@ -1696,7 +1821,7 @@ footer{
 
 
 <script src="js/main.js?v=19"></script>
-<script src="js/hero-videos.js?v=7"></script>
+<script src="js/hero-videos.js?v=9"></script>
 <!-- Mapa oculto por ahora
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
@@ -1895,20 +2020,29 @@ footer{
   }
 }
 </script>
-<script type="module" src="js/closing-section.js?v=18"></script>
+<script type="module" src="js/closing-section.js?v=19"></script>
 <script>
-  // Video del manifiesto: empieza (y reinicia el loop) en el segundo 2
+  // Video del manifiesto: empieza (y reinicia el loop) en el segundo 2, a 0.7x
   (function () {
     var v = document.getElementById("manifestoVideo");
     if (!v) return;
     var START = 2;
+    var RATE = 0.7;
+    function applyRate() {
+      v.defaultPlaybackRate = RATE;
+      if (v.playbackRate !== RATE) v.playbackRate = RATE;
+    }
     function seekStart() {
       try { v.currentTime = START; } catch (e) {}
     }
     function play() {
+      applyRate();
       var p = v.play();
       if (p && p.catch) p.catch(function () {});
     }
+    applyRate();
+    v.addEventListener("loadedmetadata", applyRate);
+    v.addEventListener("play", applyRate);
     if (v.readyState >= 1) seekStart();
     else v.addEventListener("loadedmetadata", seekStart, { once: true });
     v.addEventListener("ended", function () {
@@ -1965,6 +2099,92 @@ footer{
   })();
 </script>
 <script type="module" src="js/visit-metrics.js?v=2"></script>
+<script>
+  (function () {
+    var roots = document.querySelectorAll("[data-dimension-carousel]");
+    if (!roots.length) return;
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var carousels = [];
+
+    roots.forEach(function (root, carouselIndex) {
+      var slides = Array.prototype.slice.call(root.querySelectorAll(".dimensionSlides img"));
+      var dots = Array.prototype.slice.call(root.querySelectorAll(".dimensionDots button"));
+      var nextBtn = root.querySelector(".dimensionNext");
+      var state = { index: 0, timer: 0, paused: false };
+
+      function show(next) {
+        state.index = (next + slides.length) % slides.length;
+        slides.forEach(function (img, i) {
+          var on = i === state.index;
+          img.classList.toggle("is-active", on);
+          img.setAttribute("aria-hidden", on ? "false" : "true");
+        });
+        dots.forEach(function (dot, i) {
+          var on = i === state.index;
+          dot.classList.toggle("is-active", on);
+          dot.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+      }
+
+      function stop() {
+        if (state.timer) window.clearInterval(state.timer);
+        state.timer = 0;
+      }
+
+      function start() {
+        stop();
+        if (state.paused || reduce.matches || slides.length < 2 || document.hidden) return;
+        state.timer = window.setInterval(function () { show(state.index + 1); }, 4000);
+      }
+
+      dots.forEach(function (dot, i) {
+        dot.addEventListener("click", function () {
+          show(i);
+          start();
+        });
+      });
+      if (nextBtn) {
+        nextBtn.addEventListener("click", function () {
+          show(state.index + 1);
+          start();
+        });
+      }
+
+      root.addEventListener("mouseenter", function () {
+        state.paused = true;
+        stop();
+      });
+      root.addEventListener("mouseleave", function () {
+        state.paused = false;
+        start();
+      });
+      root.addEventListener("focusin", function () {
+        state.paused = true;
+        stop();
+      });
+      root.addEventListener("focusout", function () {
+        state.paused = false;
+        start();
+      });
+
+      carousels.push({ start: start, stop: stop });
+      show(0);
+      window.setTimeout(start, carouselIndex * 1400);
+    });
+
+    document.addEventListener("visibilitychange", function () {
+      carousels.forEach(function (carousel) {
+        if (document.hidden) carousel.stop();
+        else carousel.start();
+      });
+    });
+    if (reduce.addEventListener) {
+      reduce.addEventListener("change", function () {
+        carousels.forEach(function (carousel) { carousel.start(); });
+      });
+    }
+  })();
+</script>
 
   </body>
 </html>

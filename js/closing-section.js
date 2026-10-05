@@ -29,6 +29,9 @@ export function mountClosingSection(root) {
         <a class="closingCta" href="${prefix}formulario/">Agendá un día de prueba <span aria-hidden="true">→</span></a>
       </div>
     </div>
+    <p class="closingAddress">
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=Av.+del+Libertador+3192%2C+Punta+Chica" target="_blank" rel="noopener noreferrer">Av. del Libertador 3192, Punta Chica</a>
+    </p>
   `;
 
   root.replaceWith(section);
